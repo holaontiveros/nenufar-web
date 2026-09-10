@@ -407,6 +407,18 @@ export type FooterQuery = {
   >;
 };
 
+export type ShopContactQueryVariables = StorefrontAPI.Exact<{
+  [key: string]: never;
+}>;
+
+export type ShopContactQuery = {
+  shop: {
+    whatsappNumber?: StorefrontAPI.Maybe<
+      Pick<StorefrontAPI.Metafield, 'value'>
+    >;
+  };
+};
+
 export type HomepageFaqsQueryVariables = StorefrontAPI.Exact<{
   [key: string]: never;
 }>;
@@ -1310,6 +1322,10 @@ interface GeneratedQueryTypes {
   '#graphql\n  query Footer(\n    $country: CountryCode\n    $footerMenuHandle: String!\n    $language: LanguageCode\n  ) @inContext(language: $language, country: $country) {\n    menu(handle: $footerMenuHandle) {\n      ...Menu\n    }\n  }\n  #graphql\n  fragment MenuItem on MenuItem {\n    id\n    resourceId\n    tags\n    title\n    type\n    url\n  }\n  fragment ChildMenuItem on MenuItem {\n    ...MenuItem\n  }\n  fragment ParentMenuItem on MenuItem {\n    ...MenuItem\n    items {\n      ...ChildMenuItem\n    }\n  }\n  fragment Menu on Menu {\n    id\n    items {\n      ...ParentMenuItem\n    }\n  }\n\n': {
     return: FooterQuery;
     variables: FooterQueryVariables;
+  };
+  '#graphql\n  query ShopContact {\n    shop {\n      whatsappNumber: metafield(\n        namespace: "contact"\n        key: "whatsapp_number"\n      ) {\n        value\n      }\n    }\n  }\n': {
+    return: ShopContactQuery;
+    variables: ShopContactQueryVariables;
   };
   '#graphql\n  query HomepageFaqs {\n    metaobjects(type: "faq_item", first: 20) {\n      nodes {\n        handle\n        question: field(key: "question") {\n          value\n        }\n        answer: field(key: "answer") {\n          value\n        }\n      }\n    }\n  }\n': {
     return: HomepageFaqsQuery;

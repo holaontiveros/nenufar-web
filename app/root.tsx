@@ -17,6 +17,7 @@ import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import tailwindCss from './styles/tailwind.css?url';
 import {PageLayout} from './components/PageLayout';
+import {createWhatsAppUrl} from './lib/contact';
 
 export type RootLoader = typeof loader;
 
@@ -101,17 +102,22 @@ export async function loader(args: Route.LoaderArgs) {
 async function loadCriticalData({context}: Route.LoaderArgs) {
   const {storefront} = context;
 
-  const [header] = await Promise.all([
+  const [header, contact] = await Promise.all([
     storefront.query(HEADER_QUERY, {
       cache: storefront.CacheLong(),
       variables: {
         headerMenuHandle: 'main-menu', // Adjust to your header menu handle
       },
     }),
-    // Add other queries here, so that they are loaded in parallel
+    storefront.query(SHOP_CONTACT_QUERY, {
+      cache: storefront.CacheLong(),
+    }),
   ]);
 
-  return {header};
+  return {
+    header,
+    whatsappUrl: createWhatsAppUrl(contact.shop.whatsappNumber?.value),
+  };
 }
 
 /**
@@ -209,3 +215,16 @@ export function ErrorBoundary() {
     </div>
   );
 }
+
+const SHOP_CONTACT_QUERY = `#graphql
+  query ShopContact {
+    shop {
+      whatsappNumber: metafield(
+        namespace: "contact"
+        key: "whatsapp_number"
+      ) {
+        value
+      }
+    }
+  }
+` as const;

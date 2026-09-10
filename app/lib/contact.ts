@@ -1,2 +1,10 @@
-export const WHATSAPP_URL =
-  'https://wa.me/529999496396?text=Hola%20Nen%C3%BAfar%2C%20me%20gustar%C3%ADa%20consultar%20sobre%20un%20pedido%20personalizado.';
+const WHATSAPP_MESSAGE =
+  'Hola Nenúfar, me gustaría consultar sobre un pedido personalizado.';
+
+export function createWhatsAppUrl(number: string | null | undefined) {
+  const normalizedNumber = number?.replace(/\D/g, '');
+
+  return normalizedNumber
+    ? `https://wa.me/${normalizedNumber}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`
+    : null;
+}

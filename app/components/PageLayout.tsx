@@ -21,6 +21,7 @@ interface PageLayoutProps {
   header: HeaderQuery;
   isLoggedIn: Promise<boolean>;
   publicStoreDomain: string;
+  whatsappUrl: string | null;
   children?: React.ReactNode;
 }
 
@@ -31,6 +32,7 @@ export function PageLayout({
   header,
   isLoggedIn,
   publicStoreDomain,
+  whatsappUrl,
 }: PageLayoutProps) {
   return (
     <Aside.Provider>
@@ -42,6 +44,7 @@ export function PageLayout({
           cart={cart}
           isLoggedIn={isLoggedIn}
           publicStoreDomain={publicStoreDomain}
+          whatsappUrl={whatsappUrl}
         />
       )}
       <main>{children}</main>
