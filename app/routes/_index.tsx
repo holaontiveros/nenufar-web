@@ -1,5 +1,6 @@
 import type {Route} from './+types/_index';
 import {NenufarCatalogue, type NenufarCatalogueItem} from '~/components/NenufarCatalogue';
+import {NenufarStory} from '~/components/NenufarStory';
 
 export const meta: Route.MetaFunction = () => [{title: 'Nenúfar | Regalos personalizados'}];
 
@@ -28,6 +29,7 @@ export default function Homepage({loaderData}: Route.ComponentProps) {
       </div>
     </section>
     <NenufarCatalogue products={loaderData.catalogue} />
+    <NenufarStory />
   </>;
 }
 
