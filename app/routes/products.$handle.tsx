@@ -100,7 +100,8 @@ export default function Product() {
   return (
     <div className="product">
       <ProductImage image={selectedVariant?.image} />
-      <div className="product-main">
+      <div className="product-main nenufar-product-main">
+        <p className="nenufar-product-eyebrow">Pieza personalizada Nenúfar</p>
         <h1>{title}</h1>
         <ProductPrice
           price={selectedVariant?.price}
@@ -115,11 +116,7 @@ export default function Product() {
         />
         <br />
         <br />
-        <p>
-          <strong>Description</strong>
-        </p>
-        <br />
-        <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
+        <div className="nenufar-product-description"><strong>Sobre esta pieza</strong><div dangerouslySetInnerHTML={{__html: descriptionHtml}} /></div>
         <br />
       </div>
       <Analytics.ProductView
