@@ -6,6 +6,7 @@ import {
   useState,
 } from 'react';
 import {useId} from 'react';
+import {CartIcon} from './CartIcons';
 
 type AsideType = 'search' | 'cart' | 'mobile' | 'closed';
 type AsideContextValue = {
@@ -63,6 +64,11 @@ export function Aside({
       <button className="close-outside" onClick={close} />
       <aside className={`aside aside--${type}`}>
         <header>
+          {type === 'cart' ? (
+            <span aria-hidden="true" className="aside-cart-icon">
+              <CartIcon />
+            </span>
+          ) : null}
           <h3 id={id}>{heading}</h3>
           <button className="close reset" onClick={close} aria-label="Close">
             &times;

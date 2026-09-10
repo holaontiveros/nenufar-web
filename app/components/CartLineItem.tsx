@@ -7,6 +7,7 @@ import {getSeasonalCollectionLabel} from '~/lib/seasonal-collections';
 import {Link} from 'react-router';
 import {ProductPrice} from './ProductPrice';
 import {useAside} from './Aside';
+import {PencilIcon, SparklesIcon, TrashIcon} from './CartIcons';
 import type {
   CartApiQueryFragment,
   CartLineFragment,
@@ -155,11 +156,11 @@ function CartLinePersonalization({line}: {line: CartLine}) {
   return (
     <div className="cart-line-personalization">
       <span>
-        <b aria-hidden="true">✧</b>
+        <SparklesIcon />
         {existingText ? <><strong>Grabado:</strong> «{existingText}»</> : <i>Sin texto especificado</i>}
       </span>
       <button type="button" onClick={() => setEditing(true)}>
-        ✎ Editar
+        <PencilIcon /> Editar
       </button>
     </div>
   );
@@ -231,7 +232,7 @@ function CartLineRemoveButton({
         disabled={disabled}
         type="submit"
       >
-        ×
+        <TrashIcon />
       </button>
     </CartForm>
   );

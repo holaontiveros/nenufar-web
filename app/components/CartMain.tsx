@@ -4,6 +4,7 @@ import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
 import {CartLineItem, type CartLine} from '~/components/CartLineItem';
 import {CartSummary} from './CartSummary';
+import {CartIcon} from './CartIcons';
 
 export type CartLayout = 'page' | 'aside';
 
@@ -100,7 +101,7 @@ function CartEmpty({
   const {close} = useAside();
   return (
     <div className="cart-empty" hidden={hidden}>
-      <span aria-hidden="true">⌑</span>
+      <span aria-hidden="true"><CartIcon /></span>
       <h4>Tu carrito está vacío</h4>
       <p>Explora el catálogo y personaliza un detalle inolvidable.</p>
       <Link to="/catalogo" onClick={close} prefetch="viewport">

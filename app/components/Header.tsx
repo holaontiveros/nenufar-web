@@ -9,6 +9,7 @@ import type {CartApiQueryFragment, HeaderQuery} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
 import {WHATSAPP_URL} from '~/lib/contact';
 import {WhatsAppIcon} from '~/components/WhatsAppIcon';
+import {CartIcon} from '~/components/CartIcons';
 
 interface HeaderProps {
   header: HeaderQuery;
@@ -28,8 +29,7 @@ export function Header({cart}: HeaderProps) {
     <header className="brand-header">
       <div className="brand-header__inner">
         <Link className="brand-logo" prefetch="intent" to="/" aria-label="Nenúfar, inicio">
-          <span className="brand-logo__mark" aria-hidden="true">✦</span>
-          <span><strong>nenúfar</strong><small>taller creativo</small></span>
+          <img alt="Nenúfar" src="/assets/nenufar_logo_horizontal.svg" />
         </Link>
         <nav className="brand-nav" aria-label="Navegación principal">
           {navigation.map(([label, href]) => <a key={href} href={href}>{label}</a>)}
@@ -64,5 +64,5 @@ function CartBadge({count}: {count: number}) {
     event.preventDefault();
     open('cart');
     publish('cart_viewed', {cart, prevCart, shop, url: window.location.href || ''} as CartViewPayload);
-  }} aria-label={`Abrir carrito (${count} productos)`}><span aria-hidden="true">⌑</span>{count > 0 && <b>{count}</b>}</a>;
+  }} aria-label={`Abrir carrito (${count} productos)`}><CartIcon />{count > 0 && <b>{count}</b>}</a>;
 }
