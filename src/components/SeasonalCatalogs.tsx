@@ -73,7 +73,7 @@ export const SeasonalCatalogs: React.FC<SeasonalCatalogsProps> = ({
           </h2>
           <p className="mt-4 text-stone-600 text-sm sm:text-base leading-relaxed">
             Cada fecha especial merece una atmósfera y materiales únicos. Explora nuestras colecciones listas 
-            para personalizar o compra los productos directamente con nuestra conexión oficial de <strong>Shopify</strong>.
+            para personalizar o compra los productos directamente en línea.
           </p>
         </div>
 

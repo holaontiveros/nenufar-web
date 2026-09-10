@@ -1,13 +1,4 @@
-import { CatalogProduct, ShopifyConfig } from '../types';
-
-export const DEFAULT_SHOPIFY_CONFIG: ShopifyConfig = {
-  shopDomain: 'nenufar-regalos.myshopify.com',
-  storefrontAccessToken: 'shpat_nenufar_boutique_live',
-  isConnected: true,
-  currencySymbol: '$',
-  currencyCode: 'USD',
-  liveMode: true,
-};
+import { CatalogProduct } from '../types';
 
 export const CATALOG_PRODUCTS: CatalogProduct[] = [
   // ==========================================

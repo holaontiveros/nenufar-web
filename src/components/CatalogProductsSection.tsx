@@ -1,7 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { CatalogProduct, ShopifyConfig } from '../types';
-import { CATALOG_PRODUCTS } from '../data/productsData';
-import { buildSingleProductShopifyUrl } from '../utils/shopify';
+import { CatalogProduct } from '../types';
 import {
   Sparkles,
   ShoppingBag,
@@ -12,27 +10,24 @@ import {
   Check,
   Tag,
   Clock,
-  ExternalLink,
-  Store,
   Layers,
-  Heart,
-  Settings
+  Heart
 } from 'lucide-react';
 
 interface CatalogProductsSectionProps {
-  config: ShopifyConfig;
+  products: CatalogProduct[];
   onOpenPersonalizeModal: (product: CatalogProduct) => void;
-  onAddToCart: (product: CatalogProduct, customText?: string) => void;
+  onAddToCart: (product: CatalogProduct, customText?: string) => Promise<void>;
+  onBuyNow: (product: CatalogProduct, customText?: string) => Promise<void>;
   onOpenWhatsApp: (preset?: string) => void;
-  onOpenShopifyConfig: () => void;
 }
 
 export const CatalogProductsSection: React.FC<CatalogProductsSectionProps> = ({
-  config,
+  products,
   onOpenPersonalizeModal,
   onAddToCart,
+  onBuyNow,
   onOpenWhatsApp,
-  onOpenShopifyConfig,
 }) => {
   const [selectedCatalog, setSelectedCatalog] = useState<string>('todos');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -40,12 +35,12 @@ export const CatalogProductsSection: React.FC<CatalogProductsSectionProps> = ({
   const [addedProductId, setAddedProductId] = useState<string | null>(null);
 
   const catalogTabs = [
-    { id: 'todos', label: 'Todos los Catálogos', icon: Layers, count: CATALOG_PRODUCTS.length },
-    { id: 'madre', label: 'Día de la Madre', icon: Heart, count: CATALOG_PRODUCTS.filter(p => p.catalogId === 'madre').length },
-    { id: 'padre', label: 'Día del Padre', icon: Sparkles, count: CATALOG_PRODUCTS.filter(p => p.catalogId === 'padre').length },
-    { id: 'maestro', label: 'Día del Maestro', icon: Tag, count: CATALOG_PRODUCTS.filter(p => p.catalogId === 'maestro').length },
-    { id: 'navidad', label: 'Navidad & Fin de Año', icon: Sparkles, count: CATALOG_PRODUCTS.filter(p => p.catalogId === 'navidad').length },
-    { id: 'bodas', label: 'Bodas & Especiales', icon: Heart, count: CATALOG_PRODUCTS.filter(p => p.catalogId === 'bodas').length },
+    { id: 'todos', label: 'Todos los Catálogos', icon: Layers, count: products.length },
+    { id: 'madre', label: 'Día de la Madre', icon: Heart, count: products.filter(p => p.catalogId === 'madre').length },
+    { id: 'padre', label: 'Día del Padre', icon: Sparkles, count: products.filter(p => p.catalogId === 'padre').length },
+    { id: 'maestro', label: 'Día del Maestro', icon: Tag, count: products.filter(p => p.catalogId === 'maestro').length },
+    { id: 'navidad', label: 'Navidad & Fin de Año', icon: Sparkles, count: products.filter(p => p.catalogId === 'navidad').length },
+    { id: 'bodas', label: 'Bodas & Especiales', icon: Heart, count: products.filter(p => p.catalogId === 'bodas').length },
   ];
 
   const techniques = [
@@ -58,7 +53,7 @@ export const CatalogProductsSection: React.FC<CatalogProductsSectionProps> = ({
 
   // Filter products based on selected catalog, search query, and technique
   const filteredProducts = useMemo(() => {
-    return CATALOG_PRODUCTS.filter((product) => {
+    return products.filter((product) => {
       const matchesCatalog = selectedCatalog === 'todos' || product.catalogId === selectedCatalog;
       const matchesSearch =
         searchQuery.trim() === '' ||
@@ -77,17 +72,11 @@ export const CatalogProductsSection: React.FC<CatalogProductsSectionProps> = ({
 
       return matchesCatalog && matchesSearch && matchesTechnique;
     });
-  }, [selectedCatalog, searchQuery, selectedTechnique]);
-
-  const handleQuickShopifyBuy = (product: CatalogProduct, e: React.MouseEvent) => {
-    e.stopPropagation();
-    const url = buildSingleProductShopifyUrl(product, config);
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
+  }, [products, selectedCatalog, searchQuery, selectedTechnique]);
 
   const handleQuickAddToCart = (product: CatalogProduct, e: React.MouseEvent) => {
     e.stopPropagation();
-    onAddToCart(product);
+    void onAddToCart(product);
     setAddedProductId(product.id);
     setTimeout(() => setAddedProductId(null), 1200);
   };
@@ -99,7 +88,7 @@ export const CatalogProductsSection: React.FC<CatalogProductsSectionProps> = ({
       <div className="absolute bottom-10 right-0 w-96 h-96 cellophane-orb-nenufar-purple blur-3xl pointer-events-none -z-10 opacity-35" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Title & Shopify Badge */}
+        {/* Section Title */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-pink-100/90 border border-pink-200/80 text-pink-900 text-xs font-semibold uppercase tracking-wider mb-3">
@@ -110,34 +99,10 @@ export const CatalogProductsSection: React.FC<CatalogProductsSectionProps> = ({
               Piezas por Catálogo listas para comprar
             </h2>
             <p className="mt-3 text-stone-600 text-xs sm:text-sm md:text-base max-w-2xl leading-relaxed">
-              Explora y personaliza cada regalo de nuestras colecciones estacionales. Puedes comprar directamente 
-              a través de nuestra pasarela de <strong>Shopify</strong> o personalizar los detalles con el taller por WhatsApp.
+              Explora y personaliza cada regalo de nuestras colecciones estacionales. Compra en línea o consulta los detalles con el taller por WhatsApp.
             </p>
           </div>
 
-          {/* Shopify Live Connection Status Banner */}
-          <div className="flex items-center gap-3 bg-white/80 backdrop-blur-md border border-pink-200/80 rounded-2xl p-3 shadow-sm shrink-0">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-pink-600 to-purple-700 flex items-center justify-center text-white shadow-sm">
-              <Store className="w-4 h-4" />
-            </div>
-            <div className="text-left">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-xs font-semibold text-stone-900">Shopify Conectado</span>
-              </div>
-              <p className="text-[11px] text-stone-500 font-mono">
-                {config.shopDomain}
-              </p>
-            </div>
-            <button
-              onClick={onOpenShopifyConfig}
-              className="p-1.5 rounded-lg hover:bg-pink-50 text-pink-700 hover:text-pink-900 transition-colors cursor-pointer"
-              title="Configurar tienda Shopify"
-              aria-label="Configurar Shopify"
-            >
-              <Settings className="w-4 h-4" />
-            </button>
-          </div>
         </div>
 
         {/* 1. Catalog Switcher Tabs */}
@@ -303,7 +268,7 @@ export const CatalogProductsSection: React.FC<CatalogProductsSectionProps> = ({
                     </div>
 
                     <div className="grid grid-cols-3 gap-1.5">
-                      {/* Personalize / Buy in Shopify */}
+                      {/* Personalize or buy */}
                       <button
                         onClick={() => onOpenPersonalizeModal(product)}
                         className="col-span-2 py-2.5 px-3 rounded-xl bg-gradient-to-r from-pink-600 to-purple-700 hover:from-pink-700 hover:to-purple-800 text-white text-xs font-semibold flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer"
@@ -331,14 +296,14 @@ export const CatalogProductsSection: React.FC<CatalogProductsSectionProps> = ({
                       </button>
                     </div>
 
-                    {/* Secondary Discreet Shopify & WhatsApp Links */}
+                    {/* Secondary purchase and WhatsApp links */}
                     <div className="mt-2.5 flex items-center justify-between text-[11px] text-stone-500">
                       <button
-                        onClick={(e) => handleQuickShopifyBuy(product, e)}
+                        onClick={() => void onBuyNow(product)}
                         className="hover:text-pink-700 font-medium flex items-center gap-1 cursor-pointer transition-colors"
                       >
                         <ShoppingBag className="w-3 h-3 text-pink-500" />
-                        <span>Comprar en Shopify &rarr;</span>
+                        <span>Comprar ahora &rarr;</span>
                       </button>
 
                       <button

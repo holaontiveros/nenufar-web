@@ -6,14 +6,12 @@ interface HeroProps {
   onExploreCatalogs: () => void;
   onExploreProducts: () => void;
   onOpenWhatsApp: (preset?: string) => void;
-  onOpenShopifyConfig: () => void;
 }
 
 export const Hero: React.FC<HeroProps> = ({
   onExploreCatalogs,
   onExploreProducts,
   onOpenWhatsApp,
-  onOpenShopifyConfig,
 }) => {
   return (
     <section className="relative pt-28 sm:pt-36 pb-20 sm:pb-28 overflow-hidden">
@@ -38,7 +36,7 @@ export const Hero: React.FC<HeroProps> = ({
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block" />
             <span className="text-pink-800 font-semibold tracking-wide">nenúfar taller activo</span>
             <span className="text-stone-300">•</span>
-            <span className="text-stone-600">Catálogos & Tienda conectada con Shopify</span>
+            <span className="text-stone-600">Catálogos y regalos personalizados</span>
             <Sparkles className="w-3.5 h-3.5 text-pink-600 ml-0.5" />
           </div>
         </div>
@@ -55,7 +53,7 @@ export const Hero: React.FC<HeroProps> = ({
 
           <p className="text-base sm:text-lg text-stone-600 leading-relaxed max-w-2xl mx-auto font-normal">
             Grabado láser, sublimación, stickers y textiles personalizados con mimo en el taller de <strong>nenúfar</strong>. 
-            Detalles memorables para cada ocasión especial y artículos corporativos listos para comprar en Shopify o personalizar por WhatsApp.
+            Detalles memorables para cada ocasión especial y artículos corporativos listos para comprar o personalizar por WhatsApp.
           </p>
 
           {/* Primary Dominant CTA and Secondary Store / WhatsApp Links */}
@@ -99,7 +97,7 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
             <div className="flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-purple-600" />
-              <span>Conexión segura con Shopify y muestra digital</span>
+              <span>Compra segura y muestra digital</span>
             </div>
           </div>
         </div>
@@ -219,12 +217,12 @@ export const Hero: React.FC<HeroProps> = ({
               </div>
             </div>
 
-            {/* Bottom Glass Card Note with Shopify direct link */}
+            {/* Bottom Glass Card Note */}
             <div className="mt-5 p-3.5 rounded-2xl bg-pink-50/70 border border-pink-200/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-stone-700">
               <div className="flex items-center gap-2.5">
                 <HeartHandshake className="w-4 h-4 text-pink-700 shrink-0" />
                 <span>
-                  <strong>¿Quieres comprar ahora o cotizar para tu empresa?</strong> Agrega al carrito y paga directo con Shopify, o escríbenos para pedidos corporativos con descuento por volumen.
+                  <strong>¿Quieres comprar ahora o cotizar para tu empresa?</strong> Agrega al carrito y paga en línea, o escríbenos para pedidos corporativos con descuento por volumen.
                 </span>
               </div>
               <button

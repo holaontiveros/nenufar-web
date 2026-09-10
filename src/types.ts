@@ -50,15 +50,6 @@ export interface CatalogProduct {
   variants?: { id: string; name: string; price: number }[];
 }
 
-export interface ShopifyConfig {
-  shopDomain: string; // e.g. nenufar-regalos.myshopify.com or custom domain
-  storefrontAccessToken?: string;
-  isConnected: boolean;
-  currencySymbol: string;
-  currencyCode: string;
-  liveMode: boolean;
-}
-
 export interface CartItem {
   id: string; // unique item id in cart
   product: CatalogProduct;

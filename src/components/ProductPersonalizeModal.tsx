@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
-import { CatalogProduct, ShopifyConfig } from '../types';
-import { buildSingleProductShopifyUrl } from '../utils/shopify';
+import { CatalogProduct } from '../types';
 import { X, Sparkles, ShoppingBag, ShoppingCart, MessageCircle, Check, Clock, ShieldCheck, Tag } from 'lucide-react';
 
 interface ProductPersonalizeModalProps {
   product: CatalogProduct | null;
-  config: ShopifyConfig;
   isOpen: boolean;
   onClose: () => void;
-  onAddToCart: (product: CatalogProduct, customText: string, variantId?: string) => void;
+  onAddToCart: (product: CatalogProduct, customText: string, variantId?: string) => Promise<void>;
+  onBuyNow: (product: CatalogProduct, customText: string, variantId?: string) => Promise<void>;
   onOpenWhatsApp: (preset?: string) => void;
 }
 
 export const ProductPersonalizeModal: React.FC<ProductPersonalizeModalProps> = ({
   product,
-  config,
   isOpen,
   onClose,
   onAddToCart,
+  onBuyNow,
   onOpenWhatsApp,
 }) => {
   const [customText, setCustomText] = useState('');
@@ -39,19 +38,10 @@ export const ProductPersonalizeModal: React.FC<ProductPersonalizeModalProps> = (
   const currentVariant = product.variants?.find((v) => v.id === selectedVariantId);
   const activePrice = currentVariant ? currentVariant.price : product.price;
 
-  const handleBuyShopify = () => {
-    const url = buildSingleProductShopifyUrl(
-      product,
-      config,
-      customText,
-      1,
-      selectedVariantId || product.shopifyVariantId
-    );
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
+  const handleBuyNow = () => void onBuyNow(product, customText, selectedVariantId || product.shopifyVariantId);
 
   const handleAddToCart = () => {
-    onAddToCart(product, customText, selectedVariantId);
+    void onAddToCart(product, customText, selectedVariantId);
     setAddedAnimation(true);
     setTimeout(() => {
       setAddedAnimation(false);
@@ -234,14 +224,14 @@ export const ProductPersonalizeModal: React.FC<ProductPersonalizeModalProps> = (
                   )}
                 </button>
 
-                {/* Direct Buy in Shopify */}
+                {/* Direct purchase */}
                 <button
                   type="button"
-                  onClick={handleBuyShopify}
+                  onClick={handleBuyNow}
                   className="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-pink-600 to-purple-700 hover:from-pink-700 hover:to-purple-800 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-md shadow-pink-900/15 cursor-pointer"
                 >
                   <ShoppingBag className="w-4 h-4 text-pink-200" />
-                  <span>Comprar en Shopify</span>
+                  <span>Comprar ahora</span>
                 </button>
               </div>
 

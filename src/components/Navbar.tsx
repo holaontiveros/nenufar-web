@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { NenufarLogo } from './NenufarLogo';
-import { Sparkles, MessageCircle, BookOpen, Layers, Image as ImageIcon, HelpCircle, ShoppingBag, ShoppingCart, Store, Settings } from 'lucide-react';
+import { Sparkles, MessageCircle, BookOpen, Layers, Image as ImageIcon, HelpCircle, ShoppingBag, ShoppingCart } from 'lucide-react';
 
 interface NavbarProps {
   cartCount: number;
   onOpenCart: () => void;
   onOpenWhatsApp: (preset?: string) => void;
   onExploreCatalogs: () => void;
-  onOpenShopifyConfig: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -15,7 +14,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenCart,
   onOpenWhatsApp,
   onExploreCatalogs,
-  onOpenShopifyConfig,
 }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -77,19 +75,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             ))}
           </nav>
 
-          {/* Actions: Shopify indicator, Cart button, WhatsApp */}
+          {/* Actions: cart and WhatsApp */}
           <div className="flex items-center gap-2 sm:gap-2.5">
-            {/* Shopify Quick Status Pill */}
-            <button
-              onClick={onOpenShopifyConfig}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-pink-50/80 hover:bg-pink-100/80 text-pink-900 border border-pink-200/70 text-xs font-medium transition-colors cursor-pointer"
-              title="Tienda Shopify Conectada - Clic para ver configuración"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
-              <Store className="w-3.5 h-3.5 text-pink-600" />
-              <span className="hidden md:inline">Shopify</span>
-            </button>
-
             {/* Shopping Cart Button */}
             <button
               onClick={onOpenCart}
@@ -162,17 +149,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
 
             <div className="pt-2 flex flex-col gap-2">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenShopifyConfig();
-                }}
-                className="w-full py-2 px-3 rounded-xl bg-pink-50 text-pink-900 text-xs font-semibold text-center flex items-center justify-center gap-2"
-              >
-                <Store className="w-3.5 h-3.5 text-pink-600" />
-                <span>Configurar conexión Shopify</span>
-              </button>
-
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);

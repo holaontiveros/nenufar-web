@@ -1,27 +1,26 @@
 import React, { useState } from 'react';
-import { CartItem, ShopifyConfig } from '../types';
-import { buildCartShopifyCheckoutUrl } from '../utils/shopify';
+import { CartItem } from '../types';
 import { X, Trash2, Plus, Minus, ShoppingBag, MessageCircle, ArrowRight, ShieldCheck, Sparkles, Edit3 } from 'lucide-react';
 
 interface CartDrawerProps {
   isOpen: boolean;
   cartItems: CartItem[];
-  config: ShopifyConfig;
   onClose: () => void;
-  onUpdateQuantity: (itemId: string, newQty: number) => void;
-  onRemoveItem: (itemId: string) => void;
-  onUpdateCustomText: (itemId: string, newText: string) => void;
+  onUpdateQuantity: (item: CartItem, newQty: number) => void;
+  onRemoveItem: (item: CartItem) => void;
+  onUpdateCustomText: (item: CartItem, newText: string) => void;
+  onCheckout: (orderNotes: string) => void;
   onOpenWhatsApp: (preset?: string) => void;
 }
 
 export const CartDrawer: React.FC<CartDrawerProps> = ({
   isOpen,
   cartItems,
-  config,
   onClose,
   onUpdateQuantity,
   onRemoveItem,
   onUpdateCustomText,
+  onCheckout,
   onOpenWhatsApp,
 }) => {
   const [orderNotes, setOrderNotes] = useState('');
@@ -35,13 +34,6 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   }, 0);
 
   const totalItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-
-  const handleCheckoutShopify = () => {
-    const url = buildCartShopifyCheckoutUrl(cartItems, config, orderNotes);
-    if (url) {
-      window.open(url, '_blank', 'noopener,noreferrer');
-    }
-  };
 
   const handleCheckoutWhatsApp = () => {
     const itemsList = cartItems
@@ -61,7 +53,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   };
 
   const saveCustomText = (itemId: string) => {
-    onUpdateCustomText(itemId, tempCustomText);
+    const item = cartItems.find((cartItem) => cartItem.id === itemId);
+    if (item) onUpdateCustomText(item, tempCustomText);
     setEditingItemId(null);
   };
 
@@ -135,7 +128,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                           {item.product.name}
                         </h5>
                         <button
-                          onClick={() => onRemoveItem(item.id)}
+                          onClick={() => onRemoveItem(item)}
                           className="text-stone-400 hover:text-rose-600 p-0.5 transition-colors"
                           title="Eliminar"
                         >
@@ -150,7 +143,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       <div className="mt-2 flex items-center justify-between">
                         <div className="flex items-center gap-2 border border-stone-200 rounded-lg p-0.5">
                           <button
-                            onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
+                            onClick={() => onUpdateQuantity(item, item.quantity - 1)}
                             className="w-5 h-5 flex items-center justify-center text-stone-600 hover:bg-stone-100 rounded cursor-pointer"
                           >
                             <Minus className="w-3 h-3" />
@@ -159,7 +152,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                             {item.quantity}
                           </span>
                           <button
-                            onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+                            onClick={() => onUpdateQuantity(item, item.quantity + 1)}
                             className="w-5 h-5 flex items-center justify-center text-stone-600 hover:bg-stone-100 rounded cursor-pointer"
                           >
                             <Plus className="w-3 h-3" />
@@ -250,16 +243,16 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
               <div className="flex items-center gap-1.5 text-[11px] text-stone-500">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                <span>Checkout cifrado directo en Shopify. Muestra digital previa por WhatsApp.</span>
+                <span>Pago seguro. Muestra digital previa por WhatsApp.</span>
               </div>
 
-              {/* Dominant Shopify Checkout Button */}
+              {/* Dominant checkout button */}
               <button
-                onClick={handleCheckoutShopify}
+                onClick={() => onCheckout(orderNotes)}
                 className="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-pink-600 via-rose-500 to-purple-700 hover:from-pink-700 hover:to-purple-800 text-white text-xs sm:text-sm font-semibold shadow-lg shadow-pink-950/20 flex items-center justify-center gap-2 group cursor-pointer transition-all"
               >
                 <ShoppingBag className="w-4 h-4 text-pink-200" />
-                <span>Proceder al Pago en Shopify</span>
+                <span>Proceder al pago seguro</span>
                 <ArrowRight className="w-4 h-4 text-pink-200 transition-transform group-hover:translate-x-1" />
               </button>
 

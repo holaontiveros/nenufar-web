@@ -1,19 +1,17 @@
 import React from 'react';
 import { NenufarLogo } from './NenufarLogo';
-import { Sparkles, MessageCircle, MapPin, Clock, Store, ShieldCheck, Heart } from 'lucide-react';
+import { Sparkles, MessageCircle, MapPin, Clock, ShieldCheck, Heart } from 'lucide-react';
 
 interface FooterProps {
   onOpenWhatsApp: (preset?: string) => void;
   onExploreCatalogs: () => void;
   onExploreProducts: () => void;
-  onOpenShopifyConfig: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   onOpenWhatsApp,
   onExploreCatalogs,
   onExploreProducts,
-  onOpenShopifyConfig,
 }) => {
   return (
     <footer className="relative pt-16 pb-12 bg-stone-950 text-stone-300 border-t border-stone-800">
@@ -26,10 +24,6 @@ export const Footer: React.FC<FooterProps> = ({
               Taller creativo de personalización y regalos con alma. Corte láser, sublimación de alta definición, 
               stickers troquelados y textiles hechos con dedicación para personas y empresas.
             </p>
-            <div className="text-[11px] text-pink-300/90 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
-              <span>Conexión activa con Shopify para compras seguras.</span>
-            </div>
           </div>
 
           {/* Col 2: Catálogos de Temporada & Productos */}
@@ -103,7 +97,7 @@ export const Footer: React.FC<FooterProps> = ({
             </ul>
           </div>
 
-          {/* Col 4: Contacto & Shopify */}
+          {/* Col 4: Contacto y compras */}
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-wider text-pink-400 mb-4">
               Atención & Compras
@@ -126,13 +120,6 @@ export const Footer: React.FC<FooterProps> = ({
                   <span>WhatsApp: Asesoría de Taller</span>
                 </button>
 
-                <button
-                  onClick={onOpenShopifyConfig}
-                  className="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-xl bg-pink-950/60 hover:bg-pink-900/60 border border-pink-700/50 text-pink-200 text-[11px] font-medium transition-colors cursor-pointer"
-                >
-                  <Store className="w-3.5 h-3.5 text-pink-400" />
-                  <span>Configuración Shopify</span>
-                </button>
               </li>
             </ul>
           </div>

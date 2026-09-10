@@ -1,9 +1,4 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { SeasonalCatalogs } from './components/SeasonalCatalogs';
@@ -19,235 +14,123 @@ import { FloatingChatWidget } from './components/FloatingChatWidget';
 import { WhatsAppDialog } from './components/WhatsAppDialog';
 import { CartDrawer } from './components/CartDrawer';
 import { ProductPersonalizeModal } from './components/ProductPersonalizeModal';
-import { ShopifyConfigModal } from './components/ShopifyConfigModal';
-
-import { CatalogProduct, CartItem, ShopifyConfig } from './types';
-import { getStoredShopifyConfig } from './utils/shopify';
-
-const CART_STORAGE_KEY = 'nenufar_cart_items_v1';
+import { CartItem, CatalogProduct } from './types';
+import { CATALOG_PRODUCTS } from './data/productsData';
+import { addCartLine, clearStoredCartId, fetchCart, fetchCatalogProducts, getStoredCartId, removeCartLine, updateCartAttributes, updateCartLine } from './utils/shopify';
 
 export default function App() {
   const [whatsAppModalOpen, setWhatsAppModalOpen] = useState(false);
-  const [activeMessage, setActiveMessage] = useState(
-    '¡Hola! Me gustaría cotizar productos personalizados en el taller de nenúfar.'
-  );
-
-  // Shopify Configuration State
-  const [shopifyConfig, setShopifyConfig] = useState<ShopifyConfig>(getStoredShopifyConfig);
-  const [shopifyConfigModalOpen, setShopifyConfigModalOpen] = useState(false);
-
-  // Cart State & Drawer
-  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const saved = localStorage.getItem(CART_STORAGE_KEY);
-        if (saved) return JSON.parse(saved);
-      } catch (e) {
-        console.warn('Could not read saved cart', e);
-      }
-    }
-    return [];
-  });
+  const [activeMessage, setActiveMessage] = useState('¡Hola! Me gustaría cotizar productos personalizados en el taller de nenúfar.');
+  const [products, setProducts] = useState<CatalogProduct[]>(CATALOG_PRODUCTS);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartId, setCartId] = useState<string | null>(null);
+  const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
-
-  // Personalization Modal State
   const [personalizeModalOpen, setPersonalizeModalOpen] = useState(false);
   const [selectedProductForPersonalize, setSelectedProductForPersonalize] = useState<CatalogProduct | null>(null);
+  const [purchaseError, setPurchaseError] = useState<string | null>(null);
 
-  // Sync cart to localStorage
   useEffect(() => {
-    try {
-      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
-    } catch (e) {
-      console.warn('Could not persist cart', e);
-    }
-  }, [cartItems]);
+    void fetchCatalogProducts().then(setProducts).catch(() => undefined);
+    const savedCartId = getStoredCartId();
+    if (!savedCartId) return;
+    void fetchCart(savedCartId).then((cart) => {
+      if (!cart) {
+        clearStoredCartId();
+        return;
+      }
+      setCartId(cart.id);
+      setCheckoutUrl(cart.checkoutUrl);
+      setCartItems(cart.items);
+    }).catch(clearStoredCartId);
+  }, []);
 
   const handleOpenWhatsApp = (presetMessage?: string) => {
-    const text = presetMessage || '¡Hola! Quisiera información sobre sus productos y catálogos de temporada en nenúfar.';
-    setActiveMessage(text);
+    setActiveMessage(presetMessage || '¡Hola! Quisiera información sobre sus productos y catálogos de temporada en nenúfar.');
     setWhatsAppModalOpen(true);
   };
 
-  const handleExploreCatalogs = () => {
-    const el = document.getElementById('catalogos');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+  const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  const applyCart = (cart: { id: string; checkoutUrl: string; items: CartItem[] }) => {
+    setCartId(cart.id);
+    setCheckoutUrl(cart.checkoutUrl);
+    setCartItems(cart.items);
+  };
+
+  const handleAddToCart = async (product: CatalogProduct, customText = '', variantId?: string) => {
+    try {
+      setPurchaseError(null);
+      applyCart(await addCartLine(cartId, product, 1, customText, variantId));
+      setCartDrawerOpen(true);
+    } catch (error) {
+      setPurchaseError(error instanceof Error ? error.message : 'No pudimos añadir el producto.');
     }
   };
 
-  const handleExploreProducts = () => {
-    const el = document.getElementById('productos');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+  const handleBuyNow = async (product: CatalogProduct, customText = '', variantId?: string) => {
+    try {
+      setPurchaseError(null);
+      const cart = await addCartLine(cartId, product, 1, customText, variantId);
+      applyCart(cart);
+      window.location.assign(cart.checkoutUrl);
+    } catch (error) {
+      setPurchaseError(error instanceof Error ? error.message : 'No pudimos iniciar el pago.');
     }
   };
 
-  // Cart operations
-  const handleAddToCart = (product: CatalogProduct, customText: string = '', variantId?: string) => {
-    setCartItems((prev) => {
-      // Check if same product + same customization + same variant already exists
-      const existingIndex = prev.findIndex(
-        (item) =>
-          item.product.id === product.id &&
-          item.customText.trim() === customText.trim() &&
-          item.selectedVariant === variantId
-      );
-
-      if (existingIndex > -1) {
-        const next = [...prev];
-        next[existingIndex] = {
-          ...next[existingIndex],
-          quantity: next[existingIndex].quantity + 1,
-        };
-        return next;
+  const handleUpdateQuantity = async (item: CartItem, quantity: number) => {
+    if (!cartId) return;
+    try {
+      if (quantity <= 0) {
+        applyCart(await removeCartLine(cartId, item.id));
+      } else {
+        applyCart(await updateCartLine(cartId, item, quantity));
       }
-
-      const newItem: CartItem = {
-        id: `cart-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-        product,
-        quantity: 1,
-        customText,
-        selectedVariant: variantId || product.shopifyVariantId,
-      };
-      return [...prev, newItem];
-    });
-  };
-
-  const handleUpdateQuantity = (itemId: string, newQty: number) => {
-    if (newQty <= 0) {
-      handleRemoveItem(itemId);
-      return;
+    } catch (error) {
+      setPurchaseError(error instanceof Error ? error.message : 'No pudimos actualizar el carrito.');
     }
-    setCartItems((prev) =>
-      prev.map((item) => (item.id === itemId ? { ...item, quantity: newQty } : item))
-    );
   };
 
-  const handleRemoveItem = (itemId: string) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== itemId));
+  const handleUpdateCustomText = async (item: CartItem, customText: string) => {
+    if (!cartId) return;
+    try {
+      applyCart(await updateCartLine(cartId, item, item.quantity, customText));
+    } catch (error) {
+      setPurchaseError(error instanceof Error ? error.message : 'No pudimos actualizar la personalización.');
+    }
   };
 
-  const handleUpdateCustomText = (itemId: string, newText: string) => {
-    setCartItems((prev) =>
-      prev.map((item) => (item.id === itemId ? { ...item, customText: newText } : item))
-    );
-  };
-
-  const handleOpenPersonalizeModal = (product: CatalogProduct) => {
-    setSelectedProductForPersonalize(product);
-    setPersonalizeModalOpen(true);
+  const handleCheckout = async (orderNotes: string) => {
+    if (!cartId || !checkoutUrl) return;
+    try {
+      const cart = await updateCartAttributes(cartId, orderNotes);
+      applyCart(cart);
+      window.location.assign(cart.checkoutUrl);
+    } catch (error) {
+      setPurchaseError(error instanceof Error ? error.message : 'No pudimos iniciar el pago.');
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#faf8f6] text-[#242120] relative selection:bg-pink-200 selection:text-pink-950 font-sans">
-      {/* Top Floating Glass Navbar with Nenúfar Branding & Cart counter */}
-      <Navbar
-        cartCount={cartItems.reduce((acc, i) => acc + i.quantity, 0)}
-        onOpenCart={() => setCartDrawerOpen(true)}
-        onOpenWhatsApp={handleOpenWhatsApp}
-        onExploreCatalogs={handleExploreCatalogs}
-        onOpenShopifyConfig={() => setShopifyConfigModalOpen(true)}
-      />
-
+      <Navbar cartCount={cartItems.reduce((acc, item) => acc + item.quantity, 0)} onOpenCart={() => setCartDrawerOpen(true)} onOpenWhatsApp={handleOpenWhatsApp} onExploreCatalogs={() => scrollTo('catalogos')} />
       <main>
-        {/* 1. Hero Section with Real Product Showcase */}
-        <Hero
-          onExploreCatalogs={handleExploreCatalogs}
-          onExploreProducts={handleExploreProducts}
-          onOpenWhatsApp={handleOpenWhatsApp}
-          onOpenShopifyConfig={() => setShopifyConfigModalOpen(true)}
-        />
-
-        {/* 2. New Dedicated Catalog Products Section with Shopify Integration */}
-        <CatalogProductsSection
-          config={shopifyConfig}
-          onOpenPersonalizeModal={handleOpenPersonalizeModal}
-          onAddToCart={handleAddToCart}
-          onOpenWhatsApp={handleOpenWhatsApp}
-          onOpenShopifyConfig={() => setShopifyConfigModalOpen(true)}
-        />
-
-        {/* 3. Seasonal Catalogs Gateway (Día de la Madre, Padre, Maestro, Navidad, Bodas) */}
-        <SeasonalCatalogs
-          onOpenWhatsApp={handleOpenWhatsApp}
-          onSelectCatalogProducts={() => handleExploreProducts()}
-        />
-
-        {/* 4. In-House Workshop & Combined Techniques (Laser, Sublimation, Vinyl, Textiles) */}
+        <Hero onExploreCatalogs={() => scrollTo('catalogos')} onExploreProducts={() => scrollTo('productos')} onOpenWhatsApp={handleOpenWhatsApp} />
+        <CatalogProductsSection products={products} onOpenPersonalizeModal={(product) => { setSelectedProductForPersonalize(product); setPersonalizeModalOpen(true); }} onAddToCart={handleAddToCart} onBuyNow={handleBuyNow} onOpenWhatsApp={handleOpenWhatsApp} />
+        <SeasonalCatalogs onOpenWhatsApp={handleOpenWhatsApp} onSelectCatalogProducts={() => scrollTo('productos')} />
         <TechniquesShowcase onOpenWhatsApp={handleOpenWhatsApp} />
-
-        {/* 5. Real Works Gallery (Personal & Corporate) */}
         <PortfolioGallery onOpenWhatsApp={handleOpenWhatsApp} />
-
-        {/* 6. Custom / Outside Catalog Quote Builder */}
         <CustomQuoteBuilder onOpenWhatsApp={handleOpenWhatsApp} />
-
-        {/* 7. Client Reviews & Trust Stories */}
         <ReviewsSection />
-
-        {/* 8. Frequently Asked Questions (FAQ) */}
         <FaqSection onOpenWhatsApp={handleOpenWhatsApp} />
-
-        {/* 9. Compelling Closing CTA Banner */}
-        <CtaBanner
-          onOpenWhatsApp={handleOpenWhatsApp}
-          onExploreCatalogs={handleExploreCatalogs}
-        />
+        <CtaBanner onOpenWhatsApp={handleOpenWhatsApp} onExploreCatalogs={() => scrollTo('catalogos')} />
       </main>
-
-      {/* Footer with Nenúfar branding & Shopify link */}
-      <Footer
-        onOpenWhatsApp={handleOpenWhatsApp}
-        onExploreCatalogs={handleExploreCatalogs}
-        onExploreProducts={handleExploreProducts}
-        onOpenShopifyConfig={() => setShopifyConfigModalOpen(true)}
-      />
-
-      {/* Interactive Floating WhatsApp Concierge Widget */}
+      <Footer onOpenWhatsApp={handleOpenWhatsApp} onExploreCatalogs={() => scrollTo('catalogos')} onExploreProducts={() => scrollTo('productos')} />
       <FloatingChatWidget onSendMessage={handleOpenWhatsApp} />
-
-      {/* Direct WhatsApp Messaging Modal */}
-      <WhatsAppDialog
-        isOpen={whatsAppModalOpen}
-        message={activeMessage}
-        onClose={() => setWhatsAppModalOpen(false)}
-      />
-
-      {/* Slide-over Glass Shopping Cart Drawer */}
-      <CartDrawer
-        isOpen={cartDrawerOpen}
-        cartItems={cartItems}
-        config={shopifyConfig}
-        onClose={() => setCartDrawerOpen(false)}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-        onUpdateCustomText={handleUpdateCustomText}
-        onOpenWhatsApp={handleOpenWhatsApp}
-      />
-
-      {/* Product Personalize & Live Simulation Modal */}
-      <ProductPersonalizeModal
-        product={selectedProductForPersonalize}
-        config={shopifyConfig}
-        isOpen={personalizeModalOpen}
-        onClose={() => {
-          setPersonalizeModalOpen(false);
-          setSelectedProductForPersonalize(null);
-        }}
-        onAddToCart={(product, customText, variantId) => {
-          handleAddToCart(product, customText, variantId);
-        }}
-        onOpenWhatsApp={handleOpenWhatsApp}
-      />
-
-      {/* Shopify Storefront Connection & Configuration Modal */}
-      <ShopifyConfigModal
-        isOpen={shopifyConfigModalOpen}
-        config={shopifyConfig}
-        onClose={() => setShopifyConfigModalOpen(false)}
-        onSaveConfig={(updated) => setShopifyConfig(updated)}
-      />
+      <WhatsAppDialog isOpen={whatsAppModalOpen} message={activeMessage} onClose={() => setWhatsAppModalOpen(false)} />
+      <CartDrawer isOpen={cartDrawerOpen} cartItems={cartItems} onClose={() => setCartDrawerOpen(false)} onUpdateQuantity={handleUpdateQuantity} onRemoveItem={(item) => void handleUpdateQuantity(item, 0)} onUpdateCustomText={handleUpdateCustomText} onCheckout={(notes) => void handleCheckout(notes)} onOpenWhatsApp={handleOpenWhatsApp} />
+      <ProductPersonalizeModal product={selectedProductForPersonalize} isOpen={personalizeModalOpen} onClose={() => { setPersonalizeModalOpen(false); setSelectedProductForPersonalize(null); }} onAddToCart={handleAddToCart} onBuyNow={handleBuyNow} onOpenWhatsApp={handleOpenWhatsApp} />
+      {purchaseError && <div role="alert" className="fixed bottom-5 left-1/2 z-[60] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-2xl border border-rose-200 bg-white px-4 py-3 text-center text-sm text-rose-800 shadow-xl">{purchaseError}<button className="ml-3 font-semibold" onClick={() => setPurchaseError(null)}>Cerrar</button></div>}
     </div>
   );
 }
