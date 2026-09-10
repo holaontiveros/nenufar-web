@@ -47,6 +47,10 @@ export const CART_QUERY_FRAGMENT = `#graphql
           title
           id
           vendor
+          tags
+          personalizationEnabled: metafield(namespace: "custom", key: "allow_custom_text") {
+            value
+          }
         }
         selectedOptions {
           name
@@ -102,6 +106,10 @@ export const CART_QUERY_FRAGMENT = `#graphql
           title
           id
           vendor
+          tags
+          personalizationEnabled: metafield(namespace: "custom", key: "allow_custom_text") {
+            value
+          }
         }
         selectedOptions {
           name

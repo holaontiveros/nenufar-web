@@ -31,16 +31,20 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
           )}
         </dd>
       </dl>
-      <CartDiscounts
-        discountCodes={cart?.discountCodes}
-        discountsHeadingId={discountsHeadingId}
-        discountCodeInputId={discountCodeInputId}
-      />
-      <CartGiftCard
-        giftCardCodes={cart?.appliedGiftCards}
-        giftCardHeadingId={giftCardHeadingId}
-        giftCardInputId={giftCardInputId}
-      />
+      {layout === 'page' ? (
+        <>
+          <CartDiscounts
+            discountCodes={cart?.discountCodes}
+            discountsHeadingId={discountsHeadingId}
+            discountCodeInputId={discountCodeInputId}
+          />
+          <CartGiftCard
+            giftCardCodes={cart?.appliedGiftCards}
+            giftCardHeadingId={giftCardHeadingId}
+            giftCardInputId={giftCardInputId}
+          />
+        </>
+      ) : null}
       <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
     </div>
   );
@@ -51,9 +55,9 @@ function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
 
   return (
     <div className="cart-checkout-actions">
-      <p className="cart-secure-message">⌑ Pago seguro. Revisaremos tu personalización antes de producir.</p>
+      <p className="cart-secure-message">⌑ Checkout cifrado directo en Shopify. Muestra digital previa por WhatsApp.</p>
       <a href={checkoutUrl} target="_self">
-        <span aria-hidden="true">⌑</span> Proceder al pago seguro <b aria-hidden="true">→</b>
+        <span aria-hidden="true">⌑</span> Proceder al Pago en Shopify <b aria-hidden="true">→</b>
       </a>
     </div>
   );

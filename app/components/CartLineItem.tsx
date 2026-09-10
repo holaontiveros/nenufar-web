@@ -1,6 +1,7 @@
 import type {CartLineUpdateInput} from '@shopify/hydrogen/storefront-api-types';
 import type {CartLayout, LineItemChildrenMap} from '~/components/CartMain';
 import {CartForm, Image, type OptimisticCartLine} from '@shopify/hydrogen';
+import {useState} from 'react';
 import {useVariantUrl} from '~/lib/variants';
 import {Link} from 'react-router';
 import {ProductPrice} from './ProductPrice';
@@ -60,8 +61,11 @@ export function CartLineItem({
           >
             <p className="cart-line-title">{product.title}</p>
           </Link>
-          <span className="cart-line-label">Pieza personalizada</span>
-          <ProductPrice price={line?.cost?.totalAmount} />
+          <span className="cart-line-label">{getCollectionLabel(product.tags)}</span>
+          <div className="cart-line-purchase-row">
+            <CartLineQuantity line={line} />
+            <ProductPrice price={line?.cost?.totalAmount} />
+          </div>
           <ul className="cart-line-details">
             {selectedOptions.map((option) => (
               <li key={option.name}>
@@ -78,7 +82,9 @@ export function CartLineItem({
               </li>
             ))}
           </ul>
-          <CartLineQuantity line={line} />
+          {product.personalizationEnabled?.value === 'true' ? (
+            <CartLinePersonalization line={line} />
+          ) : null}
         </div>
       </div>
 
@@ -100,6 +106,71 @@ export function CartLineItem({
         </div>
       ) : null}
     </li>
+  );
+}
+
+function getCollectionLabel(tags: string[]) {
+  const labels: Record<string, string> = {
+    madre: 'Día de la Madre',
+    padre: 'Día del Padre',
+    maestro: 'Día del Maestro',
+    navidad: 'Navidad & Fin de Año',
+    bodas: 'Bodas & Eventos Especiales',
+  };
+
+  return tags.map((tag) => labels[tag.toLowerCase()]).find(Boolean) ?? 'Pieza personalizada';
+}
+
+function CartLinePersonalization({line}: {line: CartLine}) {
+  const existingText =
+    line.attributes?.find((attribute) => attribute.key === 'Personalización')
+      ?.value ?? '';
+  const [editing, setEditing] = useState(false);
+  const [text, setText] = useState(existingText);
+  const attributes = (line.attributes ?? []).reduce<
+    Array<{key: string; value: string}>
+  >((values, attribute) => {
+    if (attribute.key !== 'Personalización' && attribute.value) {
+      values.push({key: attribute.key, value: attribute.value});
+    }
+    return values;
+  }, []);
+  const nextAttributes = text.trim()
+    ? [...attributes, {key: 'Personalización', value: text.trim()}]
+    : attributes;
+
+  if (editing) {
+    return (
+      <CartLineUpdateButton
+        lines={[{id: line.id, quantity: line.quantity, attributes: nextAttributes}]}
+      >
+        <div className="cart-line-personalization cart-line-personalization--editing">
+          <input
+            aria-label="Texto de personalización"
+            autoFocus
+            maxLength={90}
+            onChange={(event) => setText(event.target.value)}
+            placeholder="Texto personalizado..."
+            value={text}
+          />
+          <button type="submit" onClick={() => setEditing(false)}>
+            Guardar
+          </button>
+        </div>
+      </CartLineUpdateButton>
+    );
+  }
+
+  return (
+    <div className="cart-line-personalization">
+      <span>
+        <b aria-hidden="true">✧</b>
+        {existingText ? <><strong>Grabado:</strong> «{existingText}»</> : <i>Sin texto especificado</i>}
+      </span>
+      <button type="button" onClick={() => setEditing(true)}>
+        ✎ Editar
+      </button>
+    </div>
   );
 }
 
