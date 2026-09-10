@@ -8,3 +8,4 @@ coverage/
 *.log
 .env*
 !.env.example
+h2_deploy_log.json
