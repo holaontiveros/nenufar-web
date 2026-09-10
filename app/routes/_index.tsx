@@ -31,7 +31,7 @@ export async function loader({context}: Route.LoaderArgs) {
     });
 
   return {
-    faqs: (metaobjects as unknown as {question?: {value?: string} | null; answer?: {value?: string} | null}[]).flatMap((faq) => {
+    faqs: (metaobjects as {nodes: {question?: {value?: string} | null; answer?: {value?: string} | null}[]}).nodes.flatMap((faq) => {
       const question = faq.question?.value;
       const answer = faq.answer?.value;
       return question && answer ? [{question, answer}] : [];
