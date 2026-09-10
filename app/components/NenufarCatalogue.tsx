@@ -1,5 +1,5 @@
 import {useMemo, useState} from 'react';
-import {Link} from 'react-router';
+import {Link, useSearchParams} from 'react-router';
 
 export type NenufarCatalogueItem = {
   id: string;
@@ -14,23 +14,26 @@ export type NenufarCatalogueItem = {
 };
 
 export function NenufarCatalogue({products}: {products: NenufarCatalogueItem[]}) {
-  const [catalog, setCatalog] = useState('todos');
+  const [searchParams] = useSearchParams();
+  const requestedCatalog = searchParams.get('catalog');
+  const [catalog, setCatalog] = useState(requestedCatalog ?? 'todos');
   const [technique, setTechnique] = useState('todas');
   const [query, setQuery] = useState('');
   const catalogues = ['todos', ...Array.from(new Set(products.map((product) => product.catalogName).filter(Boolean)))];
   const techniques = ['todas', ...Array.from(new Set(products.map((product) => product.technique).filter(Boolean)))];
+  const activeCatalog = catalogues.includes(catalog) ? catalog : 'todos';
   const visibleProducts = useMemo(() => products.filter((product) => {
     const search = `${product.title} ${product.description ?? ''} ${product.technique ?? ''}`.toLowerCase();
-    return (catalog === 'todos' || product.catalogName === catalog) &&
+    return (activeCatalog === 'todos' || product.catalogName === activeCatalog) &&
       (technique === 'todas' || product.technique === technique) &&
       (!query.trim() || search.includes(query.trim().toLowerCase()));
-  }), [catalog, products, query, technique]);
+  }), [activeCatalog, products, query, technique]);
 
   return <section id="productos" className="nenufar-catalogue">
     <div className="nenufar-shell">
       <div className="section-heading"><p>⌑ Colección & tienda Nenúfar</p><h2>Piezas por catálogo <em>listas para comprar</em></h2><span>Explora y personaliza cada regalo de nuestras colecciones estacionales. Compra en línea o consulta los detalles con el taller.</span></div>
       <div id="catalogos" className="catalogue-tabs" aria-label="Filtrar por catálogo">
-        {catalogues.map((item) => <button key={item} type="button" className={catalog === item ? 'active' : ''} onClick={() => setCatalog(item)}>{item === 'todos' ? 'Todos los catálogos' : item}<b>{item === 'todos' ? products.length : products.filter((product) => product.catalogName === item).length}</b></button>)}
+        {catalogues.map((item) => <button key={item} type="button" className={activeCatalog === item ? 'active' : ''} onClick={() => setCatalog(item)}>{item === 'todos' ? 'Todos los catálogos' : item}<b>{item === 'todos' ? products.length : products.filter((product) => product.catalogName === item).length}</b></button>)}
       </div>
       <div className="catalogue-filters">
         <label><span aria-hidden="true">⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar joyero, termo, esfera, libreta..." /></label>
