@@ -106,7 +106,7 @@ export default function Product() {
     <div className="product nenufar-product-page">
       <div className="nenufar-product-gallery">
         {product.badge?.value && <span className="nenufar-product-badge">{product.badge.value}</span>}
-        <ProductImage image={selectedVariant?.image} />
+        <ProductImage image={selectedVariant?.image} images={product.images.nodes} />
         <p className="nenufar-product-gallery-note">{selectedVariant?.availableForSale ? '✓ Disponible para confección' : 'Consulta disponibilidad'}</p>
       </div>
       <div className="product-main nenufar-product-main">
@@ -187,6 +187,13 @@ const PRODUCT_FRAGMENT = `#graphql
     handle
     descriptionHtml
     description
+    images(first: 10) {
+      nodes {
+        id
+        url
+        altText
+      }
+    }
     encodedVariantExistence
     encodedVariantAvailability
     options {
