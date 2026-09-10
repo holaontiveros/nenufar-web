@@ -28,6 +28,8 @@ body { background: #faf8f6; color: #292524; font-family: Inter, ui-sans-serif, s
 @media (max-width: 64rem) { .story-grid--four { grid-template-columns:repeat(2,minmax(0,1fr)); }.story-grid--three { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media (max-width: 40rem) { .story-section { padding:4rem 0; }.story-grid--two,.story-grid--three,.story-grid--four { grid-template-columns:1fr; }.quote-banner { align-items:flex-start; flex-direction:column; padding:1.5rem; }.quote-banner a { width:100%; text-align:center; } }
 
+.brand-whatsapp { display:inline-flex; align-items:center; gap:.4rem; background:#25d366; box-shadow:0 5px 13px rgba(37,211,102,.24); }.brand-whatsapp:hover { background:#1ebe5d; }.brand-whatsapp svg,.hero-actions__chat svg,.quote-banner a svg,.story-final a svg { width:1.05rem; height:1.05rem; flex:none; }.hero-actions__chat { color:#15803d; background:#f0fdf4; border:1px solid #bbf7d0; }.hero-actions__chat:hover { background:#dcfce7; color:#166534; }.quote-banner a,.story-final a { display:inline-flex; align-items:center; gap:.45rem; background:#25d366; box-shadow:0 7px 16px rgba(37,211,102,.2); }.quote-banner a:hover,.story-final a:hover { background:#1ebe5d; }.floating-chat { background:#25d366; color:#fff; box-shadow:0 8px 20px rgba(37,211,102,.32); }.floating-chat:hover { background:#1ebe5d; }.floating-chat svg { width:1.55rem; height:1.55rem; }
+
 img {
   border-radius: 4px;
 }

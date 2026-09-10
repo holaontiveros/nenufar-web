@@ -8,6 +8,7 @@ import {
 import type {CartApiQueryFragment, HeaderQuery} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
 import {WHATSAPP_URL} from '~/lib/contact';
+import {WhatsAppIcon} from '~/components/WhatsAppIcon';
 
 interface HeaderProps {
   header: HeaderQuery;
@@ -35,7 +36,7 @@ export function Header({cart}: HeaderProps) {
         </nav>
         <div className="brand-header__actions">
           <CartToggle cart={cart} />
-          <a className="brand-whatsapp" href={WHATSAPP_URL} target="_blank" rel="noreferrer">◌ <span>WhatsApp</span></a>
+          <a className="brand-whatsapp" href={WHATSAPP_URL} target="_blank" rel="noreferrer"><WhatsAppIcon /> <span>WhatsApp</span></a>
           <button className="brand-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen((open) => !open)}>☰</button>
         </div>
         {mobileMenuOpen && <nav className="brand-mobile-nav" aria-label="Navegación móvil">
