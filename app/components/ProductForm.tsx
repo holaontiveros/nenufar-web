@@ -1,8 +1,9 @@
 import {Link, useNavigate} from 'react-router';
 import {useState} from 'react';
-import {type MappedProductOptions} from '@shopify/hydrogen';
+import {Money, type MappedProductOptions} from '@shopify/hydrogen';
 import type {
   Maybe,
+  MoneyV2,
   ProductOptionValueSwatch,
 } from '@shopify/hydrogen/storefront-api-types';
 import {AddToCartButton} from './AddToCartButton';
@@ -42,6 +43,18 @@ export function getPersonalizationAttributes({
   ].filter((attribute) => attribute.value);
 }
 
+export function getLineSubtotal(
+  price: MoneyV2 | null | undefined,
+  quantity: number,
+) {
+  if (!price || !Number.isInteger(quantity) || quantity < 1) return undefined;
+
+  const amount = Number(price.amount);
+  if (!Number.isFinite(amount)) return undefined;
+
+  return {...price, amount: (amount * quantity).toFixed(2)};
+}
+
 function parseOptions(value?: string | null) {
   if (!value) return [];
 
@@ -79,12 +92,14 @@ export function ProductForm({
   const [font, setFont] = useState(fontOptions[0] ?? '');
   const [motif, setMotif] = useState(motifOptions[0] ?? '');
   const [artisanNote, setArtisanNote] = useState('');
+  const [quantity, setQuantity] = useState(1);
   const personalizationAttributes = getPersonalizationAttributes({
     artisanNote,
     customText,
     font,
     motif,
   });
+  const subtotal = getLineSubtotal(selectedVariant?.price, quantity);
   return (
     <div className="product-form">
       {productOptions.map((option) => {
@@ -241,6 +256,32 @@ export function ProductForm({
           )}
         </div>
       )}
+      <div className="product-purchase-summary">
+        <div className="product-quantity" role="group" aria-label="Cantidad">
+          <span>Cantidad</span>
+          <div>
+            <button
+              aria-label="Reducir cantidad"
+              disabled={quantity === 1}
+              onClick={() => setQuantity((currentQuantity) => Math.max(1, currentQuantity - 1))}
+              type="button"
+            >
+              −
+            </button>
+            <output aria-live="polite">{quantity}</output>
+            <button
+              aria-label="Aumentar cantidad"
+              onClick={() => setQuantity((currentQuantity) => currentQuantity + 1)}
+              type="button"
+            >
+              +
+            </button>
+          </div>
+        </div>
+        <p>
+          Subtotal: {subtotal ? <strong><Money data={subtotal} /></strong> : '—'}
+        </p>
+      </div>
       <AddToCartButton
         disabled={!selectedVariant || !selectedVariant.availableForSale}
         onClick={() => {
@@ -251,7 +292,7 @@ export function ProductForm({
             ? [
                 {
                   merchandiseId: selectedVariant.id,
-                  quantity: 1,
+                  quantity,
                   selectedVariant,
                   attributes: personalizationAttributes,
                 },

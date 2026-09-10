@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest';
-import {getPersonalizationAttributes} from './ProductForm';
+import {getLineSubtotal, getPersonalizationAttributes} from './ProductForm';
 
 describe('getPersonalizationAttributes', () => {
   it('submits every configured personalization choice as cart-line attributes', () => {
@@ -27,5 +27,22 @@ describe('getPersonalizationAttributes', () => {
         motif: '',
       }),
     ).toEqual([]);
+  });
+});
+
+describe('getLineSubtotal', () => {
+  it('multiplies a variant price by the selected quantity', () => {
+    expect(
+      getLineSubtotal(
+        {amount: '18.00', currencyCode: 'USD'},
+        3,
+      ),
+    ).toEqual({amount: '54.00', currencyCode: 'USD'});
+  });
+
+  it('does not calculate a subtotal for an invalid quantity', () => {
+    expect(
+      getLineSubtotal({amount: '18.00', currencyCode: 'USD'}, 0),
+    ).toBeUndefined();
   });
 });
