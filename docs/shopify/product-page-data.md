@@ -76,7 +76,7 @@ The existing personalized demo product `termo-slim-pastel-madre` now provides th
 
 The personalization configuration contains the Spanish labels, 60-character limit, typography options, motif options, preview copy, and optional artisan-note copy from the approved reference. All values and references were verified through the public development Storefront API.
 
-No non-personalized representative product has been seeded yet because every currently active development product has `custom.allow_custom_text = true`. Preserve that existing data until a product is explicitly selected or a development-only blank product is approved.
+The clearly labelled development-only product `dev-caja-haya-blank-20260910` provides the non-personalized reference record. It has `custom.allow_custom_text = false`, a $14 test variant, relevant product-detail values, and no personalization configuration or workshop-process references. It is published only to the `Nenúfar Web Dev` storefront publication and must not be migrated to production.
 
 ## Customer personalization data
 
