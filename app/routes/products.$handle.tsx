@@ -1,4 +1,4 @@
-import {redirect, useLoaderData} from 'react-router';
+import {redirect, useLoaderData, useRouteLoaderData} from 'react-router';
 import type {Route} from './+types/products.$handle';
 import {
   getSelectedProductOptions,
@@ -12,6 +12,8 @@ import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
+import type {RootLoader} from '~/root';
+import {WhatsAppIcon} from '~/components/WhatsAppIcon';
 
 export const meta: Route.MetaFunction = ({data}) => {
   return [
@@ -78,6 +80,7 @@ function loadDeferredData({context, params}: Route.LoaderArgs) {
 
 export default function Product() {
   const {product} = useLoaderData<typeof loader>();
+  const rootData = useRouteLoaderData<RootLoader>('root');
 
   // Optimistically selects a variant with given available variant information
   const selectedVariant = useOptimisticVariant(
@@ -96,28 +99,29 @@ export default function Product() {
   });
 
   const {title, descriptionHtml} = product;
+  const isPersonalized = product.personalizationEnabled?.value === 'true';
+  const whatsappUrl = rootData?.whatsappUrl ?? null;
 
   return (
-    <div className="product">
-      <ProductImage image={selectedVariant?.image} />
+    <div className="product nenufar-product-page">
+      <div className="nenufar-product-gallery">
+        {product.badge?.value && <span className="nenufar-product-badge">{product.badge.value}</span>}
+        <ProductImage image={selectedVariant?.image} />
+        <p className="nenufar-product-gallery-note">{selectedVariant?.availableForSale ? '✓ Disponible para confección' : 'Consulta disponibilidad'}</p>
+      </div>
       <div className="product-main nenufar-product-main">
-        <p className="nenufar-product-eyebrow">Pieza personalizada Nenúfar</p>
+        <div className="nenufar-product-meta"><span>{product.materialLabel?.value || (isPersonalized ? 'Pieza personalizada' : 'Insumo listo para usar')}</span>{product.technique?.value && <small>{product.technique.value}</small>}</div>
         <h1>{title}</h1>
-        <ProductPrice
-          price={selectedVariant?.price}
-          compareAtPrice={selectedVariant?.compareAtPrice}
-        />
-        <br />
+        <div className="nenufar-product-price-panel"><div><ProductPrice price={selectedVariant?.price} compareAtPrice={selectedVariant?.compareAtPrice} /><small>Precios de taller artesanal · IVA incluido</small></div><div className="nenufar-product-availability"><b>{selectedVariant?.availableForSale ? '● Disponible' : '● Agotado'}</b>{product.leadTime?.value && <span>◷ {product.leadTime.value}</span>}</div></div>
+        <div className="nenufar-product-description"><div dangerouslySetInnerHTML={{__html: descriptionHtml}} /></div>
         <ProductForm
           productOptions={productOptions}
           selectedVariant={selectedVariant}
-          allowCustomText={product.personalizationEnabled?.value === 'true'}
+          allowCustomText={isPersonalized}
           customTextPlaceholder={product.customTextPlaceholder?.value}
         />
-        <br />
-        <br />
-        <div className="nenufar-product-description"><strong>Sobre esta pieza</strong><div dangerouslySetInnerHTML={{__html: descriptionHtml}} /></div>
-        <br />
+        {whatsappUrl && <a className="nenufar-product-whatsapp" href={whatsappUrl} target="_blank" rel="noreferrer"><WhatsAppIcon /> Consultar por WhatsApp</a>}
+        <ul className="nenufar-product-assurances"><li>Pago protegido mediante Shopify.</li><li>Atención del taller para cada pedido.</li></ul>
       </div>
       <Analytics.ProductView
         data={{
@@ -211,6 +215,18 @@ const PRODUCT_FRAGMENT = `#graphql
     seo {
       description
       title
+    }
+    materialLabel: metafield(namespace: "custom", key: "material_label") {
+      value
+    }
+    badge: metafield(namespace: "custom", key: "badge") {
+      value
+    }
+    technique: metafield(namespace: "custom", key: "technique") {
+      value
+    }
+    leadTime: metafield(namespace: "custom", key: "lead_time") {
+      value
     }
     personalizationEnabled: metafield(namespace: "custom", key: "allow_custom_text") {
       value

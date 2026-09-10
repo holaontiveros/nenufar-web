@@ -109,6 +109,7 @@ export function ProductForm({
       })}
       {allowCustomText && (
         <div className="product-personalization">
+          <div className="product-personalization-heading"><b>✦ Personaliza tu pieza</b><small>Comparte el texto que trabajará nuestro taller.</small></div>
           <label htmlFor="custom-text">Texto para personalizar</label>
           <textarea
             id="custom-text"
