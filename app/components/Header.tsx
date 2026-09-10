@@ -17,8 +17,8 @@ interface HeaderProps {
 }
 
 const navigation = [
-  ['Productos', '#productos'], ['Catálogos', '#catalogos'], ['El Taller', '#tecnicas'],
-  ['Trabajos Reales', '#galeria'], ['Pedidos a Medida', '#cotizador'], ['Preguntas', '#faq'],
+  ['Productos', '/catalogo'], ['Catálogos', '/#catalogos'], ['El Taller', '/#tecnicas'],
+  ['Trabajos Reales', '/#galeria'], ['Pedidos a Medida', '/#cotizador'], ['Preguntas', '/#faq'],
 ] as const;
 
 export function Header({cart}: HeaderProps) {
@@ -31,7 +31,7 @@ export function Header({cart}: HeaderProps) {
           <span><strong>nenúfar</strong><small>taller creativo</small></span>
         </Link>
         <nav className="brand-nav" aria-label="Navegación principal">
-          {navigation.map(([label, href]) => <a key={href} href={`/${href}`}>{label}</a>)}
+          {navigation.map(([label, href]) => <a key={href} href={href}>{label}</a>)}
         </nav>
         <div className="brand-header__actions">
           <CartToggle cart={cart} />
@@ -39,7 +39,7 @@ export function Header({cart}: HeaderProps) {
           <button className="brand-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen((open) => !open)}>☰</button>
         </div>
         {mobileMenuOpen && <nav className="brand-mobile-nav" aria-label="Navegación móvil">
-          {navigation.map(([label, href]) => <a key={href} href={`/${href}`} onClick={() => setMobileMenuOpen(false)}>{label}</a>)}
+          {navigation.map(([label, href]) => <a key={href} href={href} onClick={() => setMobileMenuOpen(false)}>{label}</a>)}
         </nav>}
       </div>
     </header>

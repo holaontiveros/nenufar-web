@@ -46,7 +46,7 @@ export function NenufarCatalogue({products}: {products: NenufarCatalogueItem[]})
           <div className="catalogue-card__purchase"><strong>{new Intl.NumberFormat('es-MX', {style: 'currency', currency: product.price.currencyCode}).format(Number(product.price.amount))}</strong><Link to={`/products/${product.handle}`} prefetch="intent">Personalizar <span>→</span></Link></div>
         </div>
       </article>)}</div> : <div className="catalogue-empty"><p>No encontramos productos con esos filtros.</p><button type="button" onClick={() => {setCatalog('todos'); setTechnique('todas'); setQuery('');}}>Restablecer filtros</button></div>}
-      <div className="catalogue-custom-order"><span>✦</span><div><h3>¿Buscas una pieza fuera de catálogo o un tiraje para tu empresa?</h3><p>Fabricamos proyectos especiales en madera, acrílico, metal, textiles y vinil con tu logotipo.</p></div><a href="#cotizador">Cotizar pedido especial</a></div>
+      <div className="catalogue-custom-order"><span>✦</span><div><h3>¿Buscas una pieza fuera de catálogo o un tiraje para tu empresa?</h3><p>Fabricamos proyectos especiales en madera, acrílico, metal, textiles y vinil con tu logotipo.</p></div><a href="/#cotizador">Cotizar pedido especial</a></div>
     </div>
   </section>;
 }
