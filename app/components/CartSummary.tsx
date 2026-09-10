@@ -20,9 +20,9 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
 
   return (
     <div aria-labelledby={summaryId} className={className}>
-      <h4 id={summaryId}>Totals</h4>
+      <h4 id={summaryId}>Resumen del pedido</h4>
       <dl role="group" className="cart-subtotal">
-        <dt>Subtotal</dt>
+        <dt>Subtotal estimado</dt>
         <dd>
           {cart?.cost?.subtotalAmount?.amount ? (
             <Money data={cart?.cost?.subtotalAmount} />
@@ -50,11 +50,11 @@ function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
   if (!checkoutUrl) return null;
 
   return (
-    <div>
+    <div className="cart-checkout-actions">
+      <p className="cart-secure-message">⌑ Pago seguro. Revisaremos tu personalización antes de producir.</p>
       <a href={checkoutUrl} target="_self">
-        <p>Continue to Checkout &rarr;</p>
+        <span aria-hidden="true">⌑</span> Proceder al pago seguro <b aria-hidden="true">→</b>
       </a>
-      <br />
     </div>
   );
 }

@@ -45,7 +45,7 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
   const withDiscount =
     cart &&
     Boolean(cart?.discountCodes?.filter((code) => code.applicable)?.length);
-  const className = `cart-main ${withDiscount ? 'with-discount' : ''}`;
+  const className = `cart-main ${withDiscount ? 'with-discount' : ''} cart-main--${layout}`;
   const cartHasItems = cart?.totalQuantity ? cart.totalQuantity > 0 : false;
   const childrenMap = getLineItemChildrenMap(cart?.lines?.nodes ?? []);
 
@@ -56,6 +56,11 @@ export function CartMain({layout, cart: originalCart}: CartMainProps) {
     >
       <CartEmpty hidden={linesCount} layout={layout} />
       <div className="cart-details">
+        {cartHasItems && layout === 'aside' ? (
+          <p className="cart-drawer-count">
+            {cart.totalQuantity} {cart.totalQuantity === 1 ? 'artículo personalizado' : 'artículos personalizados'}
+          </p>
+        ) : null}
         <p id="cart-lines" className="sr-only">
           Line items
         </p>
@@ -94,15 +99,12 @@ function CartEmpty({
 }) {
   const {close} = useAside();
   return (
-    <div hidden={hidden}>
-      <br />
-      <p>
-        Looks like you haven&rsquo;t added anything yet, let&rsquo;s get you
-        started!
-      </p>
-      <br />
-      <Link to="/collections" onClick={close} prefetch="viewport">
-        Continue shopping →
+    <div className="cart-empty" hidden={hidden}>
+      <span aria-hidden="true">⌑</span>
+      <h4>Tu carrito está vacío</h4>
+      <p>Explora el catálogo y personaliza un detalle inolvidable.</p>
+      <Link to="/catalogo" onClick={close} prefetch="viewport">
+        Explorar productos
       </Link>
     </div>
   );
