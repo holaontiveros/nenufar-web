@@ -25,8 +25,8 @@ tag:
 | Navidad & Fin de Año | `navidad-fin-de-ano` | `navidad` |
 | Bodas & Eventos Especiales | `bodas-eventos-especiales` | `bodas` |
 
-Home-page cards link to `/collections/<handle>`. The existing `/catalogo`
-page derives its seasonal tabs from those native collections. The legacy
+Home-page cards link to `/catalogo?collection=<handle>`, while the central
+catalogue page derives its seasonal tabs from those native collections. The legacy
 `custom.catalog_id` and `custom.catalog_name` product metafields are retired
 from new imports and storefront reads.
 

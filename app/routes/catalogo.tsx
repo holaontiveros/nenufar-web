@@ -13,7 +13,7 @@ export async function loader({context}: Route.LoaderArgs) {
       id: product.id, title: product.title, handle: product.handle,
       image: product.featuredImage ? {url: product.featuredImage.url, altText: product.featuredImage.altText} : undefined,
       price: product.priceRange.minVariantPrice, description: product.description,
-      catalogName: collection.title, technique: product.technique?.value, leadTime: product.leadTime?.value,
+      catalogName: collection.title, catalogHandle: collection.handle, technique: product.technique?.value, leadTime: product.leadTime?.value,
     })) ?? [];
   });
   return {catalogue};

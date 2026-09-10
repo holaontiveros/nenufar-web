@@ -1,5 +1,5 @@
 import {useMemo, useState} from 'react';
-import {Link} from 'react-router';
+import {Link, useSearchParams} from 'react-router';
 
 export type NenufarCatalogueItem = {
   id: string;
@@ -8,13 +8,17 @@ export type NenufarCatalogueItem = {
   image?: {url: string; altText?: string | null};
   price: {amount: string; currencyCode: string};
   catalogName?: string;
+  catalogHandle?: string;
   technique?: string;
   leadTime?: string;
   description?: string;
 };
 
 export function NenufarCatalogue({products}: {products: NenufarCatalogueItem[]}) {
-  const [catalog, setCatalog] = useState('todos');
+  const [searchParams] = useSearchParams();
+  const requestedCollection = searchParams.get('collection');
+  const requestedCatalog = products.find((product) => product.catalogHandle === requestedCollection)?.catalogName;
+  const [catalog, setCatalog] = useState(requestedCatalog ?? 'todos');
   const [technique, setTechnique] = useState('todas');
   const [query, setQuery] = useState('');
   const catalogues = ['todos', ...Array.from(new Set(products.map((product) => product.catalogName).filter(Boolean)))];
