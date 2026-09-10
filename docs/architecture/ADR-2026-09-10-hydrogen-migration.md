@@ -2,7 +2,7 @@
 
 ## Status
 
-Approved on 2026-09-10. Migration in progress. The original Vite application has no live deployment and will not be retained as a fallback.
+Approved on 2026-09-10. Root cutover completed on 2026-09-10. The original Vite application had no live deployment and was removed; no fallback is retained.
 
 ## Context
 
@@ -16,7 +16,7 @@ Nenúfar Web is currently a client-rendered Vite application that calls Storefro
 
 ## Decision
 
-Adopt option 3. The migration will happen in small, independently committed chunks. Hydrogen is the only target implementation; after functional parity is verified, a cutover chunk will replace the root Vite application rather than retaining it as a fallback.
+Adopt option 3. The migration happens in small, independently committed chunks. Hydrogen is the only implementation and the root runtime; the former Vite application has been removed rather than retained as a fallback.
 
 ## Impact and cost
 
@@ -30,7 +30,7 @@ Adopt option 3. The migration will happen in small, independently committed chun
 1. Scaffold and document Hydrogen/Oxygen foundation.
 2. Move product, metafield, cart, and personalization flows to server-aware Hydrogen routes.
 3. Port the visual landing experience and informational sections.
-4. Link the development store, run end-to-end checks, and approve cutover.
+4. Link the development store, run end-to-end checks, and complete cutover. Completed on 2026-09-10.
 
 ## Risks
 

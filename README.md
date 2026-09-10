@@ -1,16 +1,19 @@
 # Nenúfar Web
 
-Landing de catálogo y compra para regalos personalizados.
+Shopify Hydrogen storefront for personalized gifts. Product, variant, price, image, cart, and checkout data come from Shopify.
 
-## Desarrollo local
+## Local development
 
-1. Instala las dependencias con `npm install`.
-2. Copia `.env.example` a `.env.local` y configura el dominio y token público de Storefront API.
-3. Ejecuta `npm run dev`.
+1. Use Node.js 22 or 24 and install dependencies with `npm ci`.
+2. Copy `.env.example` to `.env`, or link a development storefront with Shopify CLI to populate it. Never commit this file.
+3. Start the storefront with `npm run dev`.
 
-## Validación
+The local project is linked only to the Nenúfar development storefront. Re-link it before using any other store; never reuse development credentials in production.
 
-- `npm run lint`
+## Validation
+
+- `npm run codegen`
+- `npm run typecheck`
 - `npm run build`
 
-La aplicación puede mostrar el catálogo semilla durante desarrollo, pero las operaciones de carrito y pago requieren las variables de Shopify configuradas.
+No automated test suite exists yet. See [AGENTS.md](AGENTS.md) for the required planning, documentation, architecture-approval, and Git workflow.

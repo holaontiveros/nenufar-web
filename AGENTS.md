@@ -2,16 +2,16 @@
 
 ## Estado base
 
-- Aplicación de una sola página construida con React 19, TypeScript, Vite y Tailwind CSS v4.
-- La migración aprobada a Hydrogen/Oxygen está en curso bajo `hydrogen/`. Hydrogen es la única implementación objetivo; la aplicación Vite actual no tiene despliegue activo y será reemplazada en el chunk de cutover.
+- Storefront construido con Shopify Hydrogen, React Router, TypeScript, Vite y Tailwind CSS. El runtime vive en la raíz: `app/`, `server.ts` y `vite.config.ts`.
+- La migración aprobada a Hydrogen/Oxygen se completó como cutover de runtime. No queda una aplicación Vite heredada ni un fallback local.
 - El proyecto Hydrogen está vinculado solamente al storefront de desarrollo `Nenúfar Web Dev`. No reutilizar esta vinculación ni sus credenciales para producción.
-- La composición de la página y el estado compartido viven hoy en `src/App.tsx`; los bloques visuales viven en `src/components/`.
+- Las rutas, composición y componentes del storefront viven en `app/routes/`, `app/root.tsx` y `app/components/`.
 - El contenido actual es semilla/demo: productos, precios, variantes, dominio y reseñas deben validarse antes de considerarse datos de producción.
 - Shopify es la fuente de verdad de productos, variantes, precios e imágenes en entornos configurados. El carrito usa Storefront Cart API y sólo su ID se guarda en `localStorage`; el pago usa el `checkoutUrl` real.
 - Las imágenes remotas provienen principalmente de Unsplash. Antes de publicar se debe definir un inventario de activos propios y sus licencias.
-- La integración comercial usa Shopify Storefront API con variables públicas de Vite. Los tokens Admin nunca deben incluirse en el frontend ni en el repositorio.
+- La integración comercial usa las variables de entorno de Hydrogen/Oxygen y Shopify Storefront API. Los tokens Admin nunca deben incluirse en el frontend ni en el repositorio.
 - Los atributos de catálogo que sostienen la UI se modelan como metafields de producto `custom`; consultar `docs/shopify/metafields.md` antes de cambiar la consulta o los filtros.
-- La verificación mínima disponible es `npm run lint` (TypeScript) y `npm run build` (Vite). No hay suite de pruebas automatizadas aún.
+- La verificación mínima disponible es `npm run codegen`, `npm run typecheck` y `npm run build`. No hay suite de pruebas automatizadas aún.
 
 ## Flujo obligatorio para cada cambio
 

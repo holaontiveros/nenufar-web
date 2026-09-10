@@ -1,7 +1,9 @@
 node_modules/
-build/
 dist/
 coverage/
+.react-router/
+.shopify/
+*.tsbuildinfo
 .DS_Store
 *.log
 .env*
