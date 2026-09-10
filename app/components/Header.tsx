@@ -19,8 +19,10 @@ interface HeaderProps {
 }
 
 const navigation = [
-  ['Productos', '/catalogo'], ['Catálogos', '/#catalogos'], ['El Taller', '/#tecnicas'],
-  ['Trabajos Reales', '/#galeria'], ['Pedidos a Medida', '/#cotizador'], ['Preguntas', '/#faq'],
+  ['Productos', '/catalogo'], ['Catálogos', '/#catalogos'],
+  // TODO: re-enable when ready — ['El Taller', '/#tecnicas'],
+  // TODO: re-enable when ready — ['Trabajos Reales', '/#galeria'],
+  // TODO: re-enable when ready — removed for now,
 ] as const;
 
 export function Header({cart, whatsappUrl}: HeaderProps) {

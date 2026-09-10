@@ -11,7 +11,7 @@ export function Footer(_: FooterProps) {
     <footer className="brand-footer">
       <div className="brand-footer__inner">
         <div><p className="brand-footer__name">nenúfar</p><p>Detalles hechos con intención, para recordar.</p></div>
-        <div className="brand-footer__links"><a href="/catalogo">Productos</a><a href="/#tecnicas">El taller</a><a href="/#faq">Preguntas</a><a href="/#cotizador">Contacto</a></div>
+        <div className="brand-footer__links"><a href="/catalogo">Productos</a> {/* El taller — TODO: re-enable */}<a href="/#faq">Preguntas</a><a href="/#cotizador">Contacto</a></div>
         <p className="brand-footer__copyright">© {new Date().getFullYear()} Nenúfar Taller Creativo</p>
       </div>
     </footer>
