@@ -4,6 +4,7 @@
 
 - Aplicación de una sola página construida con React 19, TypeScript, Vite y Tailwind CSS v4.
 - La migración aprobada a Hydrogen/Oxygen está en curso bajo `hydrogen/`. Hasta el cutover aprobado, la aplicación Vite en la raíz sigue siendo la implementación activa.
+- El proyecto Hydrogen está vinculado solamente al storefront de desarrollo `Nenúfar Web Dev`. No reutilizar esta vinculación ni sus credenciales para producción.
 - La composición de la página y el estado compartido viven hoy en `src/App.tsx`; los bloques visuales viven en `src/components/`.
 - El contenido actual es semilla/demo: productos, precios, variantes, dominio y reseñas deben validarse antes de considerarse datos de producción.
 - Shopify es la fuente de verdad de productos, variantes, precios e imágenes en entornos configurados. El carrito usa Storefront Cart API y sólo su ID se guarda en `localStorage`; el pago usa el `checkoutUrl` real.
