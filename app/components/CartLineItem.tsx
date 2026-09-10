@@ -3,6 +3,7 @@ import type {CartLayout, LineItemChildrenMap} from '~/components/CartMain';
 import {CartForm, Image, type OptimisticCartLine} from '@shopify/hydrogen';
 import {useState} from 'react';
 import {useVariantUrl} from '~/lib/variants';
+import {getSeasonalCollectionLabel} from '~/lib/seasonal-collections';
 import {Link} from 'react-router';
 import {ProductPrice} from './ProductPrice';
 import {useAside} from './Aside';
@@ -61,7 +62,9 @@ export function CartLineItem({
           >
             <p className="cart-line-title">{product.title}</p>
           </Link>
-          <span className="cart-line-label">{getCollectionLabel(product.tags)}</span>
+          <span className="cart-line-label">
+            {getSeasonalCollectionLabel(product.tags)}
+          </span>
           <div className="cart-line-purchase-row">
             <CartLineQuantity line={line} />
             <ProductPrice price={line?.cost?.totalAmount} />
@@ -107,18 +110,6 @@ export function CartLineItem({
       ) : null}
     </li>
   );
-}
-
-function getCollectionLabel(tags: string[] = []) {
-  const labels: Record<string, string> = {
-    madre: 'Día de la Madre',
-    padre: 'Día del Padre',
-    maestro: 'Día del Maestro',
-    navidad: 'Navidad & Fin de Año',
-    bodas: 'Bodas & Eventos Especiales',
-  };
-
-  return tags.map((tag) => labels[tag.toLowerCase()]).find(Boolean) ?? 'Pieza personalizada';
 }
 
 function CartLinePersonalization({line}: {line: CartLine}) {
