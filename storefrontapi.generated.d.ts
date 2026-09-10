@@ -974,9 +974,37 @@ export type ProductFragment = Pick<
   personalizationEnabled?: StorefrontAPI.Maybe<
     Pick<StorefrontAPI.Metafield, 'value'>
   >;
-  customTextPlaceholder?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.Metafield, 'value'>
-  >;
+  personalizationConfig?: StorefrontAPI.Maybe<{
+    reference?: StorefrontAPI.Maybe<{
+      artisanNoteEnabled?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MetaobjectField, 'value'>
+      >;
+      artisanNoteLabel?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MetaobjectField, 'value'>
+      >;
+      artisanNotePlaceholder?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MetaobjectField, 'value'>
+      >;
+      characterLimit?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MetaobjectField, 'value'>
+      >;
+      fontOptions?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MetaobjectField, 'value'>
+      >;
+      motifOptions?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MetaobjectField, 'value'>
+      >;
+      previewCopy?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MetaobjectField, 'value'>
+      >;
+      textLabel?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MetaobjectField, 'value'>
+      >;
+      textPlaceholder?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MetaobjectField, 'value'>
+      >;
+    }>;
+  }>;
 };
 
 export type ProductQueryVariables = StorefrontAPI.Exact<{
@@ -1103,9 +1131,37 @@ export type ProductQuery = {
       personalizationEnabled?: StorefrontAPI.Maybe<
         Pick<StorefrontAPI.Metafield, 'value'>
       >;
-      customTextPlaceholder?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.Metafield, 'value'>
-      >;
+      personalizationConfig?: StorefrontAPI.Maybe<{
+        reference?: StorefrontAPI.Maybe<{
+          artisanNoteEnabled?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.MetaobjectField, 'value'>
+          >;
+          artisanNoteLabel?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.MetaobjectField, 'value'>
+          >;
+          artisanNotePlaceholder?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.MetaobjectField, 'value'>
+          >;
+          characterLimit?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.MetaobjectField, 'value'>
+          >;
+          fontOptions?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.MetaobjectField, 'value'>
+          >;
+          motifOptions?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.MetaobjectField, 'value'>
+          >;
+          previewCopy?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.MetaobjectField, 'value'>
+          >;
+          textLabel?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.MetaobjectField, 'value'>
+          >;
+          textPlaceholder?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.MetaobjectField, 'value'>
+          >;
+        }>;
+      }>;
     }
   >;
 };
@@ -1385,7 +1441,7 @@ interface GeneratedQueryTypes {
     return: PoliciesQuery;
     variables: PoliciesQueryVariables;
   };
-  '#graphql\n  query Product(\n    $country: CountryCode\n    $handle: String!\n    $language: LanguageCode\n    $selectedOptions: [SelectedOptionInput!]!\n  ) @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      ...Product\n    }\n  }\n  #graphql\n  fragment Product on Product {\n    id\n    title\n    vendor\n    handle\n    descriptionHtml\n    description\n    images(first: 10) {\n      nodes {\n        id\n        url\n        altText\n      }\n    }\n    encodedVariantExistence\n    encodedVariantAvailability\n    options {\n      name\n      optionValues {\n        name\n        firstSelectableVariant {\n          ...ProductVariant\n        }\n        swatch {\n          color\n          image {\n            previewImage {\n              url\n            }\n          }\n        }\n      }\n    }\n    selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {\n      ...ProductVariant\n    }\n    adjacentVariants (selectedOptions: $selectedOptions) {\n      ...ProductVariant\n    }\n    seo {\n      description\n      title\n    }\n    materialLabel: metafield(namespace: "custom", key: "material_label") {\n      value\n    }\n    badge: metafield(namespace: "custom", key: "badge") {\n      value\n    }\n    technique: metafield(namespace: "custom", key: "technique") {\n      value\n    }\n    leadTime: metafield(namespace: "custom", key: "lead_time") {\n      value\n    }\n    personalizationEnabled: metafield(namespace: "custom", key: "allow_custom_text") {\n      value\n    }\n    customTextPlaceholder: metafield(namespace: "custom", key: "custom_text_placeholder") {\n      value\n    }\n  }\n  #graphql\n  fragment ProductVariant on ProductVariant {\n    availableForSale\n    compareAtPrice {\n      amount\n      currencyCode\n    }\n    id\n    image {\n      __typename\n      id\n      url\n      altText\n      width\n      height\n    }\n    price {\n      amount\n      currencyCode\n    }\n    product {\n      title\n      handle\n    }\n    selectedOptions {\n      name\n      value\n    }\n    sku\n    title\n    unitPrice {\n      amount\n      currencyCode\n    }\n  }\n\n\n': {
+  '#graphql\n  query Product(\n    $country: CountryCode\n    $handle: String!\n    $language: LanguageCode\n    $selectedOptions: [SelectedOptionInput!]!\n  ) @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      ...Product\n    }\n  }\n  #graphql\n  fragment Product on Product {\n    id\n    title\n    vendor\n    handle\n    descriptionHtml\n    description\n    images(first: 10) {\n      nodes {\n        id\n        url\n        altText\n      }\n    }\n    encodedVariantExistence\n    encodedVariantAvailability\n    options {\n      name\n      optionValues {\n        name\n        firstSelectableVariant {\n          ...ProductVariant\n        }\n        swatch {\n          color\n          image {\n            previewImage {\n              url\n            }\n          }\n        }\n      }\n    }\n    selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {\n      ...ProductVariant\n    }\n    adjacentVariants (selectedOptions: $selectedOptions) {\n      ...ProductVariant\n    }\n    seo {\n      description\n      title\n    }\n    materialLabel: metafield(namespace: "custom", key: "material_label") {\n      value\n    }\n    badge: metafield(namespace: "custom", key: "badge") {\n      value\n    }\n    technique: metafield(namespace: "custom", key: "technique") {\n      value\n    }\n    leadTime: metafield(namespace: "custom", key: "lead_time") {\n      value\n    }\n    personalizationEnabled: metafield(namespace: "custom", key: "allow_custom_text") {\n      value\n    }\n    personalizationConfig: metafield(namespace: "custom", key: "personalization_config") {\n      reference {\n        ... on Metaobject {\n          artisanNoteEnabled: field(key: "artisan_note_enabled") {\n            value\n          }\n          artisanNoteLabel: field(key: "artisan_note_label") {\n            value\n          }\n          artisanNotePlaceholder: field(key: "artisan_note_placeholder") {\n            value\n          }\n          characterLimit: field(key: "character_limit") {\n            value\n          }\n          fontOptions: field(key: "font_options") {\n            value\n          }\n          motifOptions: field(key: "motif_options") {\n            value\n          }\n          previewCopy: field(key: "preview_copy") {\n            value\n          }\n          textLabel: field(key: "text_label") {\n            value\n          }\n          textPlaceholder: field(key: "text_placeholder") {\n            value\n          }\n        }\n      }\n    }\n  }\n  #graphql\n  fragment ProductVariant on ProductVariant {\n    availableForSale\n    compareAtPrice {\n      amount\n      currencyCode\n    }\n    id\n    image {\n      __typename\n      id\n      url\n      altText\n      width\n      height\n    }\n    price {\n      amount\n      currencyCode\n    }\n    product {\n      title\n      handle\n    }\n    selectedOptions {\n      name\n      value\n    }\n    sku\n    title\n    unitPrice {\n      amount\n      currencyCode\n    }\n  }\n\n\n': {
     return: ProductQuery;
     variables: ProductQueryVariables;
   };

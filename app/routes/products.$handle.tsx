@@ -11,6 +11,7 @@ import {
 import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
+import type {PersonalizationConfig} from '~/components/ProductForm';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import type {RootLoader} from '~/root';
 import {WhatsAppIcon} from '~/components/WhatsAppIcon';
@@ -100,6 +101,23 @@ export default function Product() {
 
   const {title, descriptionHtml} = product;
   const isPersonalized = product.personalizationEnabled?.value === 'true';
+  const personalizationReference = product.personalizationConfig?.reference;
+  const personalizationConfig: PersonalizationConfig | null =
+    personalizationReference
+      ? {
+          artisanNoteEnabled:
+            personalizationReference.artisanNoteEnabled?.value === 'true',
+          artisanNoteLabel: personalizationReference.artisanNoteLabel?.value,
+          artisanNotePlaceholder:
+            personalizationReference.artisanNotePlaceholder?.value,
+          characterLimit: personalizationReference.characterLimit?.value,
+          fontOptions: personalizationReference.fontOptions?.value,
+          motifOptions: personalizationReference.motifOptions?.value,
+          previewCopy: personalizationReference.previewCopy?.value,
+          textLabel: personalizationReference.textLabel?.value,
+          textPlaceholder: personalizationReference.textPlaceholder?.value,
+        }
+      : null;
   const whatsappUrl = rootData?.whatsappUrl ?? null;
 
   return (
@@ -118,7 +136,7 @@ export default function Product() {
           productOptions={productOptions}
           selectedVariant={selectedVariant}
           allowCustomText={isPersonalized}
-          customTextPlaceholder={product.customTextPlaceholder?.value}
+          personalizationConfig={personalizationConfig}
         />
         {whatsappUrl && <a className="nenufar-product-whatsapp" href={whatsappUrl} target="_blank" rel="noreferrer"><WhatsAppIcon /> Consultar por WhatsApp</a>}
         <ul className="nenufar-product-assurances"><li>Pago protegido mediante Shopify.</li><li>Atención del taller para cada pedido.</li></ul>
@@ -238,8 +256,38 @@ const PRODUCT_FRAGMENT = `#graphql
     personalizationEnabled: metafield(namespace: "custom", key: "allow_custom_text") {
       value
     }
-    customTextPlaceholder: metafield(namespace: "custom", key: "custom_text_placeholder") {
-      value
+    personalizationConfig: metafield(namespace: "custom", key: "personalization_config") {
+      reference {
+        ... on Metaobject {
+          artisanNoteEnabled: field(key: "artisan_note_enabled") {
+            value
+          }
+          artisanNoteLabel: field(key: "artisan_note_label") {
+            value
+          }
+          artisanNotePlaceholder: field(key: "artisan_note_placeholder") {
+            value
+          }
+          characterLimit: field(key: "character_limit") {
+            value
+          }
+          fontOptions: field(key: "font_options") {
+            value
+          }
+          motifOptions: field(key: "motif_options") {
+            value
+          }
+          previewCopy: field(key: "preview_copy") {
+            value
+          }
+          textLabel: field(key: "text_label") {
+            value
+          }
+          textPlaceholder: field(key: "text_placeholder") {
+            value
+          }
+        }
+      }
     }
   }
   ${PRODUCT_VARIANT_FRAGMENT}

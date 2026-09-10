@@ -9,20 +9,82 @@ import {AddToCartButton} from './AddToCartButton';
 import {useAside} from './Aside';
 import type {ProductFragment} from 'storefrontapi.generated';
 
+export type PersonalizationConfig = {
+  artisanNoteEnabled?: boolean;
+  artisanNoteLabel?: string | null;
+  artisanNotePlaceholder?: string | null;
+  characterLimit?: string | null;
+  fontOptions?: string | null;
+  motifOptions?: string | null;
+  previewCopy?: string | null;
+  textLabel?: string | null;
+  textPlaceholder?: string | null;
+};
+
+type PersonalizationValues = {
+  artisanNote: string;
+  customText: string;
+  font: string;
+  motif: string;
+};
+
+export function getPersonalizationAttributes({
+  artisanNote,
+  customText,
+  font,
+  motif,
+}: PersonalizationValues) {
+  return [
+    {key: 'Personalización', value: customText.trim()},
+    {key: 'Tipografía', value: font.trim()},
+    {key: 'Motivo', value: motif.trim()},
+    {key: 'Indicaciones para el artesano', value: artisanNote.trim()},
+  ].filter((attribute) => attribute.value);
+}
+
+function parseOptions(value?: string | null) {
+  if (!value) return [];
+
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed)
+      ? parsed.filter((option): option is string => typeof option === 'string')
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function getCharacterLimit(value?: string | null) {
+  const limit = Number(value);
+  return Number.isInteger(limit) && limit > 0 ? limit : 90;
+}
+
 export function ProductForm({
   productOptions,
   selectedVariant,
   allowCustomText = false,
-  customTextPlaceholder,
+  personalizationConfig,
 }: {
   productOptions: MappedProductOptions[];
   selectedVariant: ProductFragment['selectedOrFirstAvailableVariant'];
   allowCustomText?: boolean;
-  customTextPlaceholder?: string | null;
+  personalizationConfig?: PersonalizationConfig | null;
 }) {
   const navigate = useNavigate();
   const {open} = useAside();
   const [customText, setCustomText] = useState('');
+  const fontOptions = parseOptions(personalizationConfig?.fontOptions);
+  const motifOptions = parseOptions(personalizationConfig?.motifOptions);
+  const [font, setFont] = useState(fontOptions[0] ?? '');
+  const [motif, setMotif] = useState(motifOptions[0] ?? '');
+  const [artisanNote, setArtisanNote] = useState('');
+  const personalizationAttributes = getPersonalizationAttributes({
+    artisanNote,
+    customText,
+    font,
+    motif,
+  });
   return (
     <div className="product-form">
       {productOptions.map((option) => {
@@ -107,18 +169,76 @@ export function ProductForm({
           </div>
         );
       })}
-      {allowCustomText && (
+      {allowCustomText && personalizationConfig && (
         <div className="product-personalization">
-          <div className="product-personalization-heading"><b>✦ Personaliza tu pieza</b><small>Comparte el texto que trabajará nuestro taller.</small></div>
-          <label htmlFor="custom-text">Texto para personalizar</label>
+          <div className="product-personalization-heading">
+            <b>✦ Personaliza tu pieza</b>
+            {personalizationConfig.previewCopy && (
+              <small>{personalizationConfig.previewCopy}</small>
+            )}
+          </div>
+          <label htmlFor="custom-text">
+            {personalizationConfig.textLabel || 'Texto para personalizar'}
+          </label>
           <textarea
             id="custom-text"
-            maxLength={90}
+            maxLength={getCharacterLimit(personalizationConfig.characterLimit)}
             onChange={(event) => setCustomText(event.target.value)}
-            placeholder={customTextPlaceholder || 'Escribe el nombre, inicial o frase que deseas personalizar'}
+            placeholder={
+              personalizationConfig.textPlaceholder ||
+              'Escribe el nombre, inicial o frase que deseas personalizar'
+            }
             rows={3}
             value={customText}
           />
+          {fontOptions.length > 0 && (
+            <fieldset className="product-personalization-options">
+              <legend>Estilo de tipografía</legend>
+              <div>
+                {fontOptions.map((option) => (
+                  <button
+                    aria-pressed={font === option}
+                    className={font === option ? 'is-selected' : ''}
+                    key={option}
+                    onClick={() => setFont(option)}
+                    type="button"
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+          )}
+          {motifOptions.length > 0 && (
+            <fieldset className="product-personalization-options">
+              <legend>Detalle o motivo grabado</legend>
+              <div>
+                {motifOptions.map((option) => (
+                  <button
+                    aria-pressed={motif === option}
+                    className={motif === option ? 'is-selected' : ''}
+                    key={option}
+                    onClick={() => setMotif(option)}
+                    type="button"
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+          )}
+          {personalizationConfig.artisanNoteEnabled && (
+            <label className="product-personalization-note" htmlFor="artisan-note">
+              {personalizationConfig.artisanNoteLabel || 'Indicaciones para el artesano'}
+              <textarea
+                id="artisan-note"
+                onChange={(event) => setArtisanNote(event.target.value)}
+                placeholder={personalizationConfig.artisanNotePlaceholder || ''}
+                rows={2}
+                value={artisanNote}
+              />
+            </label>
+          )}
         </div>
       )}
       <AddToCartButton
@@ -133,9 +253,7 @@ export function ProductForm({
                   merchandiseId: selectedVariant.id,
                   quantity: 1,
                   selectedVariant,
-                  attributes: customText.trim()
-                    ? [{key: 'Personalización', value: customText.trim()}]
-                    : [],
+                  attributes: personalizationAttributes,
                 },
               ]
             : []

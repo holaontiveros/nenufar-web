@@ -1,6 +1,6 @@
 # Product-page Shopify data model
 
-This is the approved schema for the future Nenúfar product-page rebuild. The definitions below and one personalized reference seed were created in the development store on 2026-09-10; the storefront UI has not yet been changed to query them.
+This is the approved schema for the Nenúfar product-page rebuild. The definitions below and one personalized reference seed were created in the development store on 2026-09-10. The product page reads the personalization configuration and submits its configured values as cart-line attributes; the remaining details, process, shipping, care, and related-product sections remain pending.
 
 ## Existing product metafields to retain
 
@@ -80,7 +80,7 @@ The clearly labelled development-only product `dev-caja-haya-blank-20260910` pro
 
 ## Customer personalization data
 
-The product form must submit these cart-line attributes when the corresponding configuration input is present:
+The product form renders only when both `allow_custom_text` is `true` and `personalization_config` resolves to a public metaobject. It submits these cart-line attributes when the corresponding configuration input is present:
 
 | Attribute | Source |
 | --- | --- |
