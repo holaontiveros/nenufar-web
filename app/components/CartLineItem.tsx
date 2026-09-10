@@ -109,7 +109,7 @@ export function CartLineItem({
   );
 }
 
-function getCollectionLabel(tags: string[]) {
+function getCollectionLabel(tags: string[] = []) {
   const labels: Record<string, string> = {
     madre: 'Día de la Madre',
     padre: 'Día del Padre',
