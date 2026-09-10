@@ -23,9 +23,12 @@ tag:
 | Día del Padre | `dia-del-padre` | `padre` |
 | Día del Maestro | `dia-del-maestro` | `maestro` |
 | Navidad & Fin de Año | `navidad-fin-de-ano` | `navidad` |
+| Bodas & Eventos Especiales | `bodas-eventos-especiales` | `bodas` |
 
 Home-page cards link to `/collections/<handle>`. The existing `/catalogo`
-page remains the all-products browsing view during this migration.
+page derives its seasonal tabs from those native collections. The legacy
+`custom.catalog_id` and `custom.catalog_name` product metafields are retired
+from new imports and storefront reads.
 
 ## Alternatives considered
 
@@ -40,6 +43,10 @@ page remains the all-products browsing view during this migration.
 Merchandising can be managed in Shopify Admin through product tags and
 collections. Native collection URLs can later receive collection-specific
 SEO content and imagery without another data-model migration.
+
+Existing legacy metafield values are retained until the deployed collection
+backed catalogue is validated. Their destructive removal is a separate,
+explicitly approved cleanup chunk.
 
 ## Risks and rollback
 

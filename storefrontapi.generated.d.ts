@@ -502,24 +502,36 @@ export type NenufarCatalogQueryVariables = StorefrontAPI.Exact<{
 }>;
 
 export type NenufarCatalogQuery = {
-  products: {
+  collections: {
     nodes: Array<
-      Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle' | 'description'> & {
-        featuredImage?: StorefrontAPI.Maybe<
-          Pick<
-            StorefrontAPI.Image,
-            'id' | 'url' | 'altText' | 'width' | 'height'
-          >
-        >;
-        priceRange: {
-          minVariantPrice: Pick<
-            StorefrontAPI.MoneyV2,
-            'amount' | 'currencyCode'
+      Pick<StorefrontAPI.Collection, 'title' | 'handle'> & {
+        products: {
+          nodes: Array<
+            Pick<
+              StorefrontAPI.Product,
+              'id' | 'title' | 'handle' | 'description'
+            > & {
+              featuredImage?: StorefrontAPI.Maybe<
+                Pick<
+                  StorefrontAPI.Image,
+                  'id' | 'url' | 'altText' | 'width' | 'height'
+                >
+              >;
+              priceRange: {
+                minVariantPrice: Pick<
+                  StorefrontAPI.MoneyV2,
+                  'amount' | 'currencyCode'
+                >;
+              };
+              technique?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.Metafield, 'value'>
+              >;
+              leadTime?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.Metafield, 'value'>
+              >;
+            }
           >;
         };
-        metafields: Array<
-          StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'key' | 'value'>>
-        >;
       }
     >;
   };
@@ -1262,7 +1274,7 @@ interface GeneratedQueryTypes {
     return: BlogsQuery;
     variables: BlogsQueryVariables;
   };
-  '#graphql\n  query NenufarCatalog($country: CountryCode, $language: LanguageCode) @inContext(country: $country, language: $language) {\n    products(first: 100, sortKey: TITLE) { nodes { id title handle description featuredImage { id url altText width height } priceRange { minVariantPrice { amount currencyCode } }\n      metafields(identifiers: [{namespace: "custom", key: "catalog_name"} {namespace: "custom", key: "technique"} {namespace: "custom", key: "lead_time"}]) { key value }\n    }}\n  }\n': {
+  '#graphql\n  query NenufarCatalog($country: CountryCode, $language: LanguageCode) @inContext(country: $country, language: $language) {\n    collections(first: 100) { nodes { title handle products(first: 100, sortKey: TITLE) { nodes {\n      id title handle description featuredImage { id url altText width height } priceRange { minVariantPrice { amount currencyCode } }\n      technique: metafield(namespace: "custom", key: "technique") { value }\n      leadTime: metafield(namespace: "custom", key: "lead_time") { value }\n    } } } }\n  }\n': {
     return: NenufarCatalogQuery;
     variables: NenufarCatalogQueryVariables;
   };
