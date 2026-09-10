@@ -13,7 +13,7 @@ Complete the current Nenúfar homepage's long-form visual experience after the p
 ## Decisions
 
 - This is presentation-only. Real Shopify catalogue, product personalization, cart, and checkout are unchanged.
-- The quote prompt uses a non-production `mailto:` placeholder because no verified WhatsApp or contact endpoint is configured. It must be replaced with approved contact details before production.
+- The quote prompt initially used a non-production placeholder. The approved WhatsApp endpoint is supplied in the follow-up contact-configuration change record.
 
 ## Files modified
 
