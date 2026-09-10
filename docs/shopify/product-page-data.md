@@ -1,6 +1,6 @@
 # Product-page Shopify data model
 
-This is the approved schema for the Nenúfar product-page rebuild. The definitions below and one personalized reference seed were created in the development store on 2026-09-10. The product page reads the personalization configuration and submits its configured values as cart-line attributes; the remaining details, process, shipping, care, and related-product sections remain pending.
+This is the approved schema for the Nenúfar product-page rebuild. The definitions below and one personalized reference seed were created in the development store on 2026-09-10. The product page reads the personalization configuration, product-detail fields, and workshop-step references; related products remain pending.
 
 ## Existing product metafields to retain
 

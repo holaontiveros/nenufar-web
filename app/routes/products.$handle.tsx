@@ -12,6 +12,7 @@ import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
 import type {PersonalizationConfig} from '~/components/ProductForm';
+import {ProductDetailsTabs, type ProductProcessStep} from '~/components/ProductDetailsTabs';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import type {RootLoader} from '~/root';
 import {WhatsAppIcon} from '~/components/WhatsAppIcon';
@@ -118,29 +119,53 @@ export default function Product() {
           textPlaceholder: personalizationReference.textPlaceholder?.value,
         }
       : null;
+  const processSteps: ProductProcessStep[] =
+    product.makingProcess?.references?.nodes.flatMap((reference) =>
+      reference
+        ? [{
+            body: reference.body?.value ?? '',
+            position: reference.position?.value ?? '',
+            title: reference.title?.value ?? '',
+          }]
+        : [],
+    )
+      .filter((step) => step.title && step.body) ?? [];
   const whatsappUrl = rootData?.whatsappUrl ?? null;
 
   return (
-    <div className="product nenufar-product-page">
-      <div className="nenufar-product-gallery">
-        {product.badge?.value && <span className="nenufar-product-badge">{product.badge.value}</span>}
-        <ProductImage image={selectedVariant?.image} images={product.images.nodes} />
-        <p className="nenufar-product-gallery-note">{selectedVariant?.availableForSale ? '✓ Disponible para confección' : 'Consulta disponibilidad'}</p>
+    <>
+      <div className="product nenufar-product-page">
+        <div className="nenufar-product-gallery">
+          {product.badge?.value && <span className="nenufar-product-badge">{product.badge.value}</span>}
+          <ProductImage image={selectedVariant?.image} images={product.images.nodes} />
+          <p className="nenufar-product-gallery-note">{selectedVariant?.availableForSale ? '✓ Disponible para confección' : 'Consulta disponibilidad'}</p>
+        </div>
+        <div className="product-main nenufar-product-main">
+          <div className="nenufar-product-meta"><span>{product.materialLabel?.value || (isPersonalized ? 'Pieza personalizada' : 'Insumo listo para usar')}</span>{product.technique?.value && <small>{product.technique.value}</small>}</div>
+          <h1>{title}</h1>
+          <div className="nenufar-product-price-panel"><div><ProductPrice price={selectedVariant?.price} compareAtPrice={selectedVariant?.compareAtPrice} /><small>Precios de taller artesanal · IVA incluido</small></div><div className="nenufar-product-availability"><b>{selectedVariant?.availableForSale ? '● Disponible' : '● Agotado'}</b>{product.leadTime?.value && <span>◷ {product.leadTime.value}</span>}</div></div>
+          <div className="nenufar-product-description"><div dangerouslySetInnerHTML={{__html: descriptionHtml}} /></div>
+          <ProductForm
+            productOptions={productOptions}
+            selectedVariant={selectedVariant}
+            allowCustomText={isPersonalized}
+            personalizationConfig={personalizationConfig}
+          />
+          {whatsappUrl && <a className="nenufar-product-whatsapp" href={whatsappUrl} target="_blank" rel="noreferrer"><WhatsAppIcon /> Consultar por WhatsApp</a>}
+          <ul className="nenufar-product-assurances"><li>Pago protegido mediante Shopify.</li><li>Atención del taller para cada pedido.</li></ul>
+        </div>
       </div>
-      <div className="product-main nenufar-product-main">
-        <div className="nenufar-product-meta"><span>{product.materialLabel?.value || (isPersonalized ? 'Pieza personalizada' : 'Insumo listo para usar')}</span>{product.technique?.value && <small>{product.technique.value}</small>}</div>
-        <h1>{title}</h1>
-        <div className="nenufar-product-price-panel"><div><ProductPrice price={selectedVariant?.price} compareAtPrice={selectedVariant?.compareAtPrice} /><small>Precios de taller artesanal · IVA incluido</small></div><div className="nenufar-product-availability"><b>{selectedVariant?.availableForSale ? '● Disponible' : '● Agotado'}</b>{product.leadTime?.value && <span>◷ {product.leadTime.value}</span>}</div></div>
-        <div className="nenufar-product-description"><div dangerouslySetInnerHTML={{__html: descriptionHtml}} /></div>
-        <ProductForm
-          productOptions={productOptions}
-          selectedVariant={selectedVariant}
-          allowCustomText={isPersonalized}
-          personalizationConfig={personalizationConfig}
-        />
-        {whatsappUrl && <a className="nenufar-product-whatsapp" href={whatsappUrl} target="_blank" rel="noreferrer"><WhatsAppIcon /> Consultar por WhatsApp</a>}
-        <ul className="nenufar-product-assurances"><li>Pago protegido mediante Shopify.</li><li>Atención del taller para cada pedido.</li></ul>
-      </div>
+      <ProductDetailsTabs
+        careGuide={product.careGuide?.value}
+        dimensions={product.dimensions?.value}
+        materials={product.materials?.value}
+        packageIncludes={product.packageIncludes?.value}
+        packagingDetails={product.packagingDetails?.value}
+        processSteps={processSteps}
+        shippingDetails={product.shippingDetails?.value}
+        technique={product.technique?.value}
+        weight={product.weight?.value}
+      />
       <Analytics.ProductView
         data={{
           products: [
@@ -156,7 +181,7 @@ export default function Product() {
           ],
         }}
       />
-    </div>
+    </>
   );
 }
 
@@ -251,6 +276,44 @@ const PRODUCT_FRAGMENT = `#graphql
       value
     }
     leadTime: metafield(namespace: "custom", key: "lead_time") {
+      value
+    }
+    dimensions: metafield(namespace: "custom", key: "dimensions") {
+      value
+    }
+    weight: metafield(namespace: "custom", key: "weight") {
+      value
+    }
+    materials: metafield(namespace: "custom", key: "materials") {
+      value
+    }
+    packageIncludes: metafield(namespace: "custom", key: "package_includes") {
+      value
+    }
+    makingProcess: metafield(namespace: "custom", key: "making_process") {
+      references(first: 10) {
+        nodes {
+          ... on Metaobject {
+            body: field(key: "body") {
+              value
+            }
+            position: field(key: "position") {
+              value
+            }
+            title: field(key: "title") {
+              value
+            }
+          }
+        }
+      }
+    }
+    shippingDetails: metafield(namespace: "custom", key: "shipping_details") {
+      value
+    }
+    packagingDetails: metafield(namespace: "custom", key: "packaging_details") {
+      value
+    }
+    careGuide: metafield(namespace: "custom", key: "care_guide") {
       value
     }
     personalizationEnabled: metafield(namespace: "custom", key: "allow_custom_text") {

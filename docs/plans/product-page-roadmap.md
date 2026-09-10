@@ -28,8 +28,8 @@ Build a Shopify Hydrogen product page with distinct personalized and non-persona
 
 ### 4. Add tabbed product details
 
-- Render Materials & Dimensions, Workshop Process, Shipping & Packaging, and Care Guide only when their relevant data exists.
-- Support keyboard-accessible tab navigation and responsive card layouts.
+- Status: complete. The four conditional detail tabs read the approved product metafields and workshop-step references.
+- The tab list and active panel use the corresponding ARIA tab roles; card layouts collapse responsively.
 
 ### 5. Add same-collection related products
 
