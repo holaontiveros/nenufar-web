@@ -66,7 +66,10 @@ Create the required `custom` Product metafield definitions with public storefron
 | `badge` | Short product-image label. |
 | `is_popular` | Optional featured label. |
 | `allow_custom_text` | Current personalized (`true`) versus non-personalized (`false`) switch. |
-| `custom_text_placeholder` | Existing simple personalization input placeholder during migration. |
+| `material_label`, `dimensions`, `weight` | Product hero and materials/dimensions tab. |
+| `package_includes`, `shipping_details`, `packaging_details`, `care_guide` | Product detail tabs. |
+| `making_process`, `personalization_config` | References to the required public metaobject entries. |
+| `custom_text_placeholder` | Legacy import field; structured personalization reads `personalization_config`. |
 
 See `docs/shopify/metafields.md` for the existing demo import mapping.
 
@@ -86,14 +89,12 @@ See `docs/shopify/faq-metaobjects.md`.
 
 See `docs/shopify/contact-metafields.md`.
 
-### 6. Future product-page data
-
-Do this only after the corresponding product-page data chunk is approved and ready to implement:
+### 6. Product-page rich data
 
 1. Create `product_personalization` and `product_process_step` metaobject definitions with public storefront read access.
 2. Create the new product metafield definitions and populate merchant-verified values.
-3. Seed one personalized and one non-personalized representative product before enabling the new UI.
-4. Verify all referenced entries and values through Storefront API.
+3. Create reusable personalization and workshop-step entries, then assign the reference metafields to representative personalized products.
+4. Verify all referenced entries and values through Storefront API before publishing to the Hydrogen channel.
 
 The exact definitions, formats, and migration order are in `docs/shopify/product-page-data.md`.
 
@@ -120,11 +121,8 @@ The exact definitions, formats, and migration order are in `docs/shopify/product
 
 ## Pending decisions and known prerequisites
 
-- Finish the product-page roadmap in `docs/plans/product-page-roadmap.md` before treating its planned data schema as a release requirement.
-- Choose the related-products selection rule for products in multiple collections.
 - Approve a verified source before rendering reviews, rating averages, delivery counts, or other social-proof claims.
 - Decide the source of customer-facing availability and express-delivery wording.
-- Confirm direct-checkout behavior for the new product page.
 - Fix the existing ESLint Jest/Vitest configuration issue before making lint a release gate; `npm test`, typecheck, and production build currently provide the project’s runnable checks.
 
 ## Rollback

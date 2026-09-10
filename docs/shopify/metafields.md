@@ -1,22 +1,36 @@
-# Metafields de producto para Nenúfar
+# Shopify product custom data for Nenúfar
 
-Antes de importar el CSV, crea estas definiciones en **Settings > Custom data > Products**. Todas usan el namespace `custom`.
+Create the following Product definitions in **Settings > Custom data > Products** before importing data. All use the `custom` namespace and must allow public Storefront API access.
 
-| Nombre | Key | Tipo | Obligatorio para la UI | Uso |
-| --- | --- | --- | --- | --- |
-| Técnica | `technique` | Texto de una línea | Sí | Técnica mostrada y filtro por técnica. |
-| Materiales | `materials` | Texto de varias líneas | Sí | Resumen de materiales en la ficha. |
-| Tiempo de producción | `lead_time` | Texto de una línea | Sí | Tiempo de taller mostrado al cliente. |
-| Badge | `badge` | Texto de una línea | Sí | Etiqueta breve sobre la imagen. |
-| Destacado | `is_popular` | Verdadero o falso | No | Muestra la etiqueta «Más vendido». |
-| Permite personalización | `allow_custom_text` | Verdadero o falso | Sí | Activa el campo de texto personalizado. |
-| Indicaciones de personalización | `custom_text_placeholder` | Texto de una línea | No | Ejemplo dentro del campo de personalización. |
+| Name | Key | Type | Product-page use |
+| --- | --- | --- | --- |
+| Technique | `technique` | Single-line text | Technique label and catalogue filter. |
+| Materials | `materials` | Multi-line text | Materials detail card. |
+| Production time | `lead_time` | Single-line text | Customer-facing lead-time copy. |
+| Badge | `badge` | Single-line text | Short image-overlay label. |
+| Featured | `is_popular` | True/false | Optional featured label. |
+| Allows personalization | `allow_custom_text` | True/false | Canonical personalized (`true`) / non-personalized (`false`) switch. |
+| Legacy personalization placeholder | `custom_text_placeholder` | Single-line text | Retained for older imports; not used by the structured product form. |
+| Material label | `material_label` | Single-line text | Hero material/category pill. |
+| Dimensions | `dimensions` | Multi-line text | Materials & dimensions tab. |
+| Approximate weight | `weight` | Single-line text | Materials & dimensions tab. |
+| Package includes | `package_includes` | List of single-line text | Package-contents card. |
+| Workshop process | `making_process` | List of metaobject references to `product_process_step` | Workshop tab. |
+| Shipping details | `shipping_details` | Multi-line text | Shipping & packaging tab. |
+| Packaging details | `packaging_details` | Multi-line text | Shipping & packaging tab. |
+| Care guide | `care_guide` | Multi-line text | Care tab. |
+| Personalization configuration | `personalization_config` | Metaobject reference to `product_personalization` | Required for structured personalized products. |
 
-## Importación del CSV demo
+## Required metaobjects
 
-1. Crea las definiciones anteriores con exactamente el namespace y keys indicados. Las colecciones estacionales se administran como colecciones automáticas de Shopify según sus tags, no con metafields de catálogo.
-2. Importa `nenufar-demo-products.csv` desde **Products > Import**. El archivo usa UTF-8 y contiene productos, variantes, imágenes externas y valores de metafields.
-3. Revisa que el canal usado por la web publique los productos y permita acceso mediante Storefront API.
-4. Sustituye los datos e imágenes demo directamente en Shopify cuando estén disponibles. La web consulta el catálogo en cada carga y no requiere cambios de código para reflejarlos.
+Create public, merchant-managed definitions for `product_personalization` and `product_process_step` before linking their entries through the two reference metafields. Field definitions, expected values, and the production migration order are in [product-page-data.md](product-page-data.md).
 
-Los IDs de SKU del CSV son identificadores demo y no son IDs de variantes Shopify. Shopify generará los IDs GraphQL reales al importar; la web los consulta automáticamente mediante la API.
+## Demo CSV import
+
+1. Import [nenufar-demo-products.csv](nenufar-demo-products.csv) through **Products > Import**. It is UTF-8 and contains products, variants, external demo images, and the original CSV-compatible scalar metafields: `technique`, `materials`, `lead_time`, `badge`, `is_popular`, `allow_custom_text`, and `custom_text_placeholder`.
+2. Native Shopify collections—not catalogue metafields—classify seasonal catalogue content. Add imported products to the intended collections after import.
+3. The CSV cannot create `product_personalization` or `product_process_step` entries, nor safely populate their reference metafields. Create these entries and assign `personalization_config` / `making_process` in Shopify Admin after the import.
+4. Add the remaining product-page fields from the table above with merchant-verified data, then publish the products to the storefront channel.
+5. Replace demo copy, prices, images, and SKUs directly in Shopify before production. The storefront reads the configured store, so no code change is needed for content updates.
+
+Demo SKUs are not Shopify variant IDs. Shopify creates the real GraphQL IDs on import; the storefront queries them automatically.

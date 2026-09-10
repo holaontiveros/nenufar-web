@@ -14,17 +14,14 @@ Build a Shopify Hydrogen product page with distinct personalized and non-persona
 
 ### 2. Rebuild the product-page top section
 
-- Build responsive media gallery, labels, price/availability summary, real variant controls, quantity, cart action, direct Shopify checkout, and WhatsApp action.
-- Render a non-personalized product without customization controls.
-- Render a personalized product only when both `allow_custom_text` and a valid personalization configuration are present.
-- Preserve current Storefront Cart API behavior and checkout URL.
+- Status: complete. The page has a responsive media gallery, labels, price/availability summary, real variant controls, quantity/subtotal, Add to Cart, and WhatsApp action.
+- Direct “Buy now” is intentionally omitted; the approved customer flow is Add to Cart, then the existing cart and Shopify checkout URL.
+- Personalized products render their form only with both `allow_custom_text` and a valid personalization configuration; non-personalized products do not.
 
 ### 3. Add structured personalization controls
 
-- Render the configured text, typography, motif, preview, and artisan-note controls.
-- Enforce the configured character limit.
-- Submit choices as documented Shopify cart-line attributes.
-- Add regression coverage for variant changes and cart submission with and without personalization.
+- Status: complete. Configured text, typography, motif, preview, and artisan-note controls enforce the configured text limit and submit cart-line attributes.
+- Regression tests cover the attribute and subtotal payload builders. Full browser-level variant/cart interaction coverage remains a future quality enhancement.
 
 ### 4. Add tabbed product details
 
@@ -38,7 +35,7 @@ Build a Shopify Hydrogen product page with distinct personalized and non-persona
 
 ## Decisions still needed before implementation
 
-- **Product reviews:** the references show ratings and order counts, but no verified review provider or source exists. Do not render these claims until a data source is approved.
+- **Product reviews:** explicitly deferred. Do not render ratings, order counts, or other social-proof claims until a verified source is approved.
 - **Availability wording:** decide whether badge/promotional delivery copy is manually managed product content or generated strictly from Shopify inventory and `lead_time`.
 - **Media badges:** decide whether image-overlay badges continue to use `custom.badge` only or need a separate list/structured model.
 - **Direct checkout behavior:** confirm whether “Comprar ahora en Shopify” should replace the current cart, add the selected item and redirect to the real cart checkout, or use a dedicated one-item cart flow.
