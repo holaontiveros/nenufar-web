@@ -2,10 +2,28 @@ import type {Route} from './+types/_index';
 import {NenufarStory} from '~/components/NenufarStory';
 import {WHATSAPP_URL} from '~/lib/contact';
 import {WhatsAppIcon} from '~/components/WhatsAppIcon';
+import {useLoaderData} from 'react-router';
 
 export const meta: Route.MetaFunction = () => [{title: 'Nenúfar | Regalos personalizados'}];
 
+export async function loader({context}: Route.LoaderArgs) {
+  const {storefront} = context;
+  const {metaobjects} = await storefront.query(FAQ_QUERY, {
+    cache: storefront.CacheLong(),
+  });
+
+  return {
+    faqs: metaobjects.nodes.flatMap((faq) => {
+      const question = faq.question?.value;
+      const answer = faq.answer?.value;
+      return question && answer ? [{question, answer}] : [];
+    }),
+  };
+}
+
 export default function Homepage() {
+  const {faqs} = useLoaderData<typeof loader>();
+
   return <>
     <section className="nenufar-hero"><div className="nenufar-hero__orb nenufar-hero__orb--pink" /><div className="nenufar-hero__orb nenufar-hero__orb--purple" />
       <div className="nenufar-shell nenufar-hero__content"><p className="hero-pill"><i /> <strong>nenúfar taller activo</strong> <span>•</span> Catálogos y regalos personalizados ✦</p>
@@ -15,6 +33,22 @@ export default function Homepage() {
         <div className="hero-trust"><span>✓ Compra segura en Shopify</span><span>♢ Personalización incluida</span><span>⌁ Hecho en el taller</span></div>
       </div>
     </section>
-    <NenufarStory />
+    <NenufarStory faqs={faqs} />
   </>;
 }
+
+const FAQ_QUERY = `#graphql
+  query HomepageFaqs {
+    metaobjects(type: "faq_item", first: 20) {
+      nodes {
+        handle
+        question: field(key: "question") {
+          value
+        }
+        answer: field(key: "answer") {
+          value
+        }
+      }
+    }
+  }
+` as const;
