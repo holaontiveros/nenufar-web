@@ -2,5 +2,5 @@
   "name": "nenúfar - Regalos Personalizados",
   "description": "Tienda boutique de regalos personalizados y catálogos de temporada con integración a Shopify, grabado láser, sublimación, textiles y piezas a medida.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": []
 }

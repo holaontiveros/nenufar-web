@@ -1,20 +1,16 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Nenúfar Web
 
-# Run and deploy your AI Studio app
+Landing de catálogo y compra para regalos personalizados.
 
-This contains everything you need to run your app locally.
+## Desarrollo local
 
-View your app in AI Studio: https://ai.studio/apps/558bad6d-0bff-4533-b6a6-f18ddb6da60b
+1. Instala las dependencias con `npm install`.
+2. Copia `.env.example` a `.env.local` y configura el dominio y token público de Storefront API.
+3. Ejecuta `npm run dev`.
 
-## Run Locally
+## Validación
 
-**Prerequisites:**  Node.js
+- `npm run lint`
+- `npm run build`
 
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+La aplicación puede mostrar el catálogo semilla durante desarrollo, pero las operaciones de carrito y pago requieren las variables de Shopify configuradas.
