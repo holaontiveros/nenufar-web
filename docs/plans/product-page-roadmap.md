@@ -33,13 +33,11 @@ Build a Shopify Hydrogen product page with distinct personalized and non-persona
 
 ### 5. Add same-collection related products
 
-- Query and render other products from the selected native collection.
-- Exclude the current product and link all cards and images to their products.
-- Link the section action to `/catalogo?collection=<collection-handle>`.
+- Status: complete. The section uses the first collection returned for the current product, excludes the current product, and renders up to three linked cards.
+- The section action routes to `/catalogo?collection=<collection-handle>`.
 
 ## Decisions still needed before implementation
 
-- **Multiple collections:** choose how the related-products section selects a collection when a product belongs to more than one. Recommended default: prefer a seasonal collection used by the catalogue, then use the first remaining storefront-visible collection.
 - **Product reviews:** the references show ratings and order counts, but no verified review provider or source exists. Do not render these claims until a data source is approved.
 - **Availability wording:** decide whether badge/promotional delivery copy is manually managed product content or generated strictly from Shopify inventory and `lead_time`.
 - **Media badges:** decide whether image-overlay badges continue to use `custom.badge` only or need a separate list/structured model.

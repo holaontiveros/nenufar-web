@@ -1,6 +1,6 @@
 # Product-page Shopify data model
 
-This is the approved schema for the Nenúfar product-page rebuild. The definitions below and one personalized reference seed were created in the development store on 2026-09-10. The product page reads the personalization configuration, product-detail fields, and workshop-step references; related products remain pending.
+This is the approved schema for the Nenúfar product-page rebuild. The definitions below and one personalized reference seed were created in the development store on 2026-09-10. The product page reads the personalization configuration, product-detail fields, workshop-step references, and related products.
 
 ## Existing product metafields to retain
 
@@ -93,9 +93,7 @@ These attributes use Shopify's existing cart and checkout path; no Admin token, 
 
 ## Related products
 
-Related cards use the current product's native Shopify collection membership. The selected collection provides both the other products and the `/catalogo?collection=<handle>` link. No product metafield is required for this feature.
-
-If a product belongs to more than one collection, the selection rule is pending before implementation. See `docs/plans/product-page-roadmap.md`.
+Related cards use the first collection returned by the current product's native Shopify collection membership. That collection provides the other products and the `/catalogo?collection=<handle>` link. No product metafield is required for this feature. See `docs/architecture/ADR-2026-09-10-related-products-first-collection.md`.
 
 ## Migration checklist
 

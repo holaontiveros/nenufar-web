@@ -1,8 +1,10 @@
-import {redirect, useLoaderData, useRouteLoaderData} from 'react-router';
+import {Link, redirect, useLoaderData, useRouteLoaderData} from 'react-router';
 import type {Route} from './+types/products.$handle';
 import {
   getSelectedProductOptions,
   Analytics,
+  Image,
+  Money,
   useOptimisticVariant,
   getProductOptions,
   getAdjacentAndFirstAvailableVariants,
@@ -130,6 +132,11 @@ export default function Product() {
         : [],
     )
       .filter((step) => step.title && step.body) ?? [];
+  const relatedCollection = product.collections.nodes[0];
+  const relatedProducts =
+    relatedCollection?.products.nodes
+      .filter((relatedProduct) => relatedProduct.id !== product.id)
+      .slice(0, 3) ?? [];
   const whatsappUrl = rootData?.whatsappUrl ?? null;
 
   return (
@@ -166,6 +173,43 @@ export default function Product() {
         technique={product.technique?.value}
         weight={product.weight?.value}
       />
+      {relatedCollection && relatedProducts.length > 0 && (
+        <section className="related-products" aria-labelledby="related-products-heading">
+          <div className="related-products-heading">
+            <div>
+              <span>Colección completa</span>
+              <h2 id="related-products-heading">Otras piezas de {relatedCollection.title}</h2>
+            </div>
+            <Link to={`/catalogo?collection=${relatedCollection.handle}`}>
+              Ver catálogo completo →
+            </Link>
+          </div>
+          <div className="related-products-grid">
+            {relatedProducts.map((relatedProduct) => (
+              <Link
+                className="related-product-card"
+                key={relatedProduct.id}
+                prefetch="intent"
+                to={`/products/${relatedProduct.handle}`}
+              >
+                {relatedProduct.featuredImage && (
+                  <Image
+                    alt={relatedProduct.featuredImage.altText || relatedProduct.title}
+                    aspectRatio="1/1"
+                    data={relatedProduct.featuredImage}
+                    loading="lazy"
+                    sizes="(min-width: 45em) 33vw, 100vw"
+                  />
+                )}
+                <h3>{relatedProduct.title}</h3>
+                <p>{relatedProduct.description}</p>
+                <strong><Money data={relatedProduct.priceRange.minVariantPrice} /></strong>
+                <span>Ver pieza →</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
       <Analytics.ProductView
         data={{
           products: [
@@ -235,6 +279,33 @@ const PRODUCT_FRAGMENT = `#graphql
         id
         url
         altText
+      }
+    }
+    collections(first: 1) {
+      nodes {
+        handle
+        title
+        products(first: 4) {
+          nodes {
+            id
+            handle
+            title
+            description
+            featuredImage {
+              altText
+              height
+              id
+              url
+              width
+            }
+            priceRange {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
+            }
+          }
+        }
       }
     }
     encodedVariantExistence
