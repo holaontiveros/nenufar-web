@@ -28,7 +28,7 @@ export function CartLineItem({
   childrenMap: LineItemChildrenMap;
 }) {
   const {id, merchandise} = line;
-  const {product, title, image, selectedOptions} = merchandise;
+  const {product, title, image, selectedOptions = []} = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
   const {close} = useAside();
   const lineItemChildren = childrenMap[id];
@@ -71,7 +71,7 @@ export function CartLineItem({
                 </small>
               </li>
             ))}
-            {line.attributes.map((attribute) => (
+            {(line.attributes ?? []).map((attribute) => (
               <li key={attribute.key}>
                 <small>
                   {attribute.key}: {attribute.value}
