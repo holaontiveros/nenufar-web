@@ -385,7 +385,7 @@ export type NenufarCatalogQueryVariables = StorefrontAPI.Exact<{
 export type NenufarCatalogQuery = {
   products: {
     nodes: Array<
-      Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle'> & {
+      Pick<StorefrontAPI.Product, 'id' | 'title' | 'handle' | 'description'> & {
         featuredImage?: StorefrontAPI.Maybe<
           Pick<
             StorefrontAPI.Image,
@@ -1250,7 +1250,7 @@ interface GeneratedQueryTypes {
     return: FooterQuery;
     variables: FooterQueryVariables;
   };
-  '#graphql\n  query NenufarCatalog($country: CountryCode, $language: LanguageCode)\n    @inContext(country: $country, language: $language) {\n    products(first: 100, sortKey: TITLE) {\n      nodes {\n        id\n        title\n        handle\n        featuredImage {\n          id\n          url\n          altText\n          width\n          height\n        }\n        priceRange {\n          minVariantPrice {\n            amount\n            currencyCode\n          }\n        }\n        metafields(identifiers: [\n          {namespace: "custom", key: "catalog_name"}\n          {namespace: "custom", key: "technique"}\n          {namespace: "custom", key: "lead_time"}\n        ]) {\n          key\n          value\n        }\n      }\n    }\n  }\n': {
+  '#graphql\n  query NenufarCatalog($country: CountryCode, $language: LanguageCode) @inContext(country: $country, language: $language) {\n    products(first: 100, sortKey: TITLE) { nodes {\n      id title handle description\n      featuredImage { id url altText width height }\n      priceRange { minVariantPrice { amount currencyCode } }\n      metafields(identifiers: [\n        {namespace: "custom", key: "catalog_name"}\n        {namespace: "custom", key: "technique"}\n        {namespace: "custom", key: "lead_time"}\n      ]) { key value }\n    }}\n  }\n': {
     return: NenufarCatalogQuery;
     variables: NenufarCatalogQueryVariables;
   };
