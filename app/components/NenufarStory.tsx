@@ -1,14 +1,18 @@
 import {WhatsAppIcon} from '~/components/WhatsAppIcon';
 
-const collections = [
-  ['Día de la Madre', 'Piezas que abrazan con afecto, luz y memoria', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1513519245088-0e12902e5a38.jpg?v=1789051498', 'dia-de-la-madre'],
-  ['Día del Padre', 'Carácter, maestría y detalles hechos para durar', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1519751138087-5bf79df62d5b.jpg?v=1789051519', 'dia-del-padre'],
-  ['Día del Maestro', 'Gratitud genuina para quienes enseñan con el corazón', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1456513080510-7bf3a84b82f8.jpg?v=1789051528', 'dia-del-maestro'],
-  ['Navidad & Fin de Año', 'Brillo festivo, recuerdos familiares y regalos de empresa', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1512909006721-3d6018887383.jpg?v=1789051539', 'navidad-fin-de-ano'],
-];
+type CollectionCard = {
+  id: string;
+  title: string;
+  handle: string;
+  image?: {url: string; altText?: string | null};
+  description?: string;
+  catalogName?: string;
+  catalogHandle?: string;
+};
+
 const techniques = [
   ['Corte y Grabado Láser', 'Precisión milimétrica sobre madera, acrílico, cuero y metal.', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1513519245088-0e12902e5a38.jpg?v=1789051498'],
-  ['Sublimación Cerámica & Térmica HD', 'Color vivo, durable y con acabado integrado.', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1514432324607-a09d9b4aefdd.jpg?v=1789051501'],
+  ['Sublimación Cerámica & Térmica HD', 'Color vivo, durable y con acabado integrado.', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1514432324607-a09aefdd.jpg?v=1789051501'],
   ['Camisas & Textiles Personalizados', 'DTF y vinil textil para una pieza o tirajes completos.', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1597484661643-2f5fef640dd1.jpg?v=1789051504'],
   ['Vinil, Adhesivo & Stickers', 'Troquelado exacto y acabados resistentes al uso diario.', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1607604276583-eef5d076aa5f.jpg?v=1789051526'],
 ];
@@ -17,18 +21,20 @@ const projects = [
   ['Libro de Firmas y Recuerdos en Madera Grabada', 'Boda en Jardín & Aniversario', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1513519245088-0e12902e5a38_6a8b6313-1eb1-45d4-9600-93c78fb7508d.jpg?v=1789051543'],
   ['Camisas Familiares y Termos', 'Bodas de Oro & Celebración Familiar', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1597484661643-2f5fef640dd1.jpg?v=1789051504'],
 ];
-const reviews = [['“La atención fue hermosa y el joyero quedó todavía más especial de lo que imaginaba.”', 'Mariana R. · Regalo personal'], ['“Cumplieron el tiempo de entrega y cada pieza llegó perfecta para nuestro equipo.”', 'Lucía M. · Empresa / B2B']];
+const reviews = [['"La atención fue hermosa y el joyero quedó todavía más especial de lo que imaginaba."', 'Mariana R. · Regalo personal'], ['"Cumplieron el tiempo de entrega y cada pieza llegó perfecta para nuestro equipo."', 'Lucía M. · Empresa / B2B']];
 type FaqItem = {question: string; answer: string};
 
 export function NenufarStory({
   faqs,
+  collections,
   whatsappUrl,
 }: {
   faqs: FaqItem[];
+  collections: CollectionCard[];
   whatsappUrl: string | null;
 }) {
   return <>
-    <section id="catalogos" className="story-section"><div className="nenufar-shell"><StoryHeading eyebrow="Colecciones & catálogos Nenúfar" title="Puertas visuales a regalos que emocionan" copy="Cada fecha especial merece una atmósfera y materiales únicos." /><div className="story-grid story-grid--two">{collections.map(([name, copy, image, handle]) => <article className="story-card story-card--collection" key={name}><a aria-label={`Ver productos de ${name}`} className="story-card__image-link" href={`/catalogo?collection=${handle}`}><img src={image} alt="" /></a><div><span>Temporada Nenúfar</span><h3>{name}</h3><p>«{copy}»</p><a href={`/catalogo?collection=${handle}`}>Ver productos de esta colección →</a></div></article>)}</div></div></section>
+    <section id="catalogos" className="story-section"><div className="nenufar-shell"><StoryHeading eyebrow="Colecciones & catálogos Nenúfar" title="Puertas visuales a regalos que emocionan" copy="Cada fecha especial merece una atmósfera y materiales únicos." /><div className="story-grid story-grid--two">{collections.map((collection) => <article className="story-card story-card--collection" key={collection.id}><a aria-label={`Ver productos de ${collection.title}`} className="story-card__image-link" href={`/catalogo?collection=${collection.handle}`}><img src={collection.image?.url ?? ''} alt={collection.image?.altText ?? ''} /></a><div><span>Temporada Nenúfar</span><h3>{collection.title}</h3>{collection.description && <p>«{collection.description}»</p>}<a href={`/catalogo?collection=${collection.handle}`}>Ver productos de esta colección →</a></div></article>)}</div></div></section>
     {/* TODO: re-enable El Taller section when ready
     <section id="tecnicas" className="story-section story-section--tint"><div className="nenufar-shell"><StoryHeading eyebrow="Fabricación 100% interna" title="El taller detrás de cada detalle" copy="Técnicas, materiales y acabados elegidos para que cada pieza dure." /><div className="story-grid story-grid--four">{techniques.map(([name, copy, image]) => <article className="story-card story-card--technique" key={name}><img src={image} alt="" /><span>Desde 24 horas</span><h3>{name}</h3><p>{copy}</p></article>)}</div></div></section>
     */}

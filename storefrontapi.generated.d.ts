@@ -419,6 +419,26 @@ export type ShopContactQuery = {
   };
 };
 
+export type HomepageCollectionsQueryVariables = StorefrontAPI.Exact<{
+  [key: string]: never;
+}>;
+
+export type HomepageCollectionsQuery = {
+  collections: {
+    edges: Array<{
+      node: Pick<
+        StorefrontAPI.Collection,
+        'id' | 'title' | 'handle' | 'description'
+      > & {
+        image?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.Image, 'url' | 'altText'>
+        >;
+        metafield?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
+      };
+    }>;
+  };
+};
+
 export type HomepageFaqsQueryVariables = StorefrontAPI.Exact<{
   [key: string]: never;
 }>;
@@ -1502,6 +1522,10 @@ interface GeneratedQueryTypes {
   '#graphql\n  query ShopContact {\n    shop {\n      whatsappNumber: metafield(\n        namespace: "contact"\n        key: "whatsapp_number"\n      ) {\n        value\n      }\n    }\n  }\n': {
     return: ShopContactQuery;
     variables: ShopContactQueryVariables;
+  };
+  '#graphql\n  query HomepageCollections {\n    collections(first: 20) {\n      edges {\n        node {\n          id\n          title\n          handle\n          description\n          image { url altText }\n          metafield(namespace: "custom", key: "show_on_home") { value }\n        }\n      }\n    }\n  }\n': {
+    return: HomepageCollectionsQuery;
+    variables: HomepageCollectionsQueryVariables;
   };
   '#graphql\n  query HomepageFaqs {\n    metaobjects(type: "faq_item", first: 20) {\n      nodes {\n        handle\n        question: field(key: "question") {\n          value\n        }\n        answer: field(key: "answer") {\n          value\n        }\n      }\n    }\n  }\n': {
     return: HomepageFaqsQuery;

@@ -1,4 +1,6 @@
-# Shopify product custom data for Nenúfar
+# Shopify custom data for Nenúfar
+
+## Product metafields
 
 Create the following Product definitions in **Settings > Custom data > Products** before importing data. All use the `custom` namespace and must allow public Storefront API access.
 
@@ -20,6 +22,16 @@ Create the following Product definitions in **Settings > Custom data > Products*
 | Packaging details | `packaging_details` | Multi-line text | Shipping & packaging tab. |
 | Care guide | `care_guide` | Multi-line text | Care tab. |
 | Personalization configuration | `personalization_config` | Metaobject reference to `product_personalization` | Required for structured personalized products. |
+
+## Collection metafields
+
+Create the following Collection definitions in **Settings > Custom data > Collections**. All use the `custom` namespace.
+
+| Name | Key | Type | Storefront use |
+| --- | --- | --- | --- |
+| Homepage visibility | `show_on_home` | True/false | Controls whether the collection renders in the home page collection cards. |
+
+To enable a collection on the home page: go to **Collections** → select a collection → scroll to **Custom data** → enable the `Show on homepage` checkbox.
 
 ## Required metaobjects
 

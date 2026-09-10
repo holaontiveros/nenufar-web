@@ -7,7 +7,6 @@ import {
 } from '@shopify/hydrogen';
 import type {CartApiQueryFragment, HeaderQuery} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
-import {WhatsAppIcon} from '~/components/WhatsAppIcon';
 import {CartIcon} from '~/components/CartIcons';
 
 interface HeaderProps {
@@ -25,7 +24,7 @@ const navigation = [
   // TODO: re-enable when ready — removed for now,
 ] as const;
 
-export function Header({cart, whatsappUrl}: HeaderProps) {
+export function Header({cart}: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <header className="brand-header">
@@ -38,7 +37,6 @@ export function Header({cart, whatsappUrl}: HeaderProps) {
         </nav>
         <div className="brand-header__actions">
           <CartToggle cart={cart} />
-          {whatsappUrl && <a className="brand-whatsapp" href={whatsappUrl} target="_blank" rel="noreferrer"><WhatsAppIcon /> <span>WhatsApp</span></a>}
           <button className="brand-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen((open) => !open)}>☰</button>
         </div>
         {mobileMenuOpen && <nav className="brand-mobile-nav" aria-label="Navegación móvil">

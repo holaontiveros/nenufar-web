@@ -3,26 +3,45 @@ import {NenufarStory} from '~/components/NenufarStory';
 import {WhatsAppIcon} from '~/components/WhatsAppIcon';
 import {useLoaderData, useRouteLoaderData} from 'react-router';
 import type {RootLoader} from '~/root';
+import type {HomepageCollectionsQuery} from 'storefrontapi.generated';
 
 export const meta: Route.MetaFunction = () => [{title: 'Nenúfar | Regalos personalizados'}];
 
 export async function loader({context}: Route.LoaderArgs) {
   const {storefront} = context;
-  const {metaobjects} = await storefront.query(FAQ_QUERY, {
-    cache: storefront.CacheLong(),
-  });
+  const [collectionData, {metaobjects}] = await Promise.all([
+    storefront.query(COLLECTIONS_QUERY, {cache: storefront.CacheLong()}),
+    storefront.query(FAQ_QUERY, {cache: storefront.CacheLong()}),
+  ]);
+
+  const collections = (collectionData as HomepageCollectionsQuery)
+    .collections?.edges
+    .filter((edge): edge is {node: NonNullable<typeof edge.node>} => !!edge?.node && edge.node.metafield?.value === 'true')
+    .map((edge) => {
+      const node = edge.node;
+      return {
+        id: node.id,
+        title: node.title,
+        handle: node.handle,
+        image: node.image ?? undefined,
+        description: node.description ?? undefined,
+        catalogName: node.title,
+        catalogHandle: node.handle,
+      };
+    });
 
   return {
-    faqs: metaobjects.nodes.flatMap((faq) => {
+    faqs: (metaobjects as unknown as {question?: {value?: string} | null; answer?: {value?: string} | null}[]).flatMap((faq) => {
       const question = faq.question?.value;
       const answer = faq.answer?.value;
       return question && answer ? [{question, answer}] : [];
     }),
+    collections,
   };
 }
 
 export default function Homepage() {
-  const {faqs} = useLoaderData<typeof loader>();
+  const {faqs, collections} = useLoaderData<typeof loader>();
   const rootData = useRouteLoaderData<RootLoader>('root');
   const whatsappUrl = rootData?.whatsappUrl ?? null;
 
@@ -35,9 +54,26 @@ export default function Homepage() {
         <div className="hero-trust"><span>✓ Compra segura en Shopify</span><span>♢ Personalización incluida</span><span>⌁ Hecho en el taller</span></div>
       </div>
     </section>
-    <NenufarStory faqs={faqs} whatsappUrl={whatsappUrl} />
+    <NenufarStory faqs={faqs} collections={collections} whatsappUrl={whatsappUrl} />
   </>;
 }
+
+const COLLECTIONS_QUERY = `#graphql
+  query HomepageCollections {
+    collections(first: 20) {
+      edges {
+        node {
+          id
+          title
+          handle
+          description
+          image { url altText }
+          metafield(namespace: "custom", key: "show_on_home") { value }
+        }
+      }
+    }
+  }
+` as const;
 
 const FAQ_QUERY = `#graphql
   query HomepageFaqs {
