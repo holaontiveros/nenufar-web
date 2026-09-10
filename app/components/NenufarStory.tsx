@@ -1,19 +1,19 @@
 const collections = [
-  ['Día de la Madre', 'Piezas que abrazan con afecto, luz y memoria', 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=900&q=80'],
-  ['Día del Padre', 'Carácter, maestría y detalles hechos para durar', 'https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?auto=format&fit=crop&w=900&q=80'],
-  ['Día del Maestro', 'Gratitud genuina para quienes enseñan con el corazón', 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=900&q=80'],
-  ['Navidad & Fin de Año', 'Brillo festivo, recuerdos familiares y regalos de empresa', 'https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=900&q=80'],
+  ['Día de la Madre', 'Piezas que abrazan con afecto, luz y memoria', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1513519245088-0e12902e5a38.jpg?v=1789051498'],
+  ['Día del Padre', 'Carácter, maestría y detalles hechos para durar', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1519751138087-5bf79df62d5b.jpg?v=1789051519'],
+  ['Día del Maestro', 'Gratitud genuina para quienes enseñan con el corazón', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1456513080510-7bf3a84b82f8.jpg?v=1789051528'],
+  ['Navidad & Fin de Año', 'Brillo festivo, recuerdos familiares y regalos de empresa', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1512909006721-3d6018887383.jpg?v=1789051539'],
 ];
 const techniques = [
-  ['Corte y Grabado Láser', 'Precisión milimétrica sobre madera, acrílico, cuero y metal.', 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80'],
-  ['Sublimación Cerámica & Térmica HD', 'Color vivo, durable y con acabado integrado.', 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80'],
-  ['Camisas & Textiles Personalizados', 'DTF y vinil textil para una pieza o tirajes completos.', 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80'],
-  ['Vinil, Adhesivo & Stickers', 'Troquelado exacto y acabados resistentes al uso diario.', 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80'],
+  ['Corte y Grabado Láser', 'Precisión milimétrica sobre madera, acrílico, cuero y metal.', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1513519245088-0e12902e5a38.jpg?v=1789051498'],
+  ['Sublimación Cerámica & Térmica HD', 'Color vivo, durable y con acabado integrado.', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1514432324607-a09d9b4aefdd.jpg?v=1789051501'],
+  ['Camisas & Textiles Personalizados', 'DTF y vinil textil para una pieza o tirajes completos.', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1597484661643-2f5fef640dd1.jpg?v=1789051504'],
+  ['Vinil, Adhesivo & Stickers', 'Troquelado exacto y acabados resistentes al uso diario.', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1607604276583-eef5d076aa5f.jpg?v=1789051526'],
 ];
 const projects = [
-  ['Kit de Bienvenida Corporativo Tech & Coffee', 'Onboarding Empresarial', 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80'],
-  ['Libro de Firmas y Recuerdos en Madera Grabada', 'Boda en Jardín & Aniversario', 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80'],
-  ['Camisas Familiares y Termos', 'Bodas de Oro & Celebración Familiar', 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80'],
+  ['Kit de Bienvenida Corporativo Tech & Coffee', 'Onboarding Empresarial', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1549465220-1a8b9238cd48.jpg?v=1789051533'],
+  ['Libro de Firmas y Recuerdos en Madera Grabada', 'Boda en Jardín & Aniversario', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1513519245088-0e12902e5a38_6a8b6313-1eb1-45d4-9600-93c78fb7508d.jpg?v=1789051543'],
+  ['Camisas Familiares y Termos', 'Bodas de Oro & Celebración Familiar', 'https://cdn.shopify.com/s/files/1/1010/7702/5053/files/photo-1597484661643-2f5fef640dd1.jpg?v=1789051504'],
 ];
 const reviews = [['“La atención fue hermosa y el joyero quedó todavía más especial de lo que imaginaba.”', 'Mariana R. · Regalo personal'], ['“Cumplieron el tiempo de entrega y cada pieza llegó perfecta para nuestro equipo.”', 'Lucía M. · Empresa / B2B']];
 const faqs = [['¿Cuánto tarda un pedido personalizado?', 'La mayoría de los pedidos se produce entre 24 y 72 horas; los proyectos por volumen se confirman con una fecha específica.'], ['¿Puedo ver una muestra antes de producir?', 'Sí. Para proyectos personalizados se revisa el texto, diseño y especificaciones antes de iniciar el taller.'], ['¿Hacen pedidos para empresas?', 'Sí, elaboramos desde una pieza hasta tirajes corporativos con logotipo y nombres individuales.']];
