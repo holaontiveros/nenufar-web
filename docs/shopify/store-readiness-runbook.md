@@ -25,7 +25,7 @@ The following was read from `nenu-from-react.myshopify.com` on 2026-09-10. It is
 | Legacy / do not copy by default | Product metafield | `custom.catalog_id` and `custom.catalog_name`; the storefront now classifies catalogue content with native Shopify collections. Reassess only if another integration depends on them. |
 | Confirmed | Metaobject definition | `faq_item`, public storefront read, with required `question` and `answer` fields. Three development FAQ entries were seeded. |
 | Confirmed in the dedicated contact change | Shop metafield | `contact.whatsapp_number`, public storefront read, with the development number populated. |
-| Planned, not created | Product-page schema | The fields and metaobjects in `docs/shopify/product-page-data.md`. |
+| Confirmed | Product-page schema | The planned Product metafield definitions plus public `product_personalization` and `product_process_step` definitions now exist in development. One personalized product seed is verified; a non-personalized seed remains pending. |
 
 ## What must exist in every store used by this storefront
 

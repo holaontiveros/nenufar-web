@@ -8,9 +8,9 @@ Build a Shopify Hydrogen product page with distinct personalized and non-persona
 
 ### 1. Create and seed Shopify product-page data
 
-- Create the documented product metafield and metaobject definitions.
-- Seed representative development-store data for one personalized and one non-personalized product.
-- Confirm every definition and value is publicly readable through Storefront API.
+- Status: in progress. The documented product metafield and metaobject definitions exist in the development store.
+- A complete personalized seed exists on `termo-slim-pastel-madre` and was verified through Storefront API.
+- Seed a representative non-personalized product after a product is explicitly selected or a development-only blank product is approved.
 - Update `docs/shopify/metafields.md` and the demo import guidance where relevant.
 
 ### 2. Rebuild the product-page top section

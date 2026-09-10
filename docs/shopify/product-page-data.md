@@ -1,6 +1,6 @@
 # Product-page Shopify data model
 
-This is the approved schema for the future Nenúfar product-page rebuild. It documents the intended data model only; these definitions and entries have not been created in Shopify yet.
+This is the approved schema for the future Nenúfar product-page rebuild. The definitions below and one personalized reference seed were created in the development store on 2026-09-10; the storefront UI has not yet been changed to query them.
 
 ## Existing product metafields to retain
 
@@ -61,6 +61,22 @@ Create a merchant-managed `product_process_step` definition with public storefro
 | `position` | Integer | Yes | Visible step number. |
 
 The product's `custom.making_process` reference list controls which steps appear and their order. The `position` value is displayed, not used to reorder the list.
+
+## Development-store seed
+
+The existing personalized demo product `termo-slim-pastel-madre` now provides the first complete reference record:
+
+- `custom.material_label`: `Acero Térmico`
+- Dimensions, weight, package includes, shipping details, packaging details, and care guide
+- `custom.personalization_config` referencing `product_personalization/termo-slim-inicial`
+- `custom.making_process` referencing these ordered `product_process_step` entries:
+  1. `maquetacion-ajuste-tipografico`
+  2. `visto-bueno-whatsapp`
+  3. `corte-laser-empaque`
+
+The personalization configuration contains the Spanish labels, 60-character limit, typography options, motif options, preview copy, and optional artisan-note copy from the approved reference. All values and references were verified through the public development Storefront API.
+
+No non-personalized representative product has been seeded yet because every currently active development product has `custom.allow_custom_text = true`. Preserve that existing data until a product is explicitly selected or a development-only blank product is approved.
 
 ## Customer personalization data
 
