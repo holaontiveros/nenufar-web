@@ -1,176 +1,109 @@
-import {Await, useLoaderData, Link} from 'react-router';
+import {Link, useLoaderData} from 'react-router';
 import type {Route} from './+types/_index';
-import {Suspense} from 'react';
-import {Image} from '@shopify/hydrogen';
-import type {
-  FeaturedCollectionFragment,
-  RecommendedProductsQuery,
-} from 'storefrontapi.generated';
-import {ProductItem} from '~/components/ProductItem';
-import {MockShopNotice} from '~/components/MockShopNotice';
+import {Image, Money} from '@shopify/hydrogen';
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: 'Hydrogen | Home'}];
+  return [{title: 'Nenúfar | Regalos personalizados'}];
 };
 
-export async function loader(args: Route.LoaderArgs) {
-  // Start fetching non-critical data without blocking time to first byte
-  const deferredData = loadDeferredData(args);
+export async function loader({context}: Route.LoaderArgs) {
+  const {products} = await context.storefront.query(NENUFAR_CATALOG_QUERY, {
+    cache: context.storefront.CacheLong(),
+  });
 
-  // Await the critical data required to render initial state of the page
-  const criticalData = await loadCriticalData(args);
-
-  return {...deferredData, ...criticalData};
-}
-
-/**
- * Load data necessary for rendering content above the fold. This is the critical data
- * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
- */
-async function loadCriticalData({context}: Route.LoaderArgs) {
-  const [{collections}] = await Promise.all([
-    context.storefront.query(FEATURED_COLLECTION_QUERY),
-    // Add other queries here, so that they are loaded in parallel
-  ]);
-
-  return {
-    isShopLinked: Boolean(context.env.PUBLIC_STORE_DOMAIN),
-    featuredCollection: collections.nodes[0],
-  };
-}
-
-/**
- * Load data for rendering content below the fold. This data is deferred and will be
- * fetched after the initial page load. If it's unavailable, the page should still 200.
- * Make sure to not throw any errors here, as it will cause the page to 500.
- */
-function loadDeferredData({context}: Route.LoaderArgs) {
-  const recommendedProducts = context.storefront
-    .query(RECOMMENDED_PRODUCTS_QUERY)
-    .catch((error: Error) => {
-      // Log query errors, but don't throw them so the page can still render
-      console.error(error);
-      return null;
-    });
-
-  return {
-    recommendedProducts,
-  };
+  return {products: products.nodes};
 }
 
 export default function Homepage() {
-  const data = useLoaderData<typeof loader>();
-  return (
-    <div className="home">
-      {data.isShopLinked ? null : <MockShopNotice />}
-      <FeaturedCollection collection={data.featuredCollection} />
-      <RecommendedProducts products={data.recommendedProducts} />
-    </div>
-  );
-}
+  const {products} = useLoaderData<typeof loader>();
 
-function FeaturedCollection({
-  collection,
-}: {
-  collection: FeaturedCollectionFragment;
-}) {
-  if (!collection) return null;
-  const image = collection?.image;
   return (
-    <Link
-      className="featured-collection"
-      to={`/collections/${collection.handle}`}
-    >
-      {image && (
-        <div className="featured-collection-image">
-          <Image
-            data={image}
-            sizes="100vw"
-            alt={image.altText || collection.title}
-          />
-        </div>
+    <main className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+      <header className="max-w-3xl">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-pink-700">
+          Nenúfar
+        </p>
+        <h1 className="mt-3 text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl">
+          Regalos personalizados para cada ocasión
+        </h1>
+        <p className="mt-4 text-base leading-7 text-stone-600">
+          Explora piezas creadas para celebrar, agradecer y compartir. Personaliza los detalles antes de agregarlos al carrito.
+        </p>
+      </header>
+
+      {products.length ? (
+        <section className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" aria-label="Productos">
+          {products.map((product) => {
+            const technique = metafieldValue(product.metafields, 'technique');
+            const leadTime = metafieldValue(product.metafields, 'lead_time');
+            const catalogName = metafieldValue(product.metafields, 'catalog_name');
+            const price = product.priceRange.minVariantPrice;
+
+            return (
+              <article key={product.id} className="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm transition-shadow hover:shadow-lg">
+                <Link to={`/products/${product.handle}`} prefetch="intent" className="block">
+                  {product.featuredImage ? (
+                    <Image data={product.featuredImage} sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="aspect-[4/3] w-full object-cover" />
+                  ) : (
+                    <div className="aspect-[4/3] bg-stone-100" aria-hidden="true" />
+                  )}
+                  <div className="p-5">
+                    {catalogName && <p className="text-xs font-semibold uppercase tracking-wider text-pink-700">{catalogName}</p>}
+                    <h2 className="mt-2 text-xl font-semibold text-stone-900">{product.title}</h2>
+                    {technique && <p className="mt-2 text-sm text-stone-600">{technique}</p>}
+                    {leadTime && <p className="mt-1 text-sm text-stone-500">Tiempo de producción: {leadTime}</p>}
+                    <p className="mt-4 text-lg font-bold text-pink-700"><Money data={price} /></p>
+                  </div>
+                </Link>
+              </article>
+            );
+          })}
+        </section>
+      ) : (
+        <section className="mt-12 rounded-3xl border border-dashed border-stone-300 bg-white p-8 text-center text-stone-600">
+          Estamos preparando esta colección. Vuelve pronto para descubrir nuevos regalos personalizados.
+        </section>
       )}
-      <h1>{collection.title}</h1>
-    </Link>
+    </main>
   );
 }
 
-function RecommendedProducts({
-  products,
-}: {
-  products: Promise<RecommendedProductsQuery | null>;
-}) {
-  return (
-    <section
-      className="recommended-products"
-      aria-labelledby="recommended-products"
-    >
-      <h2 id="recommended-products">Recommended Products</h2>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Await resolve={products}>
-          {(response) => (
-            <div className="recommended-products-grid">
-              {response
-                ? response.products.nodes.map((product) => (
-                    <ProductItem key={product.id} product={product} />
-                  ))
-                : null}
-            </div>
-          )}
-        </Await>
-      </Suspense>
-      <br />
-    </section>
-  );
+function metafieldValue(
+  metafields: Array<{key: string; value: string} | null>,
+  key: string,
+) {
+  return metafields.find((metafield) => metafield?.key === key)?.value;
 }
 
-const FEATURED_COLLECTION_QUERY = `#graphql
-  fragment FeaturedCollection on Collection {
-    id
-    title
-    image {
-      id
-      url
-      altText
-      width
-      height
-    }
-    handle
-  }
-  query FeaturedCollection($country: CountryCode, $language: LanguageCode)
+const NENUFAR_CATALOG_QUERY = `#graphql
+  query NenufarCatalog($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
-    collections(first: 1, sortKey: UPDATED_AT, reverse: true) {
+    products(first: 100, sortKey: TITLE) {
       nodes {
-        ...FeaturedCollection
-      }
-    }
-  }
-` as const;
-
-const RECOMMENDED_PRODUCTS_QUERY = `#graphql
-  fragment RecommendedProduct on Product {
-    id
-    title
-    handle
-    priceRange {
-      minVariantPrice {
-        amount
-        currencyCode
-      }
-    }
-    featuredImage {
-      id
-      url
-      altText
-      width
-      height
-    }
-  }
-  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
-    @inContext(country: $country, language: $language) {
-    products(first: 4, sortKey: UPDATED_AT, reverse: true) {
-      nodes {
-        ...RecommendedProduct
+        id
+        title
+        handle
+        featuredImage {
+          id
+          url
+          altText
+          width
+          height
+        }
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        metafields(identifiers: [
+          {namespace: "custom", key: "catalog_name"}
+          {namespace: "custom", key: "technique"}
+          {namespace: "custom", key: "lead_time"}
+        ]) {
+          key
+          value
+        }
       }
     }
   }

@@ -3,7 +3,7 @@
 ## Estado base
 
 - Aplicación de una sola página construida con React 19, TypeScript, Vite y Tailwind CSS v4.
-- La migración aprobada a Hydrogen/Oxygen está en curso bajo `hydrogen/`. Hasta el cutover aprobado, la aplicación Vite en la raíz sigue siendo la implementación activa.
+- La migración aprobada a Hydrogen/Oxygen está en curso bajo `hydrogen/`. Hydrogen es la única implementación objetivo; la aplicación Vite actual no tiene despliegue activo y será reemplazada en el chunk de cutover.
 - El proyecto Hydrogen está vinculado solamente al storefront de desarrollo `Nenúfar Web Dev`. No reutilizar esta vinculación ni sus credenciales para producción.
 - La composición de la página y el estado compartido viven hoy en `src/App.tsx`; los bloques visuales viven en `src/components/`.
 - El contenido actual es semilla/demo: productos, precios, variantes, dominio y reseñas deben validarse antes de considerarse datos de producción.

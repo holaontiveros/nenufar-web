@@ -110,6 +110,8 @@ export default function Product() {
         <ProductForm
           productOptions={productOptions}
           selectedVariant={selectedVariant}
+          allowCustomText={product.personalizationEnabled?.value === 'true'}
+          customTextPlaceholder={product.customTextPlaceholder?.value}
         />
         <br />
         <br />
@@ -212,6 +214,12 @@ const PRODUCT_FRAGMENT = `#graphql
     seo {
       description
       title
+    }
+    personalizationEnabled: metafield(namespace: "custom", key: "allow_custom_text") {
+      value
+    }
+    customTextPlaceholder: metafield(namespace: "custom", key: "custom_text_placeholder") {
+      value
     }
   }
   ${PRODUCT_VARIANT_FRAGMENT}

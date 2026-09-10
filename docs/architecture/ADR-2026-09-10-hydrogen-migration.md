@@ -2,7 +2,7 @@
 
 ## Status
 
-Approved on 2026-09-10. Migration in progress.
+Approved on 2026-09-10. Migration in progress. The original Vite application has no live deployment and will not be retained as a fallback.
 
 ## Context
 
@@ -16,7 +16,7 @@ Nenúfar Web is currently a client-rendered Vite application that calls Storefro
 
 ## Decision
 
-Adopt option 3. The migration will happen in small, independently committed chunks. During the transition, the existing Vite application remains intact while the Hydrogen app is built under `hydrogen/`. The final cutover requires a separate approved chunk after functional parity is verified.
+Adopt option 3. The migration will happen in small, independently committed chunks. Hydrogen is the only target implementation; after functional parity is verified, a cutover chunk will replace the root Vite application rather than retaining it as a fallback.
 
 ## Impact and cost
 
@@ -40,4 +40,4 @@ Adopt option 3. The migration will happen in small, independently committed chun
 
 ## Rollback
 
-Keep the existing Vite application as the active project until the cutover chunk. Reverting a Hydrogen chunk removes only the corresponding changes under `hydrogen/` and its documentation.
+Until the root cutover, reverting a Hydrogen chunk removes only the corresponding changes under `hydrogen/` and its documentation. After cutover, rollback restores the prior Git commit.

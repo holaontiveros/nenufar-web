@@ -1,4 +1,5 @@
 import {Link, useNavigate} from 'react-router';
+import {useState} from 'react';
 import {type MappedProductOptions} from '@shopify/hydrogen';
 import type {
   Maybe,
@@ -11,12 +12,17 @@ import type {ProductFragment} from 'storefrontapi.generated';
 export function ProductForm({
   productOptions,
   selectedVariant,
+  allowCustomText = false,
+  customTextPlaceholder,
 }: {
   productOptions: MappedProductOptions[];
   selectedVariant: ProductFragment['selectedOrFirstAvailableVariant'];
+  allowCustomText?: boolean;
+  customTextPlaceholder?: string | null;
 }) {
   const navigate = useNavigate();
   const {open} = useAside();
+  const [customText, setCustomText] = useState('');
   return (
     <div className="product-form">
       {productOptions.map((option) => {
@@ -101,6 +107,19 @@ export function ProductForm({
           </div>
         );
       })}
+      {allowCustomText && (
+        <div className="product-personalization">
+          <label htmlFor="custom-text">Texto para personalizar</label>
+          <textarea
+            id="custom-text"
+            maxLength={90}
+            onChange={(event) => setCustomText(event.target.value)}
+            placeholder={customTextPlaceholder || 'Escribe el nombre, inicial o frase que deseas personalizar'}
+            rows={3}
+            value={customText}
+          />
+        </div>
+      )}
       <AddToCartButton
         disabled={!selectedVariant || !selectedVariant.availableForSale}
         onClick={() => {
@@ -113,6 +132,9 @@ export function ProductForm({
                   merchandiseId: selectedVariant.id,
                   quantity: 1,
                   selectedVariant,
+                  attributes: customText.trim()
+                    ? [{key: 'Personalización', value: customText.trim()}]
+                    : [],
                 },
               ]
             : []
