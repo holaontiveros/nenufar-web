@@ -598,6 +598,25 @@ body {
   color: #a8a29e;
 }
 @media (max-width: 64rem) {
+  .catalogue-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .catalogue-filters {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .catalogue-filters label {
+    min-width: 0;
+  }
+  .catalogue-custom-order {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .catalogue-custom-order a {
+    margin-left: auto;
+  }
+}
+@media (max-width: 40rem) {
   .brand-nav {
     display: none;
   }
@@ -629,25 +648,6 @@ body {
     background: #fdf2f8;
     color: #9d174d;
   }
-  .catalogue-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .catalogue-filters {
-    align-items: stretch;
-    flex-direction: column;
-  }
-  .catalogue-filters label {
-    min-width: 0;
-  }
-  .catalogue-custom-order {
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-  .catalogue-custom-order a {
-    margin-left: auto;
-  }
-}
-@media (max-width: 40rem) {
   .nenufar-shell {
     width: min(100% - 1.35rem, 72rem);
   }
