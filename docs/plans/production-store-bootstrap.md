@@ -70,6 +70,8 @@ The deployment-readiness audit confirmed that `https://nenufar.mx` is the transf
 
 On 2026-09-10, the separate Hydrogen storefront `Nenúfar Web Production` was created and linked from the isolated local worktree `/Users/javo/projects/nenufar-web-production`. Its default Oxygen environments are `production` and `preview`; the production environment currently points to an Oxygen development URL and has not been made live on `nenufar.mx`. Development linkage, deployments, and credentials remain untouched.
 
+An initial Preview deployment completed successfully at `https://01m271zmxxqee4jn11hc4sjjz8-570f5129dce95a62cc8d.myshopify.dev`. Oxygen confirmed it was routable. Unauthenticated HTTP validation receives a `403` after redirect because this preview is protected; it is not a production-domain failure. The production environment and `nenufar.mx` remain unchanged.
+
 ## Rollback
 
 For a schema bootstrap failure, correct or remove only definitions created in that incomplete chunk after confirming they have no values or references. Never delete merchant-created products, orders, files, or existing custom data as part of rollback.
