@@ -14,7 +14,7 @@ import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
 import type {PersonalizationConfig} from '~/components/ProductForm';
-import {ProductDetailsTabs, type ProductProcessStep} from '~/components/ProductDetailsTabs';
+import {ProductDetailsTabs, type ProductDetailReference, type ProductProcessStep} from '~/components/ProductDetailsTabs';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
 export const meta: Route.MetaFunction = ({data}) => {
@@ -129,6 +129,21 @@ export default function Product() {
         : [],
     )
       .filter((step) => step.title && step.body) ?? [];
+  const readDetailReferences = (
+    references: typeof product.shippingDetails,
+  ): ProductDetailReference[] => references?.references?.nodes.flatMap((reference) => {
+    if (!reference || !('body' in reference)) return [];
+
+    const body = reference.body?.value;
+    return body ? [{
+      body,
+      position: 'position' in reference ? reference.position?.value ?? undefined : undefined,
+      title: 'title' in reference ? reference.title?.value ?? undefined : undefined,
+    }] : [];
+  }) ?? [];
+  const shippingDetails = readDetailReferences(product.shippingDetails);
+  const packagingDetails = readDetailReferences(product.packagingDetails);
+  const careGuide = readDetailReferences(product.careGuide);
   const compatibleTechniques = product.compatibleTechniques?.references?.nodes
     .flatMap((reference) => {
       const name = reference && 'name' in reference ? reference.name?.value : null;
@@ -163,14 +178,14 @@ export default function Product() {
         </div>
       </div>
       <ProductDetailsTabs
-        careGuide={product.careGuide?.value}
+        careGuide={careGuide}
         compatibleTechniques={compatibleTechniques}
         dimensions={product.dimensions?.value}
         materials={product.materials?.value}
         packageIncludes={product.packageIncludes?.value}
-        packagingDetails={product.packagingDetails?.value}
+        packagingDetails={packagingDetails}
         processSteps={processSteps}
-        shippingDetails={product.shippingDetails?.value}
+        shippingDetails={shippingDetails}
         technique={product.technique?.value}
         weight={product.weight?.value}
       />
@@ -380,13 +395,37 @@ const PRODUCT_FRAGMENT = `#graphql
       }
     }
     shippingDetails: metafield(namespace: "custom", key: "shipping_details") {
-      value
+      references(first: 20) {
+        nodes {
+          ... on Metaobject {
+            body: field(key: "body") { value }
+            position: field(key: "position") { value }
+            title: field(key: "title") { value }
+          }
+        }
+      }
     }
     packagingDetails: metafield(namespace: "custom", key: "packaging_details") {
-      value
+      references(first: 20) {
+        nodes {
+          ... on Metaobject {
+            body: field(key: "body") { value }
+            position: field(key: "position") { value }
+            title: field(key: "title") { value }
+          }
+        }
+      }
     }
     careGuide: metafield(namespace: "custom", key: "care_guide") {
-      value
+      references(first: 20) {
+        nodes {
+          ... on Metaobject {
+            body: field(key: "body") { value }
+            position: field(key: "position") { value }
+            title: field(key: "title") { value }
+          }
+        }
+      }
     }
     compatibleTechniques: metafield(namespace: "custom", key: "compatible_techniques") {
       references(first: 20) {

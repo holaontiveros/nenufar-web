@@ -7,15 +7,21 @@ export type ProductProcessStep = {
   title: string;
 };
 
+export type ProductDetailReference = {
+  body: string;
+  position?: string;
+  title?: string;
+};
+
 type ProductDetailsTabsProps = {
-  careGuide?: string | null;
+  careGuide?: ProductDetailReference[];
   compatibleTechniques?: string[];
   dimensions?: string | null;
   materials?: string | null;
   packageIncludes?: string | null;
-  packagingDetails?: string | null;
+  packagingDetails?: ProductDetailReference[];
   processSteps?: ProductProcessStep[];
-  shippingDetails?: string | null;
+  shippingDetails?: ProductDetailReference[];
   technique?: string | null;
   weight?: string | null;
 };
@@ -34,14 +40,14 @@ function parseList(value?: string | null) {
 }
 
 export function ProductDetailsTabs({
-  careGuide,
+  careGuide = [],
   compatibleTechniques = [],
   dimensions,
   materials,
   packageIncludes,
-  packagingDetails,
+  packagingDetails = [],
   processSteps = [],
-  shippingDetails,
+  shippingDetails = [],
   technique,
   weight,
 }: ProductDetailsTabsProps) {
@@ -111,24 +117,24 @@ export function ProductDetailsTabs({
       });
     }
 
-    if (shippingDetails || packagingDetails) {
+    if (shippingDetails.length > 0 || packagingDetails.length > 0) {
       nextTabs.push({
         id: 'shipping',
         label: 'Envíos y empaque',
         content: (
           <div className="product-details-grid product-details-grid--two-columns">
-            {shippingDetails && <section><h3>Tiempos de fabricación y entrega</h3><RichTextContent className="product-details-rich-text" value={shippingDetails} /></section>}
-            {packagingDetails && <section><h3>Cuidado de empaque y protección</h3><RichTextContent className="product-details-rich-text" value={packagingDetails} /></section>}
+            {shippingDetails.length > 0 && <section><h3>Tiempos de fabricación y entrega</h3>{shippingDetails.map((detail, index) => <RichTextContent className="product-details-rich-text" key={`${detail.title ?? 'shipping'}-${index}`} value={detail.body} />)}</section>}
+            {packagingDetails.length > 0 && <section><h3>Cuidado de empaque y protección</h3>{packagingDetails.map((detail, index) => <RichTextContent className="product-details-rich-text" key={`${detail.title ?? 'packaging'}-${index}`} value={detail.body} />)}</section>}
           </div>
         ),
       });
     }
 
-    if (careGuide) {
+    if (careGuide.length > 0) {
       nextTabs.push({
         id: 'care',
         label: 'Guía de cuidados',
-        content: <section className="product-care-guide"><h3>Recomendaciones</h3><RichTextContent className="product-details-rich-text" value={careGuide} /></section>,
+        content: <section className="product-care-guide"><h3>Recomendaciones</h3>{careGuide.map((detail, index) => <RichTextContent className="product-details-rich-text" key={`${detail.title ?? 'care'}-${index}`} value={detail.body} />)}</section>,
       });
     }
 
