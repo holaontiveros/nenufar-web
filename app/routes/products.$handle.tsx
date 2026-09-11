@@ -1,4 +1,4 @@
-import {Link, redirect, useLoaderData, useRouteLoaderData} from 'react-router';
+import {Link, redirect, useLoaderData} from 'react-router';
 import type {Route} from './+types/products.$handle';
 import {
   getSelectedProductOptions,
@@ -16,8 +16,6 @@ import {ProductForm} from '~/components/ProductForm';
 import type {PersonalizationConfig} from '~/components/ProductForm';
 import {ProductDetailsTabs, type ProductProcessStep} from '~/components/ProductDetailsTabs';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
-import type {RootLoader} from '~/root';
-import {WhatsAppIcon} from '~/components/WhatsAppIcon';
 
 export const meta: Route.MetaFunction = ({data}) => {
   return [
@@ -84,7 +82,6 @@ function loadDeferredData({context, params}: Route.LoaderArgs) {
 
 export default function Product() {
   const {product} = useLoaderData<typeof loader>();
-  const rootData = useRouteLoaderData<RootLoader>('root');
 
   // Optimistically selects a variant with given available variant information
   const selectedVariant = useOptimisticVariant(
@@ -137,7 +134,6 @@ export default function Product() {
     relatedCollection?.products.nodes
       .filter((relatedProduct) => relatedProduct.id !== product.id)
       .slice(0, 3) ?? [];
-  const whatsappUrl = rootData?.whatsappUrl ?? null;
 
   return (
     <>
@@ -158,7 +154,6 @@ export default function Product() {
             allowCustomText={isPersonalized}
             personalizationConfig={personalizationConfig}
           />
-          {whatsappUrl && <a className="nenufar-product-whatsapp" href={whatsappUrl} target="_blank" rel="noreferrer"><WhatsAppIcon /> Consultar por WhatsApp</a>}
           <ul className="nenufar-product-assurances"><li>Pago protegido mediante Shopify.</li><li>Atención del taller para cada pedido.</li></ul>
         </div>
       </div>
