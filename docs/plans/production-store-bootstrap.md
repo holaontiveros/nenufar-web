@@ -68,6 +68,8 @@ The two Product reference metafields were created on 2026-09-10 as the approved 
 
 The deployment-readiness audit confirmed that `https://nenufar.mx` is the transfer store’s primary domain and that the standard `Online Store`, `Shop`, and `Point of Sale` publications exist. No Hydrogen storefront or production Oxygen environment has been created yet.
 
+On 2026-09-10, the separate Hydrogen storefront `Nenúfar Web Production` was created and linked from the isolated local worktree `/Users/javo/projects/nenufar-web-production`. Its default Oxygen environments are `production` and `preview`; the production environment currently points to an Oxygen development URL and has not been made live on `nenufar.mx`. Development linkage, deployments, and credentials remain untouched.
+
 ## Rollback
 
 For a schema bootstrap failure, correct or remove only definitions created in that incomplete chunk after confirming they have no values or references. Never delete merchant-created products, orders, files, or existing custom data as part of rollback.
