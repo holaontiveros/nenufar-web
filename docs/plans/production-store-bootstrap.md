@@ -28,7 +28,8 @@ Create the following definitions with merchant-managed Admin access and public S
 | Product | `custom` | `technique`, `materials`, `lead_time`, `badge`, `is_popular`, `allow_custom_text`, `custom_text_placeholder`, `material_label`, `dimensions`, `weight`, `package_includes`, `making_process`, `shipping_details`, `packaging_details`, `care_guide`, `personalization_config` |
 | Collection | `custom.show_on_home` | Boolean, controls cards on the homepage collection grid. |
 | Shop | `contact.whatsapp_number` | Single-line text, E.164 digits only. Leave blank until the verified production number is supplied. |
-| Metaobject | `nenufar_faq_item` | Required `question` and `answer` fields. |
+| Metaobject | `nenufar_faq_item` | Required `question` and `answer` fields plus optional constrained `group` reference. |
+| Metaobject | `nenufar_faq_group` | Required `title` and `position`; optional `description`. |
 | Metaobject | `nenufar_product_personalization` | The fields specified in [product-page-data.md](../shopify/product-page-data.md). |
 | Metaobject | `nenufar_product_process_step` | Required `title`, `body`, and `position` fields. |
 
@@ -39,7 +40,7 @@ After creation, read every definition back from Admin and verify a representativ
 The merchant populates real products, variants, media, inventory, collection memberships, collections, policies, shipping, taxes, payments, and markets. Then enter only verified values:
 
 1. Mark selected real collections with `custom.show_on_home = true`.
-2. Create real FAQ entries.
+2. Create real FAQ groups, then create real FAQ entries and select the appropriate optional group.
 3. Set the confirmed WhatsApp number.
 4. Create reusable personalization/process entries and assign them only to matching real products.
 5. Populate product-specific detail values and choose each product’s personalized/non-personalized mode.
@@ -63,6 +64,8 @@ Once the domain is supplied, perform a read-only audit of the transfer store and
 On 2026-09-10, the transfer store `nenufar-regalos-personalizados-xyrqi3rj.myshopify.com` was audited. It had no existing custom-data definitions. The independent Product, Collection, and Shop definitions in phase 1 were created and read back with public Storefront access. No values, products, collections, entries, files, or demo data were written.
 
 The three legacy metaobject types remain unavailable to the CLI application: Shopify reports that `faq_item`, `product_personalization`, and `product_process_step` are reserved for another application. On 2026-09-10, an authenticated merchant Shopify Admin session created the approved merchant-owned production alternatives `nenufar_faq_item`, `nenufar_product_personalization`, and `nenufar_product_process_step`, all with public Storefront API access. No entries or values were added.
+
+On 2026-09-11, the merchant-created public `nenufar_faq_group` definition was added with required `title` and `position`, plus optional `description`. `nenufar_faq_item.group` is an optional reference constrained to it. No production content entries were created.
 
 The two Product reference metafields were created on 2026-09-10 as the approved constrained pair: `custom.making_process` is a list reference to `nenufar_product_process_step`, and `custom.personalization_config` is a single reference to `nenufar_product_personalization`. Both have public Storefront API access. No generic substitute references, product values, or entries were created. See [ADR-2026-09-10-production-metaobject-identifiers.md](../architecture/ADR-2026-09-10-production-metaobject-identifiers.md).
 

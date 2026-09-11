@@ -455,6 +455,21 @@ export type HomepageFaqsQuery = {
         answer?: StorefrontAPI.Maybe<
           Pick<StorefrontAPI.MetaobjectField, 'value'>
         >;
+        group?: StorefrontAPI.Maybe<{
+          reference?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.Metaobject, 'id'> & {
+              title?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.MetaobjectField, 'value'>
+              >;
+              description?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.MetaobjectField, 'value'>
+              >;
+              position?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.MetaobjectField, 'value'>
+              >;
+            }
+          >;
+        }>;
       }
     >;
   };
@@ -467,6 +482,21 @@ export type HomepageFaqsQuery = {
         answer?: StorefrontAPI.Maybe<
           Pick<StorefrontAPI.MetaobjectField, 'value'>
         >;
+        group?: StorefrontAPI.Maybe<{
+          reference?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.Metaobject, 'id'> & {
+              title?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.MetaobjectField, 'value'>
+              >;
+              description?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.MetaobjectField, 'value'>
+              >;
+              position?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.MetaobjectField, 'value'>
+              >;
+            }
+          >;
+        }>;
       }
     >;
   };
@@ -1541,7 +1571,7 @@ interface GeneratedQueryTypes {
     return: HomepageCollectionsQuery;
     variables: HomepageCollectionsQueryVariables;
   };
-  '#graphql\n  query HomepageFaqs {\n    legacyFaqs: metaobjects(type: "faq_item", first: 20) {\n      nodes {\n        handle\n        question: field(key: "question") {\n          value\n        }\n        answer: field(key: "answer") {\n          value\n        }\n      }\n    }\n    productionFaqs: metaobjects(type: "nenufar_faq_item", first: 20) {\n      nodes {\n        handle\n        question: field(key: "question") {\n          value\n        }\n        answer: field(key: "answer") {\n          value\n        }\n      }\n    }\n  }\n': {
+  '#graphql\n  query HomepageFaqs {\n    legacyFaqs: metaobjects(type: "faq_item", first: 20) {\n      nodes {\n        handle\n        question: field(key: "question") {\n          value\n        }\n        answer: field(key: "answer") {\n          value\n        }\n        group: field(key: "group") {\n          reference {\n            ... on Metaobject {\n              id\n              title: field(key: "title") { value }\n              description: field(key: "description") { value }\n              position: field(key: "position") { value }\n            }\n          }\n        }\n      }\n    }\n    productionFaqs: metaobjects(type: "nenufar_faq_item", first: 20) {\n      nodes {\n        handle\n        question: field(key: "question") {\n          value\n        }\n        answer: field(key: "answer") {\n          value\n        }\n        group: field(key: "group") {\n          reference {\n            ... on Metaobject {\n              id\n              title: field(key: "title") { value }\n              description: field(key: "description") { value }\n              position: field(key: "position") { value }\n            }\n          }\n        }\n      }\n    }\n  }\n': {
     return: HomepageFaqsQuery;
     variables: HomepageFaqsQueryVariables;
   };

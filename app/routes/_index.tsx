@@ -8,16 +8,55 @@ import type {HomepageCollectionsQuery} from 'storefrontapi.generated';
 export const meta: Route.MetaFunction = () => [{title: 'Nenúfar | Regalos personalizados'}];
 
 type FaqNode = {
+  handle?: string;
   question?: {value?: string} | null;
   answer?: {value?: string} | null;
+  group?: {
+    reference?: {
+      id?: string;
+      title?: {value?: string} | null;
+      description?: {value?: string} | null;
+      position?: {value?: string} | null;
+    } | null;
+  } | null;
 };
 
-function formatFaqs(faqs: FaqNode[]) {
-  return faqs.flatMap((faq) => {
+type FaqItem = {question: string; answer: string};
+type FaqGroup = {
+  id: string;
+  title: string;
+  description?: string;
+  position: number;
+  faqs: FaqItem[];
+};
+
+function formatFaqGroups(faqs: FaqNode[]): FaqGroup[] {
+  const groups = new Map<string, FaqGroup>();
+
+  faqs.forEach((faq) => {
     const question = faq.question?.value;
     const answer = faq.answer?.value;
-    return question && answer ? [{question, answer}] : [];
+    if (!question || !answer) return;
+
+    const reference = faq.group?.reference;
+    const id = reference?.id ?? 'ungrouped';
+    const title = reference?.title?.value?.trim() || 'Preguntas frecuentes';
+    const position = Number(reference?.position?.value);
+    const group = groups.get(id) ?? {
+      id,
+      title,
+      description: reference?.description?.value?.trim() || undefined,
+      position: Number.isFinite(position) ? position : Number.MAX_SAFE_INTEGER,
+      faqs: [],
+    };
+
+    group.faqs.push({question, answer});
+    groups.set(id, group);
   });
+
+  return [...groups.values()].sort(
+    (left, right) => left.position - right.position || left.title.localeCompare(right.title, 'es'),
+  );
 }
 
 export async function loader({context}: Route.LoaderArgs) {
@@ -43,16 +82,16 @@ export async function loader({context}: Route.LoaderArgs) {
     });
 
   return {
-    faqs: [
-      ...formatFaqs((legacyFaqs.nodes ?? []) as FaqNode[]),
-      ...formatFaqs((productionFaqs.nodes ?? []) as FaqNode[]),
-    ],
+    faqGroups: formatFaqGroups([
+      ...((legacyFaqs.nodes ?? []) as FaqNode[]),
+      ...((productionFaqs.nodes ?? []) as FaqNode[]),
+    ]),
     collections,
   };
 }
 
 export default function Homepage() {
-  const {faqs, collections} = useLoaderData<typeof loader>();
+  const {faqGroups, collections} = useLoaderData<typeof loader>();
   const rootData = useRouteLoaderData<RootLoader>('root');
   const whatsappUrl = rootData?.whatsappUrl ?? null;
 
@@ -65,7 +104,7 @@ export default function Homepage() {
         <div className="hero-trust"><span>✓ Compra segura en Shopify</span><span>♢ Personalización incluida</span><span>⌁ Hecho en el taller</span></div>
       </div>
     </section>
-    <NenufarStory faqs={faqs} collections={collections} whatsappUrl={whatsappUrl} />
+    <NenufarStory faqGroups={faqGroups} collections={collections} whatsappUrl={whatsappUrl} />
   </>;
 }
 
@@ -97,6 +136,16 @@ const FAQ_QUERY = `#graphql
         answer: field(key: "answer") {
           value
         }
+        group: field(key: "group") {
+          reference {
+            ... on Metaobject {
+              id
+              title: field(key: "title") { value }
+              description: field(key: "description") { value }
+              position: field(key: "position") { value }
+            }
+          }
+        }
       }
     }
     productionFaqs: metaobjects(type: "nenufar_faq_item", first: 20) {
@@ -107,6 +156,16 @@ const FAQ_QUERY = `#graphql
         }
         answer: field(key: "answer") {
           value
+        }
+        group: field(key: "group") {
+          reference {
+            ... on Metaobject {
+              id
+              title: field(key: "title") { value }
+              description: field(key: "description") { value }
+              position: field(key: "position") { value }
+            }
+          }
         }
       }
     }

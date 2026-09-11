@@ -79,9 +79,10 @@ See `docs/shopify/metafields.md` for the existing demo import mapping.
 
 ### 4. Homepage FAQs
 
-1. Create the `nenufar_faq_item` metaobject definition with public storefront read access.
-2. Add production FAQ entries with required `question` and `answer` values.
-3. Verify the entries through Storefront API; incomplete entries intentionally do not render.
+1. Create the `nenufar_faq_group` metaobject definition with public storefront read access: required `title` and `position`, optional `description`.
+2. Add the optional `group` reference to `nenufar_faq_item`, constrained to `nenufar_faq_group`.
+3. Create production group entries, then production FAQ entries with required `question` and `answer` values and the correct group selected.
+4. Verify the entries through Storefront API; incomplete entries intentionally do not render and ungrouped entries remain visible during migration.
 
 See `docs/shopify/faq-metaobjects.md`.
 

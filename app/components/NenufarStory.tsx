@@ -23,13 +23,14 @@ const projects = [
 ];
 const reviews = [['"La atención fue hermosa y el joyero quedó todavía más especial de lo que imaginaba."', 'Mariana R. · Regalo personal'], ['"Cumplieron el tiempo de entrega y cada pieza llegó perfecta para nuestro equipo."', 'Lucía M. · Empresa / B2B']];
 type FaqItem = {question: string; answer: string};
+type FaqGroup = {id: string; title: string; description?: string; faqs: FaqItem[]};
 
 export function NenufarStory({
-  faqs,
+  faqGroups,
   collections,
   whatsappUrl,
 }: {
-  faqs: FaqItem[];
+  faqGroups: FaqGroup[];
   collections: CollectionCard[];
   whatsappUrl: string | null;
 }) {
@@ -45,7 +46,7 @@ export function NenufarStory({
     {/* TODO: re-enable Reviews section when ready
     <section className="story-section"><div className="nenufar-shell"><StoryHeading eyebrow="Historias de quienes ya regalaron" title="Emoción tangible en cada entrega" copy="La confianza se construye con atención al detalle y comunicación clara." /><div className="story-grid story-grid--two">{reviews.map(([quote, author]) => <blockquote className="review-card" key={author}><b>★★★★★</b><p>{quote}</p><footer>{author}</footer></blockquote>)}</div></div></section>
     */}
-    <section id="faq" className="story-section story-section--tint"><div className="nenufar-shell faq"><StoryHeading eyebrow="Claridad & procesos" title="Preguntas frecuentes" copy="Todo lo que necesitas saber antes de ordenar." />{faqs.map(({question, answer}) => <details key={question}><summary>{question}<span>⌄</span></summary><p>{answer}</p></details>)}</div></section>
+    <section id="faq" className="story-section story-section--tint"><div className="nenufar-shell faq"><StoryHeading eyebrow="Claridad & procesos" title="Preguntas frecuentes" copy="Todo lo que necesitas saber antes de ordenar." />{faqGroups.map((group) => <section className="faq__group" key={group.id}><header><h3>{group.title}</h3>{group.description && <p>{group.description}</p>}</header>{group.faqs.map(({question, answer}) => <details key={question}><summary>{question}<span>⌄</span></summary><p>{answer}</p></details>)}</section>)}</div></section>
     <section className="story-final"><div><span>Hagamos algo inolvidable hoy</span><h2>Tu próxima idea merece existir <em>con intención.</em></h2><p>Regalos personales, piezas corporativas y detalles que cuentan una historia.</p>{whatsappUrl && <a href={whatsappUrl} target="_blank" rel="noreferrer"><WhatsAppIcon /> Iniciar conversación</a>}</div></section>{whatsappUrl && <a className="floating-chat" href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="Abrir WhatsApp"><WhatsAppIcon /></a>}
   </>;
 }
