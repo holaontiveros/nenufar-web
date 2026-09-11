@@ -5,7 +5,7 @@ import {useLoaderData, useRouteLoaderData} from 'react-router';
 import type {RootLoader} from '~/root';
 import type {HomepageCollectionsQuery} from 'storefrontapi.generated';
 
-export const meta: Route.MetaFunction = () => [{title: 'Nenúfar | Regalos personalizados'}];
+export const meta: Route.MetaFunction = () => [{title: 'Regalos personalizados | Nenúfar'}];
 
 type FaqNode = {
   handle?: string;

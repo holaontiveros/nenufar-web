@@ -28,7 +28,7 @@ export type ActionResponse = {
 };
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: 'Addresses'}];
+  return [{title: 'Direcciones | Nenúfar'}];
 };
 
 export async function loader({context}: Route.LoaderArgs) {
