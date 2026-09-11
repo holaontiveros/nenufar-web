@@ -9,6 +9,7 @@ import type {
 import {AddToCartButton} from './AddToCartButton';
 import {useAside} from './Aside';
 import {CartIcon} from './CartIcons';
+import {RichTextContent} from './RichTextContent';
 import type {ProductFragment} from 'storefrontapi.generated';
 
 export type PersonalizationConfig = {
@@ -184,7 +185,7 @@ export function ProductForm({
           <div className="product-personalization-heading">
             <b>✦ Personaliza tu pieza</b>
             {personalizationConfig.previewCopy && (
-              <small>{personalizationConfig.previewCopy}</small>
+              <RichTextContent className="product-personalization-preview" value={personalizationConfig.previewCopy} />
             )}
           </div>
           <label htmlFor="custom-text">
