@@ -129,6 +129,11 @@ export default function Product() {
         : [],
     )
       .filter((step) => step.title && step.body) ?? [];
+  const compatibleTechniques = product.compatibleTechniques?.references?.nodes
+    .flatMap((reference) => {
+      const name = reference && 'name' in reference ? reference.name?.value : null;
+      return name ? [name] : [];
+    }) ?? [];
   const relatedCollection = product.collections.nodes[0];
   const relatedProducts =
     relatedCollection?.products.nodes
@@ -159,6 +164,7 @@ export default function Product() {
       </div>
       <ProductDetailsTabs
         careGuide={product.careGuide?.value}
+        compatibleTechniques={compatibleTechniques}
         dimensions={product.dimensions?.value}
         materials={product.materials?.value}
         packageIncludes={product.packageIncludes?.value}
@@ -381,6 +387,17 @@ const PRODUCT_FRAGMENT = `#graphql
     }
     careGuide: metafield(namespace: "custom", key: "care_guide") {
       value
+    }
+    compatibleTechniques: metafield(namespace: "custom", key: "compatible_techniques") {
+      references(first: 20) {
+        nodes {
+          ... on Metaobject {
+            name: field(key: "name") {
+              value
+            }
+          }
+        }
+      }
     }
     personalizationEnabled: metafield(namespace: "custom", key: "allow_custom_text") {
       value

@@ -9,6 +9,7 @@ export type ProductProcessStep = {
 
 type ProductDetailsTabsProps = {
   careGuide?: string | null;
+  compatibleTechniques?: string[];
   dimensions?: string | null;
   materials?: string | null;
   packageIncludes?: string | null;
@@ -34,6 +35,7 @@ function parseList(value?: string | null) {
 
 export function ProductDetailsTabs({
   careGuide,
+  compatibleTechniques = [],
   dimensions,
   materials,
   packageIncludes,
@@ -47,7 +49,7 @@ export function ProductDetailsTabs({
   const tabs = useMemo(() => {
     const nextTabs: Array<{content: ReactNode; id: string; label: string}> = [];
 
-    if (dimensions || weight || technique || materials || packageItems.length > 0) {
+    if (dimensions || weight || technique || materials || packageItems.length > 0 || compatibleTechniques.length > 0) {
       nextTabs.push({
         id: 'materials',
         label: 'Características',
@@ -72,6 +74,14 @@ export function ProductDetailsTabs({
                 <h3>Qué incluye tu paquete</h3>
                 <ul>
                   {packageItems.map((item) => <li key={item}>{item}</li>)}
+                </ul>
+              </section>
+            )}
+            {compatibleTechniques.length > 0 && (
+              <section>
+                <h3>Técnicas compatibles</h3>
+                <ul>
+                  {compatibleTechniques.map((item) => <li key={item}>{item}</li>)}
                 </ul>
               </section>
             )}
@@ -123,7 +133,7 @@ export function ProductDetailsTabs({
     }
 
     return nextTabs;
-  }, [careGuide, dimensions, materials, packageItems, packagingDetails, processSteps, shippingDetails, technique, weight]);
+  }, [careGuide, compatibleTechniques, dimensions, materials, packageItems, packagingDetails, processSteps, shippingDetails, technique, weight]);
   const [activeTabId, setActiveTabId] = useState(tabs[0]?.id ?? '');
 
   useEffect(() => {

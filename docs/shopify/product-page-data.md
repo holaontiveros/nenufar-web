@@ -30,6 +30,7 @@ All use the `custom` namespace and require public storefront read access.
 | Shipping details | `shipping_details` | Multi-line text | The shipping/production card is shown. |
 | Packaging details | `packaging_details` | Multi-line text | The packaging/protection card is shown. |
 | Care guide | `care_guide` | Multi-line text | The care tab is shown. |
+| Compatible techniques | `compatible_techniques` | List of metaobject references to `nenufar_compatible_technique` | The compatible-techniques list is shown. |
 | Personalization configuration | `personalization_config` | Metaobject reference to `product_personalization` | `allow_custom_text` is `true`. |
 
 ## Metaobject: `product_personalization`

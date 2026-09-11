@@ -21,7 +21,7 @@ Create the following Product definitions in **Settings > Custom data > Products*
 | Shipping details | `shipping_details` | List of metaobject references (`nenufar_shipping_detail`) | Shipping & packaging tab. |
 | Packaging details | `packaging_details` | List of metaobject references (`nenufar_packaging_detail`) | Shipping & packaging tab. |
 | Care guide | `care_guide` | List of metaobject references (`nenufar_care_guide`) | Care tab. |
-| Compatible techniques | `compatible_techniques` | List of Product references | Compatible techniques section. |
+| Compatible techniques | `compatible_techniques` | List of `nenufar_compatible_technique` metaobject references | Compatible techniques section. |
 | Personalization configuration | `personalization_config` | Metaobject reference to `product_personalization` | Required for structured personalized products. |
 
 ## Collection metafields
@@ -43,7 +43,7 @@ The production store also now has these reusable public definitions. Their Shopi
 | `nenufar_shipping_detail` | `title` (single line), `body` (rich text), `position` (integer) |
 | `nenufar_packaging_detail` | `title` (single line), `body` (rich text), `position` (integer) |
 | `nenufar_care_guide` | `title` (single line), `body` (rich text), `position` (integer) |
-| `nenufar_compatible_technique` | `title` (single line), `description` (rich text), `machines` (list of single-line text), `position` (integer) |
+| `nenufar_compatible_technique` | `name` (required single-line text) |
 
 Create these definitions manually in each new store (or through an approved Admin API app with the required ownership/scopes). The current production app token cannot create merchant-owned MetaObject types, so the Shopify Admin UI is the source of truth for this setup.
 

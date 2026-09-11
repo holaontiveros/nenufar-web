@@ -33,9 +33,9 @@ Each definition has a required `title` (single-line text), a required `body` (ri
 
 Compatible techniques use:
 
-- `nenufar_compatible_technique`: required `title` (single-line text), required `description` (rich text), optional `machines` (list of single-line text), and required `position` (integer).
+- `nenufar_compatible_technique`: required `name` (single-line text).
 
-The position is used for deterministic display ordering. A record can be referenced by many products, so common shipping promises, packaging explanations, care instructions, and technique guidance are entered once.
+A record can be referenced by many products. The product reference-list order controls display order.
 
 ## Rich-text migration inventory
 
@@ -49,7 +49,7 @@ These current multiline fields should become Shopify `rich_text_field` values an
 - `nenufar_faq_item.answer`
 
 All four MetaObject field replacements (`preview_copy`, process-step `body`, FAQ-group `description`, and FAQ-item `answer`) are now saved as Rich text in production. Replacing the fields removed the associated demo/test values; authored content migration and Hydrogen rich-text rendering remain separate chunks.
-- New detail-object `body` and compatible-technique `description` fields
+- New detail-object `body` fields and compatible-technique `name` fields
 
 Existing one-line labels, booleans, integers, lists of short labels, and the product description remain their current types unless a later approved chunk changes them.
 
