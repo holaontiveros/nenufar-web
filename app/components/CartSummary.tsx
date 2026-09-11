@@ -56,7 +56,7 @@ function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
 
   return (
     <div className="cart-checkout-actions">
-      <p className="cart-secure-message"><ShieldCheckIcon /> Checkout cifrado directo en Shopify. Muestra digital previa por WhatsApp.</p>
+      <p className="cart-secure-message"><ShieldCheckIcon /> Checkout cifrado directo en Shopify.</p>
       <a href={checkoutUrl} target="_self">
         <CartIcon /> Proceder al Pago en Shopify <b aria-hidden="true">→</b>
       </a>
