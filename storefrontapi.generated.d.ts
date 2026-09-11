@@ -426,14 +426,10 @@ export type HomepageCollectionsQueryVariables = StorefrontAPI.Exact<{
 export type HomepageCollectionsQuery = {
   collections: {
     edges: Array<{
-      node: Pick<
-        StorefrontAPI.Collection,
-        'id' | 'title' | 'handle' | 'description'
-      > & {
+      node: Pick<StorefrontAPI.Collection, 'id' | 'title' | 'handle'> & {
         image?: StorefrontAPI.Maybe<
           Pick<StorefrontAPI.Image, 'url' | 'altText'>
         >;
-        metafield?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
       };
     }>;
   };
@@ -1523,7 +1519,7 @@ interface GeneratedQueryTypes {
     return: ShopContactQuery;
     variables: ShopContactQueryVariables;
   };
-  '#graphql\n  query HomepageCollections {\n    collections(first: 20) {\n      edges {\n        node {\n          id\n          title\n          handle\n          description\n          image { url altText }\n          metafield(namespace: "custom", key: "show_on_home") { value }\n        }\n      }\n    }\n  }\n': {
+  '#graphql\n  query HomepageCollections {\n    collections(first: 20) {\n      edges {\n        node {\n          id\n          title\n          handle\n          image { url altText }\n        }\n      }\n    }\n  }\n': {
     return: HomepageCollectionsQuery;
     variables: HomepageCollectionsQueryVariables;
   };

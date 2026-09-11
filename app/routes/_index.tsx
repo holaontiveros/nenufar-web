@@ -14,9 +14,12 @@ export async function loader({context}: Route.LoaderArgs) {
     storefront.query(FAQ_QUERY, {cache: storefront.CacheLong()}),
   ]);
 
-  const collections = (collectionData as HomepageCollectionsQuery)
-    .collections?.edges
-    .filter((edge): edge is {node: NonNullable<typeof edge.node>} => !!edge?.node && edge.node.metafield?.value === 'true')
+  // Build homepage collections from collections that have products in the NenufarCatalogue.
+  // We use a hardcoded list of collection handles to control which ones appear on the homepage.
+  const homepageHandles = new Set(['dia-de-la-madre', 'dia-del-padre', 'navidad-fin-de-ano', 'san-valentin']);
+  const edges = (collectionData as HomepageCollectionsQuery).collections?.edges ?? [];
+  const collections = edges
+    .filter((edge): edge is {node: NonNullable<typeof edge.node>} => !!edge?.node && homepageHandles.has(edge.node.handle))
     .map((edge) => {
       const node = edge.node;
       return {
@@ -24,7 +27,6 @@ export async function loader({context}: Route.LoaderArgs) {
         title: node.title,
         handle: node.handle,
         image: node.image ?? undefined,
-        description: node.description ?? undefined,
         catalogName: node.title,
         catalogHandle: node.handle,
       };
@@ -66,9 +68,7 @@ const COLLECTIONS_QUERY = `#graphql
           id
           title
           handle
-          description
           image { url altText }
-          metafield(namespace: "custom", key: "show_on_home") { value }
         }
       }
     }
