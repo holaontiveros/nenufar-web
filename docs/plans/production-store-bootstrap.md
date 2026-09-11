@@ -64,7 +64,7 @@ On 2026-09-10, the transfer store `nenufar-regalos-personalizados-xyrqi3rj.mysho
 
 The three legacy metaobject types remain unavailable to the CLI application: Shopify reports that `faq_item`, `product_personalization`, and `product_process_step` are reserved for another application. On 2026-09-10, an authenticated merchant Shopify Admin session created the approved merchant-owned production alternatives `nenufar_faq_item`, `nenufar_product_personalization`, and `nenufar_product_process_step`, all with public Storefront API access. No entries or values were added.
 
-The two Product reference metafields remain outstanding because they must be constrained to those new production definitions: `custom.making_process` must be a list reference to `nenufar_product_process_step`, and `custom.personalization_config` must be a single reference to `nenufar_product_personalization`. Create them only as this constrained pair; do not create generic substitute reference fields. See [ADR-2026-09-10-production-metaobject-identifiers.md](../architecture/ADR-2026-09-10-production-metaobject-identifiers.md).
+The two Product reference metafields were created on 2026-09-10 as the approved constrained pair: `custom.making_process` is a list reference to `nenufar_product_process_step`, and `custom.personalization_config` is a single reference to `nenufar_product_personalization`. Both have public Storefront API access. No generic substitute references, product values, or entries were created. See [ADR-2026-09-10-production-metaobject-identifiers.md](../architecture/ADR-2026-09-10-production-metaobject-identifiers.md).
 
 ## Rollback
 

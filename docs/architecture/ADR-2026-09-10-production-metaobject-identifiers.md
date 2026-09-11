@@ -27,7 +27,7 @@ Their fields, validations, public Storefront access, and intended UI behavior re
 ## Consequences
 
 - The definitions are merchant-owned. The current CLI app cannot read or manage them through Admin GraphQL, so an authenticated merchant Admin session remains the operational path for schema changes.
-- `custom.making_process` and `custom.personalization_config` will be constrained to the new definitions once created.
+- `custom.making_process` and `custom.personalization_config` are constrained to the new definitions.
 - A later, explicitly planned runtime alignment is required before the production storefront uses the new FAQ type.
 
 ## Rollback
