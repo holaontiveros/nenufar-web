@@ -16,7 +16,7 @@ Create both definitions in **Content → Metaobjects** with public Storefront AP
 | Field | Key | Type | Required |
 | --- | --- | --- | --- |
 | Title | `title` | Single-line text | Yes |
-| Description | `description` | Multi-line text | No |
+| Description | `description` | Rich text | No |
 | Position | `position` | Integer | Yes |
 
 ### FAQ item
@@ -24,7 +24,7 @@ Create both definitions in **Content → Metaobjects** with public Storefront AP
 | Field | Key | Type | Required |
 | --- | --- | --- | --- |
 | Question | `question` | Single-line text | Yes |
-| Answer | `answer` | Multi-line text | Yes |
+| Answer | `answer` | Rich text | Yes |
 | Group | `group` | Single metaobject reference constrained to that store's FAQ group type | No |
 
 The optional reference keeps existing entries valid while groups are introduced. The group definition—not a choice list—is the source of the group title, description, and display order.

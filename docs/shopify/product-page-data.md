@@ -43,7 +43,7 @@ Create a merchant-managed `product_personalization` definition with public store
 | `character_limit` | Integer | Yes | Client-side maximum for the primary input. |
 | `font_options` | List of single-line text | No | Typography choices, in display order. |
 | `motif_options` | List of single-line text | No | Motif/design choices, in display order. |
-| `preview_copy` | Multi-line text | No | Copy describing the digital-preview process. |
+| `preview_copy` | Rich text | No | Copy describing the digital-preview process. |
 | `artisan_note_label` | Single-line text | No | Optional note-field label. |
 | `artisan_note_placeholder` | Single-line text | No | Optional note-field example. |
 | `artisan_note_enabled` | True/false | Yes | Enables the optional artisan-note input. |
@@ -57,7 +57,7 @@ Create a merchant-managed `product_process_step` definition with public storefro
 | Field key | Type | Required | Use |
 | --- | --- | --- | --- |
 | `title` | Single-line text | Yes | Workshop step heading. |
-| `body` | Multi-line text | Yes | Workshop step explanation. |
+| `body` | Rich text | Yes | Workshop step explanation. |
 | `position` | Integer | Yes | Visible step number. |
 
 The product's `custom.making_process` reference list controls which steps appear and their order. The `position` value is displayed, not used to reorder the list.
