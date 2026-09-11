@@ -49,7 +49,7 @@ export function ProductDetailsTabs({
     if (dimensions || weight || technique || materials || packageItems.length > 0) {
       nextTabs.push({
         id: 'materials',
-        label: 'Materiales y dimensiones',
+        label: 'Características',
         content: (
           <div className="product-details-grid">
             {(dimensions || weight || technique) && (
@@ -62,7 +62,7 @@ export function ProductDetailsTabs({
             )}
             {materials && (
               <section>
-                <h3>Materiales nobles</h3>
+                <h3>Materiales</h3>
                 <p className="product-details-preformatted">{materials}</p>
               </section>
             )}
@@ -117,7 +117,7 @@ export function ProductDetailsTabs({
       nextTabs.push({
         id: 'care',
         label: 'Guía de cuidados',
-        content: <section className="product-care-guide"><h2>Recomendaciones del artesano para conservar tu pieza impecable</h2><p className="product-details-preformatted">{careGuide}</p></section>,
+        content: <section className="product-care-guide"><h3>Recomendaciones</h3><p className="product-details-preformatted">{careGuide}</p></section>,
       });
     }
 
