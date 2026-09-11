@@ -110,8 +110,7 @@ async function loadCriticalData({context}: Route.LoaderArgs) {
       },
     }),
     storefront.query(SHOP_CONTACT_QUERY, {
-      // Merchant-managed contact settings must reflect immediately after an Admin update.
-      cache: storefront.CacheNone(),
+      cache: storefront.CacheLong(),
     }),
   ]);
 
