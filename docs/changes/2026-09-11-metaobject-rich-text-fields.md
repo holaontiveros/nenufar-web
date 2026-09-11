@@ -13,7 +13,7 @@ The production schema conversion targets these merchant-owned MetaObject fields:
 - `nenufar_faq_group.description`
 - `nenufar_faq_item.answer`
 
-`preview_copy` was recreated as Rich text after its legacy Multi-line text definition was removed. The process-step body was removed from the old definition and is awaiting its replacement Rich text field; FAQ fields remain to be converted in the next Admin schema chunk.
+All four legacy Multi-line text fields were removed and recreated as Rich text fields in Shopify Admin. The replacement definitions are now saved in the production store.
 
 ## Data-loss note
 
@@ -21,8 +21,8 @@ Shopify does not support changing these field types in place. Removing a field d
 
 ## Validation
 
-- Confirmed `preview_copy` is saved as Rich text in Shopify Admin.
-- Confirmed the legacy process-step `body` field was removed; replacement is pending.
+- Confirmed `preview_copy`, process-step `body`, FAQ-group `description`, and FAQ-item `answer` are saved as Rich text in Shopify Admin.
+- Confirmed the old Multi-line definitions were removed before each replacement was saved.
 - No storefront code or production content entries were changed.
 
 ## Risks and rollback
@@ -31,6 +31,5 @@ The rollback is manual: recreate the original field with its prior type and rest
 
 ## Follow-up
 
-1. Recreate `nenufar_product_process_step.body` as Rich text.
-2. Replace `nenufar_faq_group.description` and `nenufar_faq_item.answer` as Rich text.
-3. Migrate authored production entries and update Hydrogen readers to render rich-text HTML safely.
+1. Migrate authored production entries into the new Rich text fields.
+2. Update Hydrogen readers to render rich-text values safely.

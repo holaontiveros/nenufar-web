@@ -48,7 +48,7 @@ These current multiline fields should become Shopify `rich_text_field` values an
 - `nenufar_faq_group.description`
 - `nenufar_faq_item.answer`
 
-The first replacement (`preview_copy`) is now saved as Rich text in production. The process-step body has had its demo field removed and needs its replacement field saved; FAQ field conversions remain pending. Content migration and Hydrogen rich-text rendering remain separate chunks.
+All four MetaObject field replacements (`preview_copy`, process-step `body`, FAQ-group `description`, and FAQ-item `answer`) are now saved as Rich text in production. Replacing the fields removed the associated demo/test values; authored content migration and Hydrogen rich-text rendering remain separate chunks.
 - New detail-object `body` and compatible-technique `description` fields
 
 Existing one-line labels, booleans, integers, lists of short labels, and the product description remain their current types unless a later approved chunk changes them.
