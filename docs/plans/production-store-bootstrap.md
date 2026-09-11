@@ -28,9 +28,9 @@ Create the following definitions with merchant-managed Admin access and public S
 | Product | `custom` | `technique`, `materials`, `lead_time`, `badge`, `is_popular`, `allow_custom_text`, `custom_text_placeholder`, `material_label`, `dimensions`, `weight`, `package_includes`, `making_process`, `shipping_details`, `packaging_details`, `care_guide`, `personalization_config` |
 | Collection | `custom.show_on_home` | Boolean, controls cards on the homepage collection grid. |
 | Shop | `contact.whatsapp_number` | Single-line text, E.164 digits only. Leave blank until the verified production number is supplied. |
-| Metaobject | `faq_item` | Required `question` and `answer` fields. |
-| Metaobject | `product_personalization` | The fields specified in [product-page-data.md](../shopify/product-page-data.md). |
-| Metaobject | `product_process_step` | Required `title`, `body`, and `position` fields. |
+| Metaobject | `nenufar_faq_item` | Required `question` and `answer` fields. |
+| Metaobject | `nenufar_product_personalization` | The fields specified in [product-page-data.md](../shopify/product-page-data.md). |
+| Metaobject | `nenufar_product_process_step` | Required `title`, `body`, and `position` fields. |
 
 After creation, read every definition back from Admin and verify a representative Product, Collection, Shop, and metaobject query can expose the intended public fields through the Storefront API.
 
@@ -62,7 +62,9 @@ Once the domain is supplied, perform a read-only audit of the transfer store and
 
 On 2026-09-10, the transfer store `nenufar-regalos-personalizados-xyrqi3rj.myshopify.com` was audited. It had no existing custom-data definitions. The independent Product, Collection, and Shop definitions in phase 1 were created and read back with public Storefront access. No values, products, collections, entries, files, or demo data were written.
 
-The three legacy metaobject types remain blocked: Shopify reports that `faq_item`, `product_personalization`, and `product_process_step` are reserved for another application. The approved production alternatives are `nenufar_faq_item`, `nenufar_product_personalization`, and `nenufar_product_process_step`; the same CLI application was also denied permission to create those types. This confirms an application-ownership limitation rather than a name collision. The two Product reference metafields that depend on those definitions (`making_process` and `personalization_config`) must wait for merchant-authorized creation. Do not create unvalidated substitute reference fields. See [ADR-2026-09-10-production-metaobject-identifiers.md](../architecture/ADR-2026-09-10-production-metaobject-identifiers.md).
+The three legacy metaobject types remain unavailable to the CLI application: Shopify reports that `faq_item`, `product_personalization`, and `product_process_step` are reserved for another application. On 2026-09-10, an authenticated merchant Shopify Admin session created the approved merchant-owned production alternatives `nenufar_faq_item`, `nenufar_product_personalization`, and `nenufar_product_process_step`, all with public Storefront API access. No entries or values were added.
+
+The two Product reference metafields remain outstanding because they must be constrained to those new production definitions: `custom.making_process` must be a list reference to `nenufar_product_process_step`, and `custom.personalization_config` must be a single reference to `nenufar_product_personalization`. Create them only as this constrained pair; do not create generic substitute reference fields. See [ADR-2026-09-10-production-metaobject-identifiers.md](../architecture/ADR-2026-09-10-production-metaobject-identifiers.md).
 
 ## Rollback
 

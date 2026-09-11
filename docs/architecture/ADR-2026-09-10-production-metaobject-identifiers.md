@@ -2,7 +2,7 @@
 
 ## Status
 
-Approved, pending creation in the transfer store.
+Approved and created in the transfer store.
 
 ## Context
 
@@ -10,13 +10,13 @@ The production transfer store rejected the legacy metaobject types `faq_item`, `
 
 ## Decision
 
-Use these production metaobject type identifiers when merchant-side creation authority is available:
+Use these production metaobject type identifiers:
 
 - `nenufar_faq_item`
 - `nenufar_product_personalization`
 - `nenufar_product_process_step`
 
-Their fields, validations, public Storefront access, and intended UI behavior remain the already approved model. Only the type identifiers change. The FAQ Hydrogen query must be aligned in a future environment-cutover chunk after both development and production have compatible definitions; this decision does not alter the currently deployed development-store query.
+Their fields, validations, public Storefront access, and intended UI behavior remain the already approved model. Only the type identifiers change. An authenticated merchant Admin session created the empty definitions on 2026-09-10. The FAQ Hydrogen query must be aligned in a future environment-cutover chunk after both development and production have compatible definitions; this decision does not alter the currently deployed development-store query.
 
 ## Alternatives considered
 
@@ -26,7 +26,7 @@ Their fields, validations, public Storefront access, and intended UI behavior re
 
 ## Consequences
 
-- The store needs a merchant-authorized method to create the new definitions before the FAQ and structured product data can be populated.
+- The definitions are merchant-owned. The current CLI app cannot read or manage them through Admin GraphQL, so an authenticated merchant Admin session remains the operational path for schema changes.
 - `custom.making_process` and `custom.personalization_config` will be constrained to the new definitions once created.
 - A later, explicitly planned runtime alignment is required before the production storefront uses the new FAQ type.
 
