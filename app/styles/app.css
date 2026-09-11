@@ -731,6 +731,7 @@ body {
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
+.story-heading h1,
 .story-heading h2,
 .quote-banner h2,
 .story-final h2 {
@@ -800,7 +801,6 @@ body {
 }
 .story-card a {
   display: inline-block;
-  margin-top: 1rem;
   color: #9d174d;
   font-size: 0.72rem;
   font-weight: 800;
@@ -2702,4 +2702,3 @@ button.reset:hover:not(:has(> *)) {
   font-size: 0.85rem;
   line-height: 1.6;
 }
-.story-heading h1,
