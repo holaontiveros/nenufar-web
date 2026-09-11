@@ -19,7 +19,7 @@ interface HeaderProps {
 
 const navigation = [
   ['Productos', '/catalogo'], ['Catálogos', '/#catalogos'],
-  ['Preguntas', '/#faq'],
+  ['Preguntas', '/preguntas'],
   // TODO: re-enable when ready — ['El Taller', '/#tecnicas'],
   // TODO: re-enable when ready — ['Trabajos Reales', '/#galeria'],
   // TODO: re-enable when ready — removed for now,

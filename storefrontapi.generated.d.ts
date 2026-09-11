@@ -441,67 +441,6 @@ export type HomepageCollectionsQuery = {
   };
 };
 
-export type HomepageFaqsQueryVariables = StorefrontAPI.Exact<{
-  [key: string]: never;
-}>;
-
-export type HomepageFaqsQuery = {
-  legacyFaqs: {
-    nodes: Array<
-      Pick<StorefrontAPI.Metaobject, 'handle'> & {
-        question?: StorefrontAPI.Maybe<
-          Pick<StorefrontAPI.MetaobjectField, 'value'>
-        >;
-        answer?: StorefrontAPI.Maybe<
-          Pick<StorefrontAPI.MetaobjectField, 'value'>
-        >;
-        group?: StorefrontAPI.Maybe<{
-          reference?: StorefrontAPI.Maybe<
-            Pick<StorefrontAPI.Metaobject, 'id'> & {
-              title?: StorefrontAPI.Maybe<
-                Pick<StorefrontAPI.MetaobjectField, 'value'>
-              >;
-              description?: StorefrontAPI.Maybe<
-                Pick<StorefrontAPI.MetaobjectField, 'value'>
-              >;
-              position?: StorefrontAPI.Maybe<
-                Pick<StorefrontAPI.MetaobjectField, 'value'>
-              >;
-            }
-          >;
-        }>;
-      }
-    >;
-  };
-  productionFaqs: {
-    nodes: Array<
-      Pick<StorefrontAPI.Metaobject, 'handle'> & {
-        question?: StorefrontAPI.Maybe<
-          Pick<StorefrontAPI.MetaobjectField, 'value'>
-        >;
-        answer?: StorefrontAPI.Maybe<
-          Pick<StorefrontAPI.MetaobjectField, 'value'>
-        >;
-        group?: StorefrontAPI.Maybe<{
-          reference?: StorefrontAPI.Maybe<
-            Pick<StorefrontAPI.Metaobject, 'id'> & {
-              title?: StorefrontAPI.Maybe<
-                Pick<StorefrontAPI.MetaobjectField, 'value'>
-              >;
-              description?: StorefrontAPI.Maybe<
-                Pick<StorefrontAPI.MetaobjectField, 'value'>
-              >;
-              position?: StorefrontAPI.Maybe<
-                Pick<StorefrontAPI.MetaobjectField, 'value'>
-              >;
-            }
-          >;
-        }>;
-      }
-    >;
-  };
-};
-
 export type ArticleQueryVariables = StorefrontAPI.Exact<{
   articleHandle: StorefrontAPI.Scalars['String']['input'];
   blogHandle: StorefrontAPI.Scalars['String']['input'];
@@ -905,6 +844,61 @@ export type PoliciesQuery = {
     subscriptionPolicy?: StorefrontAPI.Maybe<
       Pick<StorefrontAPI.ShopPolicyWithDefault, 'id' | 'title' | 'handle'>
     >;
+  };
+};
+
+export type FaqPageQueryVariables = StorefrontAPI.Exact<{[key: string]: never}>;
+
+export type FaqPageQuery = {
+  legacyFaqs: {
+    nodes: Array<{
+      question?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MetaobjectField, 'value'>
+      >;
+      answer?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MetaobjectField, 'value'>
+      >;
+      group?: StorefrontAPI.Maybe<{
+        reference?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.Metaobject, 'id'> & {
+            title?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.MetaobjectField, 'value'>
+            >;
+            description?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.MetaobjectField, 'value'>
+            >;
+            position?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.MetaobjectField, 'value'>
+            >;
+          }
+        >;
+      }>;
+    }>;
+  };
+  productionFaqs: {
+    nodes: Array<{
+      question?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MetaobjectField, 'value'>
+      >;
+      answer?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MetaobjectField, 'value'>
+      >;
+      group?: StorefrontAPI.Maybe<{
+        reference?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.Metaobject, 'id'> & {
+            title?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.MetaobjectField, 'value'>
+            >;
+            description?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.MetaobjectField, 'value'>
+            >;
+            position?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.MetaobjectField, 'value'>
+            >;
+          }
+        >;
+      }>;
+    }>;
   };
 };
 
@@ -1667,10 +1661,6 @@ interface GeneratedQueryTypes {
     return: HomepageCollectionsQuery;
     variables: HomepageCollectionsQueryVariables;
   };
-  '#graphql\n  query HomepageFaqs {\n    legacyFaqs: metaobjects(type: "faq_item", first: 20) {\n      nodes {\n        handle\n        question: field(key: "question") {\n          value\n        }\n        answer: field(key: "answer") {\n          value\n        }\n        group: field(key: "group") {\n          reference {\n            ... on Metaobject {\n              id\n              title: field(key: "title") { value }\n              description: field(key: "description") { value }\n              position: field(key: "position") { value }\n            }\n          }\n        }\n      }\n    }\n    productionFaqs: metaobjects(type: "nenufar_faq_item", first: 20) {\n      nodes {\n        handle\n        question: field(key: "question") {\n          value\n        }\n        answer: field(key: "answer") {\n          value\n        }\n        group: field(key: "group") {\n          reference {\n            ... on Metaobject {\n              id\n              title: field(key: "title") { value }\n              description: field(key: "description") { value }\n              position: field(key: "position") { value }\n            }\n          }\n        }\n      }\n    }\n  }\n': {
-    return: HomepageFaqsQuery;
-    variables: HomepageFaqsQueryVariables;
-  };
   '#graphql\n  query Article(\n    $articleHandle: String!\n    $blogHandle: String!\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(language: $language, country: $country) {\n    blog(handle: $blogHandle) {\n      handle\n      articleByHandle(handle: $articleHandle) {\n        handle\n        title\n        contentHtml\n        publishedAt\n        author: authorV2 {\n          name\n        }\n        image {\n          id\n          altText\n          url\n          width\n          height\n        }\n        seo {\n          description\n          title\n        }\n      }\n    }\n  }\n': {
     return: ArticleQuery;
     variables: ArticleQueryVariables;
@@ -1710,6 +1700,10 @@ interface GeneratedQueryTypes {
   '#graphql\n  fragment PolicyItem on ShopPolicy {\n    id\n    title\n    handle\n  }\n  query Policies ($country: CountryCode, $language: LanguageCode)\n    @inContext(country: $country, language: $language) {\n    shop {\n      privacyPolicy {\n        ...PolicyItem\n      }\n      shippingPolicy {\n        ...PolicyItem\n      }\n      termsOfService {\n        ...PolicyItem\n      }\n      refundPolicy {\n        ...PolicyItem\n      }\n      subscriptionPolicy {\n        id\n        title\n        handle\n      }\n    }\n  }\n': {
     return: PoliciesQuery;
     variables: PoliciesQueryVariables;
+  };
+  '#graphql\n  query FaqPage {\n    legacyFaqs: metaobjects(type: "faq_item", first: 20) {\n      nodes {\n        question: field(key: "question") { value }\n        answer: field(key: "answer") { value }\n        group: field(key: "group") {\n          reference {\n            ... on Metaobject {\n              id\n              title: field(key: "title") { value }\n              description: field(key: "description") { value }\n              position: field(key: "position") { value }\n            }\n          }\n        }\n      }\n    }\n    productionFaqs: metaobjects(type: "nenufar_faq_item", first: 20) {\n      nodes {\n        question: field(key: "question") { value }\n        answer: field(key: "answer") { value }\n        group: field(key: "group") {\n          reference {\n            ... on Metaobject {\n              id\n              title: field(key: "title") { value }\n              description: field(key: "description") { value }\n              position: field(key: "position") { value }\n            }\n          }\n        }\n      }\n    }\n  }\n': {
+    return: FaqPageQuery;
+    variables: FaqPageQueryVariables;
   };
   '#graphql\n  query Product(\n    $country: CountryCode\n    $handle: String!\n    $language: LanguageCode\n    $selectedOptions: [SelectedOptionInput!]!\n  ) @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      ...Product\n    }\n  }\n  #graphql\n  fragment Product on Product {\n    id\n    title\n    vendor\n    handle\n    descriptionHtml\n    description\n    images(first: 10) {\n      nodes {\n        id\n        url\n        altText\n      }\n    }\n    collections(first: 1) {\n      nodes {\n        handle\n        title\n        products(first: 4) {\n          nodes {\n            id\n            handle\n            title\n            description\n            featuredImage {\n              altText\n              height\n              id\n              url\n              width\n            }\n            priceRange {\n              minVariantPrice {\n                amount\n                currencyCode\n              }\n            }\n          }\n        }\n      }\n    }\n    encodedVariantExistence\n    encodedVariantAvailability\n    options {\n      name\n      optionValues {\n        name\n        firstSelectableVariant {\n          ...ProductVariant\n        }\n        swatch {\n          color\n          image {\n            previewImage {\n              url\n            }\n          }\n        }\n      }\n    }\n    selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {\n      ...ProductVariant\n    }\n    adjacentVariants (selectedOptions: $selectedOptions) {\n      ...ProductVariant\n    }\n    seo {\n      description\n      title\n    }\n    materialLabel: metafield(namespace: "custom", key: "material_label") {\n      value\n    }\n    badge: metafield(namespace: "custom", key: "badge") {\n      value\n    }\n    technique: metafield(namespace: "custom", key: "technique") {\n      value\n    }\n    leadTime: metafield(namespace: "custom", key: "lead_time") {\n      value\n    }\n    dimensions: metafield(namespace: "custom", key: "dimensions") {\n      value\n    }\n    weight: metafield(namespace: "custom", key: "weight") {\n      value\n    }\n    materials: metafield(namespace: "custom", key: "materials") {\n      value\n    }\n    packageIncludes: metafield(namespace: "custom", key: "package_includes") {\n      value\n    }\n    makingProcess: metafield(namespace: "custom", key: "making_process") {\n      references(first: 10) {\n        nodes {\n          ... on Metaobject {\n            body: field(key: "body") {\n              value\n            }\n            position: field(key: "position") {\n              value\n            }\n            title: field(key: "title") {\n              value\n            }\n          }\n        }\n      }\n    }\n    shippingDetails: metafield(namespace: "custom", key: "shipping_details") {\n      references(first: 20) {\n        nodes {\n          ... on Metaobject {\n            body: field(key: "body") { value }\n            position: field(key: "position") { value }\n            title: field(key: "title") { value }\n          }\n        }\n      }\n    }\n    packagingDetails: metafield(namespace: "custom", key: "packaging_details") {\n      references(first: 20) {\n        nodes {\n          ... on Metaobject {\n            body: field(key: "body") { value }\n            position: field(key: "position") { value }\n            title: field(key: "title") { value }\n          }\n        }\n      }\n    }\n    careGuide: metafield(namespace: "custom", key: "care_guide") {\n      references(first: 20) {\n        nodes {\n          ... on Metaobject {\n            body: field(key: "body") { value }\n            position: field(key: "position") { value }\n            title: field(key: "title") { value }\n          }\n        }\n      }\n    }\n    compatibleTechniques: metafield(namespace: "custom", key: "compatible_techniques") {\n      references(first: 20) {\n        nodes {\n          ... on Metaobject {\n            name: field(key: "name") {\n              value\n            }\n          }\n        }\n      }\n    }\n    personalizationEnabled: metafield(namespace: "custom", key: "allow_custom_text") {\n      value\n    }\n    personalizationConfig: metafield(namespace: "custom", key: "personalization_config") {\n      reference {\n        ... on Metaobject {\n          artisanNoteEnabled: field(key: "artisan_note_enabled") {\n            value\n          }\n          artisanNoteLabel: field(key: "artisan_note_label") {\n            value\n          }\n          artisanNotePlaceholder: field(key: "artisan_note_placeholder") {\n            value\n          }\n          characterLimit: field(key: "character_limit") {\n            value\n          }\n          fontOptions: field(key: "font_options") {\n            value\n          }\n          motifOptions: field(key: "motif_options") {\n            value\n          }\n          previewCopy: field(key: "preview_copy") {\n            value\n          }\n          textLabel: field(key: "text_label") {\n            value\n          }\n          textPlaceholder: field(key: "text_placeholder") {\n            value\n          }\n        }\n      }\n    }\n  }\n  #graphql\n  fragment ProductVariant on ProductVariant {\n    availableForSale\n    compareAtPrice {\n      amount\n      currencyCode\n    }\n    id\n    image {\n      __typename\n      id\n      url\n      altText\n      width\n      height\n    }\n    price {\n      amount\n      currencyCode\n    }\n    product {\n      title\n      handle\n    }\n    selectedOptions {\n      name\n      value\n    }\n    sku\n    title\n    unitPrice {\n      amount\n      currencyCode\n    }\n  }\n\n\n': {
     return: ProductQuery;

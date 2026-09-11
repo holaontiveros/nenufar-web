@@ -24,14 +24,17 @@ const projects = [
 ];
 const reviews = [['"La atención fue hermosa y el joyero quedó todavía más especial de lo que imaginaba."', 'Mariana R. · Regalo personal'], ['"Cumplieron el tiempo de entrega y cada pieza llegó perfecta para nuestro equipo."', 'Lucía M. · Empresa / B2B']];
 type FaqItem = {question: string; answer: string};
-type FaqGroup = {id: string; title: string; description?: string; faqs: FaqItem[]};
+export type FaqGroup = {
+  id: string;
+  title: string;
+  description?: string;
+  faqs: FaqItem[];
+};
 
 export function NenufarStory({
-  faqGroups,
   collections,
   whatsappUrl,
 }: {
-  faqGroups: FaqGroup[];
   collections: CollectionCard[];
   whatsappUrl: string | null;
 }) {
@@ -47,8 +50,13 @@ export function NenufarStory({
     {/* TODO: re-enable Reviews section when ready
     <section className="story-section"><div className="nenufar-shell"><StoryHeading eyebrow="Historias de quienes ya regalaron" title="Emoción tangible en cada entrega" copy="La confianza se construye con atención al detalle y comunicación clara." /><div className="story-grid story-grid--two">{reviews.map(([quote, author]) => <blockquote className="review-card" key={author}><b>★★★★★</b><p>{quote}</p><footer>{author}</footer></blockquote>)}</div></div></section>
     */}
-    <section id="faq" className="story-section story-section--tint"><div className="nenufar-shell faq"><StoryHeading eyebrow="Claridad & procesos" title="Preguntas frecuentes" copy="Todo lo que necesitas saber antes de ordenar." />{faqGroups.map((group) => <section className="faq__group" key={group.id}><header><h3>{group.title}</h3>{group.description && <RichTextContent className="faq__group-description" value={group.description} />}</header>{group.faqs.map(({question, answer}) => <details key={question}><summary>{question}<span>⌄</span></summary><RichTextContent className="faq__answer" value={answer} /></details>)}</section>)}</div></section>
+    <section id="faq" className="story-section story-section--tint"><div className="nenufar-shell faq-preview"><StoryHeading eyebrow="Claridad & procesos" title="Preguntas frecuentes" copy="Resolvemos las dudas más comunes sobre materiales, personalización, tiempos y envíos." /><a className="faq-preview__cta" href="/preguntas">Ver todas las preguntas frecuentes <span>→</span></a></div></section>
     <section className="story-final"><div><span>Hagamos algo inolvidable hoy</span><h2>Tu próxima idea merece existir <em>con intención.</em></h2><p>Regalos personales, piezas corporativas y detalles que cuentan una historia.</p>{whatsappUrl && <a href={whatsappUrl} target="_blank" rel="noreferrer"><WhatsAppIcon /> Iniciar conversación</a>}</div></section>{whatsappUrl && <a className="floating-chat" href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="Abrir WhatsApp"><WhatsAppIcon /></a>}
   </>;
 }
+
+export function FaqGroups({faqGroups}: {faqGroups: FaqGroup[]}) {
+  return <>{faqGroups.map((group) => <section className="faq__group" key={group.id}><header><h3>{group.title}</h3>{group.description && <RichTextContent className="faq__group-description" value={group.description} />}</header>{group.faqs.map(({question, answer}) => <details key={question}><summary>{question}<span>⌄</span></summary><RichTextContent className="faq__answer" value={answer} /></details>)}</section>)}</>;
+}
+
 function StoryHeading({eyebrow, title, copy}: {eyebrow: string; title: string; copy: string}) { return <header className="story-heading"><span>{eyebrow}</span><h2>{title}</h2><p>{copy}</p></header>; }
