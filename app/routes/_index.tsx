@@ -7,9 +7,22 @@ import type {HomepageCollectionsQuery} from 'storefrontapi.generated';
 
 export const meta: Route.MetaFunction = () => [{title: 'Nenúfar | Regalos personalizados'}];
 
+type FaqNode = {
+  question?: {value?: string} | null;
+  answer?: {value?: string} | null;
+};
+
+function formatFaqs(faqs: FaqNode[]) {
+  return faqs.flatMap((faq) => {
+    const question = faq.question?.value;
+    const answer = faq.answer?.value;
+    return question && answer ? [{question, answer}] : [];
+  });
+}
+
 export async function loader({context}: Route.LoaderArgs) {
   const {storefront} = context;
-  const [collectionData, {metaobjects}] = await Promise.all([
+  const [collectionData, {legacyFaqs, productionFaqs}] = await Promise.all([
     storefront.query(COLLECTIONS_QUERY, {cache: storefront.CacheLong()}),
     storefront.query(FAQ_QUERY, {cache: storefront.CacheLong()}),
   ]);
@@ -30,11 +43,10 @@ export async function loader({context}: Route.LoaderArgs) {
     });
 
   return {
-    faqs: (metaobjects as {nodes: {question?: {value?: string} | null; answer?: {value?: string} | null}[]}).nodes.flatMap((faq) => {
-      const question = faq.question?.value;
-      const answer = faq.answer?.value;
-      return question && answer ? [{question, answer}] : [];
-    }),
+    faqs: [
+      ...formatFaqs((legacyFaqs.nodes ?? []) as FaqNode[]),
+      ...formatFaqs((productionFaqs.nodes ?? []) as FaqNode[]),
+    ],
     collections,
   };
 }
@@ -76,7 +88,18 @@ const COLLECTIONS_QUERY = `#graphql
 
 const FAQ_QUERY = `#graphql
   query HomepageFaqs {
-    metaobjects(type: "faq_item", first: 20) {
+    legacyFaqs: metaobjects(type: "faq_item", first: 20) {
+      nodes {
+        handle
+        question: field(key: "question") {
+          value
+        }
+        answer: field(key: "answer") {
+          value
+        }
+      }
+    }
+    productionFaqs: metaobjects(type: "nenufar_faq_item", first: 20) {
       nodes {
         handle
         question: field(key: "question") {

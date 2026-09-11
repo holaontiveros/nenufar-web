@@ -4,7 +4,7 @@ This runbook is the operational checklist for getting Nenúfar Web running again
 
 For the client-transfer production store, follow the no-demo execution sequence in [production-store-bootstrap.md](../plans/production-store-bootstrap.md) before configuring products or deploying Hydrogen.
 
-The transfer-store schema bootstrap began on 2026-09-10. The independent public Product, Collection, and Shop definitions are in place; the metaobject types and their two dependent reference fields are blocked by Shopify application ownership. See the production bootstrap plan for the current state.
+The transfer-store schema bootstrap completed on 2026-09-10. Its public Product, Collection, Shop, and merchant-owned `nenufar_*` metaobject definitions are in place, along with the constrained Product reference fields. See the production bootstrap plan for the current state.
 
 ## Safety rules
 
@@ -79,7 +79,7 @@ See `docs/shopify/metafields.md` for the existing demo import mapping.
 
 ### 4. Homepage FAQs
 
-1. Create the `faq_item` metaobject definition with public storefront read access.
+1. Create the `nenufar_faq_item` metaobject definition with public storefront read access.
 2. Add production FAQ entries with required `question` and `answer` values.
 3. Verify the entries through Storefront API; incomplete entries intentionally do not render.
 
@@ -95,7 +95,7 @@ See `docs/shopify/contact-metafields.md`.
 
 ### 6. Product-page rich data
 
-1. Create `product_personalization` and `product_process_step` metaobject definitions with public storefront read access.
+1. Create `nenufar_product_personalization` and `nenufar_product_process_step` metaobject definitions with public storefront read access.
 2. Create the new product metafield definitions and populate merchant-verified values.
 3. Create reusable personalization and workshop-step entries, then assign the reference metafields to representative personalized products.
 4. Verify all referenced entries and values through Storefront API before publishing to the Hydrogen channel.

@@ -446,7 +446,19 @@ export type HomepageFaqsQueryVariables = StorefrontAPI.Exact<{
 }>;
 
 export type HomepageFaqsQuery = {
-  metaobjects: {
+  legacyFaqs: {
+    nodes: Array<
+      Pick<StorefrontAPI.Metaobject, 'handle'> & {
+        question?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.MetaobjectField, 'value'>
+        >;
+        answer?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.MetaobjectField, 'value'>
+        >;
+      }
+    >;
+  };
+  productionFaqs: {
     nodes: Array<
       Pick<StorefrontAPI.Metaobject, 'handle'> & {
         question?: StorefrontAPI.Maybe<
@@ -1529,7 +1541,7 @@ interface GeneratedQueryTypes {
     return: HomepageCollectionsQuery;
     variables: HomepageCollectionsQueryVariables;
   };
-  '#graphql\n  query HomepageFaqs {\n    metaobjects(type: "faq_item", first: 20) {\n      nodes {\n        handle\n        question: field(key: "question") {\n          value\n        }\n        answer: field(key: "answer") {\n          value\n        }\n      }\n    }\n  }\n': {
+  '#graphql\n  query HomepageFaqs {\n    legacyFaqs: metaobjects(type: "faq_item", first: 20) {\n      nodes {\n        handle\n        question: field(key: "question") {\n          value\n        }\n        answer: field(key: "answer") {\n          value\n        }\n      }\n    }\n    productionFaqs: metaobjects(type: "nenufar_faq_item", first: 20) {\n      nodes {\n        handle\n        question: field(key: "question") {\n          value\n        }\n        answer: field(key: "answer") {\n          value\n        }\n      }\n    }\n  }\n': {
     return: HomepageFaqsQuery;
     variables: HomepageFaqsQueryVariables;
   };
