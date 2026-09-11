@@ -1359,7 +1359,7 @@ body {
   grid-template-columns: minmax(0, 1.05fr) minmax(20rem, 0.95fr);
   gap: 3rem;
   width: min(100% - 2rem, 78rem);
-  margin: 3.5rem auto 1rem 4rem;
+  margin: 3.5rem auto 0;
 }
 .nenufar-product-page .nenufar-product-gallery {
   position: relative;
