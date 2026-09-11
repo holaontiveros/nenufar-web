@@ -2,6 +2,8 @@
 
 This runbook is the operational checklist for getting Nenúfar Web running against a Shopify store. It distinguishes the current development-store state from work that must be repeated or verified for the future production store.
 
+For the client-transfer production store, follow the no-demo execution sequence in [production-store-bootstrap.md](../plans/production-store-bootstrap.md) before configuring products or deploying Hydrogen.
+
 ## Safety rules
 
 - The current Hydrogen project is linked only to the development storefront. Never reuse that linkage, its Oxygen environment, or its credentials for production.
