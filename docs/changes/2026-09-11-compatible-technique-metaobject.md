@@ -10,6 +10,7 @@ Model product-compatible techniques as reusable named records that products can 
 - Removed the previous title, description, machines, and position fields; no production entries had been created for this definition.
 - Updated the product query and product-detail tabs to render the referenced technique names.
 - Updated the Shopify data-model documentation.
+- Created the active reusable entries `Corte láser` and `DTF UV`.
 
 ## Validation
 
@@ -24,4 +25,4 @@ The definition replacement is destructive for entries using the removed fields. 
 
 ## Follow-up
 
-Create the reusable technique entries and assign them to products through `custom.compatible_techniques`.
+Assign the reusable entries to products through `custom.compatible_techniques` after confirming each product's compatible techniques.

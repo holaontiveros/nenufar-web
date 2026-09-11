@@ -35,7 +35,7 @@ Compatible techniques use:
 
 - `nenufar_compatible_technique`: required `name` (single-line text).
 
-A record can be referenced by many products. The product reference-list order controls display order.
+A record can be referenced by many products. The product reference-list order controls display order. The production store currently has the starter entries `Corte láser` and `DTF UV`; product assignments remain pending confirmation.
 
 ## Rich-text migration inventory
 
