@@ -62,7 +62,7 @@ Once the domain is supplied, perform a read-only audit of the transfer store and
 
 On 2026-09-10, the transfer store `nenufar-regalos-personalizados-xyrqi3rj.myshopify.com` was audited. It had no existing custom-data definitions. The independent Product, Collection, and Shop definitions in phase 1 were created and read back with public Storefront access. No values, products, collections, entries, files, or demo data were written.
 
-The three required metaobject types remain blocked: Shopify reports that `faq_item`, `product_personalization`, and `product_process_step` are reserved for another application. The two Product reference metafields that depend on those types (`making_process` and `personalization_config`) must wait for the owning-app resolution. Do not create unvalidated substitute reference fields.
+The three legacy metaobject types remain blocked: Shopify reports that `faq_item`, `product_personalization`, and `product_process_step` are reserved for another application. The approved production alternatives are `nenufar_faq_item`, `nenufar_product_personalization`, and `nenufar_product_process_step`; the same CLI application was also denied permission to create those types. This confirms an application-ownership limitation rather than a name collision. The two Product reference metafields that depend on those definitions (`making_process` and `personalization_config`) must wait for merchant-authorized creation. Do not create unvalidated substitute reference fields. See [ADR-2026-09-10-production-metaobject-identifiers.md](../architecture/ADR-2026-09-10-production-metaobject-identifiers.md).
 
 ## Rollback
 
