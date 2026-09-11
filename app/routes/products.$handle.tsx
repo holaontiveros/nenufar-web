@@ -158,7 +158,7 @@ export default function Product() {
   return (
     <>
       <div className="product nenufar-product-page">
-        <div className="nenufar-product-gallery">
+        <div className={"nenufar-product-gallery " + (product.images.nodes.length > 1 ? " has-gallery" : "")}>
           {product.badge?.value && <span className="nenufar-product-badge">{product.badge.value}</span>}
           <ProductImage image={selectedVariant?.image} images={product.images.nodes} />
           <p className="nenufar-product-gallery-note">{selectedVariant?.availableForSale ? '✓ Disponible para confección' : 'Consulta disponibilidad'}</p>

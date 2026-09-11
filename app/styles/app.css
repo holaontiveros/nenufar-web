@@ -61,9 +61,9 @@ body {
   margin-inline: auto;
 }
 .brand-nav a {
-  padding: 0.45rem 0.55rem;
+  padding: 1rem 1.5rem;
   color: #57534e;
-  font-size: 0.72rem;
+  font-size: 1rem;
   text-decoration: none;
 }
 .brand-nav a:hover {
@@ -603,6 +603,7 @@ body {
   }
   .brand-menu-toggle {
     display: block;
+    padding: 0.25rem;
   }
   .brand-mobile-nav {
     position: absolute;
@@ -657,6 +658,7 @@ body {
   .brand-header__inner {
     min-height: 3.75rem;
     padding: 0.5rem 0.75rem;
+    justify-content: space-between;
   }
   .brand-whatsapp {
     padding: 0.55rem 0.65rem;
@@ -1408,6 +1410,9 @@ body {
   color: #166534;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
 }
+.nenufar-product-page .has-gallery .nenufar-product-gallery-note {
+  bottom: 7rem;
+}
 .nenufar-product-page .nenufar-product-main {
   position: static;
   align-self: start;
@@ -1439,7 +1444,7 @@ body {
   margin: 0.8rem 0 1rem;
   color: #292524;
   font-family: Georgia, serif;
-  font-size: clamp(2.2rem, 4vw, 3.7rem);
+  font-size: clamp(2.2rem, 2.5vw, 3.7rem);
   line-height: 1.06;
 }
 .nenufar-product-page .nenufar-product-price-panel {
@@ -1535,9 +1540,6 @@ img {
 }
 
 /* Product controls share the Nenúfar catalogue and cart visual language. */
-.nenufar-product-page .product-options {
-  margin: 1.5rem 0;
-}
 .nenufar-product-page .product-options h5 {
   margin: 0 0 0.65rem;
   color: #57534e;
@@ -1643,6 +1645,7 @@ img {
 .nenufar-product-page .product-form > form {
   display: block;
   width: 100%;
+  max-width: none;
 }
 
 /*
@@ -2506,10 +2509,6 @@ button.reset:hover:not(:has(> *)) {
     grid-template-columns: 1fr 1fr;
     grid-gap: 4rem;
   }
-}
-
-.product h1 {
-  margin-top: 0;
 }
 
 .product-image img {
