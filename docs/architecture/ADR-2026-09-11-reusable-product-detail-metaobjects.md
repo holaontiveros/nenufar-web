@@ -1,6 +1,6 @@
 # ADR: Reusable product-detail MetaObjects and compatible techniques
 
-Status: Proposed — awaiting approval
+Status: Accepted — schema definitions applied; content migration and storefront consumption remain pending
 
 ## Context
 
@@ -37,4 +37,4 @@ Reference lists can be empty during migration, and rich-text conversion can expo
 
 ## Approval
 
-Do not execute this ADR until the owner explicitly approves the proposed schema and migration order.
+Approved by the owner on 2026-09-11. The production schema-definition chunk is complete; follow-up chunks are required for content migration and storefront rendering.

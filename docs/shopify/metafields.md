@@ -7,20 +7,21 @@ Create the following Product definitions in **Settings > Custom data > Products*
 | Name | Key | Type | Product-page use |
 | --- | --- | --- | --- |
 | Technique | `technique` | Single-line text | Technique label and catalogue filter. |
-| Materials | `materials` | Multi-line text | Materials detail card. |
+| Materials | `materials` | Rich text | Materials detail card. |
 | Production time | `lead_time` | Single-line text | Customer-facing lead-time copy. |
 | Badge | `badge` | Single-line text | Short image-overlay label. |
 | Featured | `is_popular` | True/false | Optional featured label. |
 | Allows personalization | `allow_custom_text` | True/false | Canonical personalized (`true`) / non-personalized (`false`) switch. |
 | Legacy personalization placeholder | `custom_text_placeholder` | Single-line text | Retained for older imports; not used by the structured product form. |
 | Material label | `material_label` | Single-line text | Hero material/category pill. |
-| Dimensions | `dimensions` | Multi-line text | Materials & dimensions tab. |
+| Dimensions | `dimensions` | Rich text | Materials & dimensions tab. |
 | Approximate weight | `weight` | Single-line text | Materials & dimensions tab. |
 | Package includes | `package_includes` | List of single-line text | Package-contents card. |
 | Workshop process | `making_process` | List of metaobject references to `product_process_step` | Workshop tab. |
-| Shipping details | `shipping_details` | Multi-line text | Shipping & packaging tab. |
-| Packaging details | `packaging_details` | Multi-line text | Shipping & packaging tab. |
-| Care guide | `care_guide` | Multi-line text | Care tab. |
+| Shipping details | `shipping_details` | List of metaobject references (`nenufar_shipping_detail`) | Shipping & packaging tab. |
+| Packaging details | `packaging_details` | List of metaobject references (`nenufar_packaging_detail`) | Shipping & packaging tab. |
+| Care guide | `care_guide` | List of metaobject references (`nenufar_care_guide`) | Care tab. |
+| Compatible techniques | `compatible_techniques` | List of Product references | Compatible techniques section. |
 | Personalization configuration | `personalization_config` | Metaobject reference to `product_personalization` | Required for structured personalized products. |
 
 ## Collection metafields
@@ -34,6 +35,17 @@ Create the following Collection definitions in **Settings > Custom data > Collec
 ## Required metaobjects
 
 Create public, merchant-managed definitions for `product_personalization` and `product_process_step` before linking their entries through the two reference metafields. Field definitions, expected values, and the production migration order are in [product-page-data.md](product-page-data.md).
+
+The production store also now has these reusable public definitions. Their Shopify-generated definition IDs are intentionally store-specific and must not be copied to another store:
+
+| Type | Fields |
+| --- | --- |
+| `nenufar_shipping_detail` | `title` (single line), `body` (rich text), `position` (integer) |
+| `nenufar_packaging_detail` | `title` (single line), `body` (rich text), `position` (integer) |
+| `nenufar_care_guide` | `title` (single line), `body` (rich text), `position` (integer) |
+| `nenufar_compatible_technique` | `title` (single line), `description` (rich text), `machines` (list of single-line text), `position` (integer) |
+
+Create these definitions manually in each new store (or through an approved Admin API app with the required ownership/scopes). The current production app token cannot create merchant-owned MetaObject types, so the Shopify Admin UI is the source of truth for this setup.
 
 ## Demo CSV import
 

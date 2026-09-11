@@ -1,6 +1,6 @@
 # Plan: reusable product-detail MetaObjects
 
-Status: proposed — pending architecture approval
+Status: approved — schema definitions applied to the transfer production store; content migration and storefront consumption remain pending
 
 ## Objective
 
@@ -53,7 +53,7 @@ Existing one-line labels, booleans, integers, lists of short labels, and the pro
 
 ## Execution chunks
 
-1. **Schema definitions:** create/update the four MetaObject definitions and the four constrained Product reference definitions; convert the listed multiline definitions to rich text. Read every definition back and record IDs/types.
+1. **Schema definitions:** create/update the four MetaObject definitions and the four constrained Product reference definitions; convert the listed multiline definitions to rich text. Read every definition back and record IDs/types. (The production store has the four reusable MetaObject definitions and all four Product references; `materials` and `dimensions` are rich text. Remaining MetaObject multiline conversions are a follow-up definition chunk.)
 2. **Store data migration:** create reusable entries with `metaobjectUpsert`, convert existing test copy into rich-text JSON, and assign references with `metafieldsSet`. Keep a before/after export for rollback. Do not create production demo products.
 3. **Storefront query and rendering:** update the Product query and detail components to read reference lists and Storefront rich-text values; add the compatible-techniques section; preserve empty-state behavior when a product has no records.
 4. **Validation and cleanup:** verify the representative existing product, a non-personalized product, mobile layout, and Storefront API output. Only after the new reader is deployed should old text values/definitions be removed or left unused.
