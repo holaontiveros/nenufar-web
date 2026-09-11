@@ -29,9 +29,7 @@ Create the following Collection definitions in **Settings > Custom data > Collec
 
 | Name | Key | Type | Storefront use |
 | --- | --- | --- | --- |
-| Homepage visibility | `show_on_home` | True/false | Controls whether the collection renders in the home page collection cards. |
-
-To enable a collection on the home page: go to **Collections** → select a collection → scroll to **Custom data** → enable the `Show on homepage` checkbox.
+| Homepage visibility | `show_on_home` | True/false | **Not yet active.** Homepage visibility is controlled via hardcoded collection handles in `app/routes/_index.tsx` (`homepageHandles`). The metafield filter can be re-enabled when tested on a production-linked storefront. |
 
 ## Required metaobjects
 
