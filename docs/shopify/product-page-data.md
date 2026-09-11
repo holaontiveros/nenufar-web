@@ -78,6 +78,8 @@ The personalization configuration contains the Spanish labels, 60-character limi
 
 The clearly labelled development-only product `dev-caja-haya-blank-20260910` provides the non-personalized reference record. It has `custom.allow_custom_text = false`, a $14 test variant, relevant product-detail values, and no personalization configuration or workshop-process references. It is published only to the `Nenúfar Web Dev` storefront publication and must not be migrated to production.
 
+The existing personalized product `espejo-cartera-oro-rosa-madre` is the visual reference for the four detail tabs. Its development-only values cover dimensions and weight, materials, package contents, all three workshop process steps, shipping and packaging copy, and care guidance. This lets the deployed storefront demonstrate every tab using Shopify data. Replace these illustrative values with verified production content before launch.
+
 ## Customer personalization data
 
 The product form renders only when both `allow_custom_text` is `true` and `personalization_config` resolves to a public metaobject. It submits these cart-line attributes when the corresponding configuration input is present:
