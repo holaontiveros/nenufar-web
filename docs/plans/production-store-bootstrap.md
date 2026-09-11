@@ -66,6 +66,8 @@ The three legacy metaobject types remain unavailable to the CLI application: Sho
 
 The two Product reference metafields were created on 2026-09-10 as the approved constrained pair: `custom.making_process` is a list reference to `nenufar_product_process_step`, and `custom.personalization_config` is a single reference to `nenufar_product_personalization`. Both have public Storefront API access. No generic substitute references, product values, or entries were created. See [ADR-2026-09-10-production-metaobject-identifiers.md](../architecture/ADR-2026-09-10-production-metaobject-identifiers.md).
 
+The deployment-readiness audit confirmed that `https://nenufar.mx` is the transfer store’s primary domain and that the standard `Online Store`, `Shop`, and `Point of Sale` publications exist. No Hydrogen storefront or production Oxygen environment has been created yet.
+
 ## Rollback
 
 For a schema bootstrap failure, correct or remove only definitions created in that incomplete chunk after confirming they have no values or references. Never delete merchant-created products, orders, files, or existing custom data as part of rollback.
