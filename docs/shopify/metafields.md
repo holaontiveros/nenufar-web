@@ -29,7 +29,7 @@ Create the following Collection definitions in **Settings > Custom data > Collec
 
 | Name | Key | Type | Storefront use |
 | --- | --- | --- | --- |
-| Homepage visibility | `show_on_home` | True/false | **Not yet active.** Homepage visibility is controlled via hardcoded collection handles in `app/routes/_index.tsx` (`homepageHandles`). The metafield filter can be re-enabled when tested on a production-linked storefront. |
+| Homepage visibility | `show_on_home` | True/false | Set to `true` to include the collection in the homepage’s responsive three-column collection grid. The definition and values must have public Storefront API access. |
 
 ## Required metaobjects
 
