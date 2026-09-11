@@ -5,31 +5,34 @@ export const meta: Route.MetaFunction = () => [{title: 'Catálogo | Nenúfar'}];
 
 export async function loader({context}: Route.LoaderArgs) {
   const {collections} = await context.storefront.query(NENUFAR_CATALOG_QUERY, {cache: context.storefront.CacheLong()});
-  const collectionsByHandle = new Map(collections.nodes.map((collection) => [collection.handle, collection]));
-  const catalogue: NenufarCatalogueItem[] = SEASONAL_COLLECTION_HANDLES.flatMap((handle) => {
-    const collection = collectionsByHandle.get(handle);
+  const productsById = new Map<string, NenufarCatalogueItem>();
 
-    return collection?.products.nodes.map((product) => ({
-      id: product.id, title: product.title, handle: product.handle,
-      image: product.featuredImage ? {url: product.featuredImage.url, altText: product.featuredImage.altText} : undefined,
-      price: product.priceRange.minVariantPrice, description: product.description,
-      catalogName: collection.title, catalogHandle: collection.handle, technique: product.technique?.value, leadTime: product.leadTime?.value,
-    })) ?? [];
-  });
-  return {catalogue};
+  for (const collection of collections.nodes) {
+    for (const product of collection.products.nodes) {
+      const existing = productsById.get(product.id);
+      if (existing) {
+        existing.catalogNames = [...new Set([...(existing.catalogNames ?? []), collection.title])];
+        existing.catalogHandles = [...new Set([...(existing.catalogHandles ?? []), collection.handle])];
+        continue;
+      }
+
+      productsById.set(product.id, {
+        id: product.id, title: product.title, handle: product.handle,
+        image: product.featuredImage ? {url: product.featuredImage.url, altText: product.featuredImage.altText} : undefined,
+        price: product.priceRange.minVariantPrice, description: product.description,
+        catalogName: collection.title, catalogHandle: collection.handle,
+        catalogNames: [collection.title], catalogHandles: [collection.handle],
+        technique: product.technique?.value, leadTime: product.leadTime?.value,
+      });
+    }
+  }
+
+  return {catalogue: [...productsById.values()]};
 }
 
 export default function CataloguePage({loaderData}: Route.ComponentProps) {
   return <NenufarCatalogue products={loaderData.catalogue} />;
 }
-
-const SEASONAL_COLLECTION_HANDLES = [
-  'dia-de-la-madre',
-  'dia-del-padre',
-  'dia-del-maestro',
-  'navidad-fin-de-ano',
-  'bodas-eventos-especiales',
-];
 
 const NENUFAR_CATALOG_QUERY = `#graphql
   query NenufarCatalog($country: CountryCode, $language: LanguageCode) @inContext(country: $country, language: $language) {

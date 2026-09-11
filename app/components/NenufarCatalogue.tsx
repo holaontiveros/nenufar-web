@@ -9,6 +9,8 @@ export type NenufarCatalogueItem = {
   price: {amount: string; currencyCode: string};
   catalogName?: string;
   catalogHandle?: string;
+  catalogNames?: string[];
+  catalogHandles?: string[];
   technique?: string;
   leadTime?: string;
   description?: string;
@@ -17,16 +19,16 @@ export type NenufarCatalogueItem = {
 export function NenufarCatalogue({products}: {products: NenufarCatalogueItem[]}) {
   const [searchParams] = useSearchParams();
   const requestedCollection = searchParams.get('collection');
-  const requestedCatalog = products.find((product) => product.catalogHandle === requestedCollection)?.catalogName;
+  const requestedCatalog = products.find((product) => product.catalogHandles?.includes(requestedCollection ?? ''))?.catalogName;
   const [catalog, setCatalog] = useState(requestedCatalog ?? 'todos');
   const [technique, setTechnique] = useState('todas');
   const [query, setQuery] = useState('');
-  const catalogues = ['todos', ...Array.from(new Set(products.map((product) => product.catalogName).filter(Boolean)))];
+  const catalogues = ['todos', ...Array.from(new Set(products.flatMap((product) => product.catalogNames ?? (product.catalogName ? [product.catalogName] : []))))];
   const techniques = ['todas', ...Array.from(new Set(products.map((product) => product.technique).filter(Boolean)))];
   const activeCatalog = catalogues.includes(catalog) ? catalog : 'todos';
   const visibleProducts = useMemo(() => products.filter((product) => {
     const search = `${product.title} ${product.description ?? ''} ${product.technique ?? ''}`.toLowerCase();
-    return (activeCatalog === 'todos' || product.catalogName === activeCatalog) &&
+    return (activeCatalog === 'todos' || product.catalogNames?.includes(activeCatalog)) &&
       (technique === 'todas' || product.technique === technique) &&
       (!query.trim() || search.includes(query.trim().toLowerCase()));
   }), [activeCatalog, products, query, technique]);
@@ -35,7 +37,7 @@ export function NenufarCatalogue({products}: {products: NenufarCatalogueItem[]})
     <div className="nenufar-shell">
       <div className="section-heading"><p>⌑ Colección & tienda Nenúfar</p><h2>Piezas por catálogo <em>listas para comprar</em></h2><span>Explora y personaliza cada regalo de nuestras colecciones estacionales. Compra en línea o consulta los detalles con el taller.</span></div>
       <div id="catalogos" className="catalogue-tabs" aria-label="Filtrar por catálogo">
-        {catalogues.map((item) => <button key={item} type="button" className={activeCatalog === item ? 'active' : ''} onClick={() => setCatalog(item)}>{item === 'todos' ? 'Todos los catálogos' : item}<b>{item === 'todos' ? products.length : products.filter((product) => product.catalogName === item).length}</b></button>)}
+        {catalogues.map((item) => <button key={item} type="button" className={activeCatalog === item ? 'active' : ''} onClick={() => setCatalog(item)}>{item === 'todos' ? 'Todos los catálogos' : item}<b>{item === 'todos' ? products.length : products.filter((product) => product.catalogNames?.includes(item)).length}</b></button>)}
       </div>
       <div className="catalogue-filters">
         <label><span aria-hidden="true">⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Buscar joyero, termo, esfera, libreta..." /></label>
