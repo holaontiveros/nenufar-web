@@ -58,6 +58,12 @@ See [store-readiness-runbook.md](../shopify/store-readiness-runbook.md) for the 
 
 Once the domain is supplied, perform a read-only audit of the transfer store and then create only the missing schemas from phase 1. The change record must include the exact definitions created, read-back results, and rollback notes. No products, demo entries, or values will be written.
 
+## Transfer-store progress
+
+On 2026-09-10, the transfer store `nenufar-regalos-personalizados-xyrqi3rj.myshopify.com` was audited. It had no existing custom-data definitions. The independent Product, Collection, and Shop definitions in phase 1 were created and read back with public Storefront access. No values, products, collections, entries, files, or demo data were written.
+
+The three required metaobject types remain blocked: Shopify reports that `faq_item`, `product_personalization`, and `product_process_step` are reserved for another application. The two Product reference metafields that depend on those types (`making_process` and `personalization_config`) must wait for the owning-app resolution. Do not create unvalidated substitute reference fields.
+
 ## Rollback
 
 For a schema bootstrap failure, correct or remove only definitions created in that incomplete chunk after confirming they have no values or references. Never delete merchant-created products, orders, files, or existing custom data as part of rollback.

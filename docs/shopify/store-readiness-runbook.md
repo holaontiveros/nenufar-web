@@ -4,6 +4,8 @@ This runbook is the operational checklist for getting Nenúfar Web running again
 
 For the client-transfer production store, follow the no-demo execution sequence in [production-store-bootstrap.md](../plans/production-store-bootstrap.md) before configuring products or deploying Hydrogen.
 
+The transfer-store schema bootstrap began on 2026-09-10. The independent public Product, Collection, and Shop definitions are in place; the metaobject types and their two dependent reference fields are blocked by Shopify application ownership. See the production bootstrap plan for the current state.
+
 ## Safety rules
 
 - The current Hydrogen project is linked only to the development storefront. Never reuse that linkage, its Oxygen environment, or its credentials for production.
