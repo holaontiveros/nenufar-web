@@ -165,7 +165,11 @@ export function NenufarCatalogue({
                 <div className="catalogue-card__body">
                   <div className="catalogue-card__meta">
                     <span>{product.technique || 'Personalizado'}</span>
-                    {product.leadTime && <small>◷ {product.leadTime}</small>}
+                    {product.leadTime && (
+                      <small>
+                        ◷ Tiempo de elaboración: {product.leadTime}
+                      </small>
+                    )}
                   </div>
                   <h3>
                     <Link to={`/products/${product.handle}`} prefetch="intent">
