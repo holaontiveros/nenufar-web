@@ -45,16 +45,13 @@ export default function Policy() {
   const {policy} = useLoaderData<typeof loader>();
 
   return (
-    <div className="policy">
-      <br />
-      <br />
-      <div>
-        <Link to="/policies">← Back to Policies</Link>
-      </div>
-      <br />
-      <h1>{policy.title}</h1>
-      <div dangerouslySetInnerHTML={{__html: policy.body}} />
-    </div>
+    <section className="policy-page">
+      <article className="nenufar-shell policy">
+        <Link className="policy__back" to="/policies">← Todas las políticas</Link>
+        <h1>{policy.title}</h1>
+        <div className="policy__body" dangerouslySetInnerHTML={{__html: policy.body}} />
+      </article>
+    </section>
   );
 }
 

@@ -25,16 +25,16 @@ export default function Policies() {
   const {policies} = useLoaderData<typeof loader>();
 
   return (
-    <div className="policies">
-      <h1>Policies</h1>
-      <div>
+    <section className="policy-page">
+      <div className="nenufar-shell policies">
+        <header className="story-heading"><span>Información importante</span><h1>Políticas de la tienda</h1><p>Consulta las condiciones activas para compras, envíos y devoluciones.</p></header>
+        <div className="policies__list">
         {policies.map((policy) => (
-          <fieldset key={policy.id}>
-            <Link to={`/policies/${policy.handle}`}>{policy.title}</Link>
-          </fieldset>
+          <Link key={policy.id} to={`/policies/${policy.handle}`}>{policy.title}<span>→</span></Link>
         ))}
       </div>
-    </div>
+      </div>
+    </section>
   );
 }
 
