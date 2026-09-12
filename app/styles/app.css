@@ -779,7 +779,7 @@ main:has(.nenufar-hero) + .brand-footer {
     display: none;
   }
   .nenufar-hero {
-    padding: 6.6rem 0 4rem;
+    padding: 6.6rem 1rem 4rem;
   }
   .hero-pill {
     font-size: 0.62rem;
@@ -804,7 +804,7 @@ main:has(.nenufar-hero) + .brand-footer {
     font-size: 0.65rem;
   }
   .nenufar-catalogue {
-    padding: 4rem 0 0;
+    padding: 4rem 1rem 0;
   }
   .catalogue-grid {
     grid-template-columns: 1fr;
@@ -1095,7 +1095,7 @@ main:has(.nenufar-hero) + .brand-footer {
 }
 @media (max-width: 40rem) {
   .story-section {
-    padding: 4rem 0;
+    padding: 4rem 1rem;
   }
   .story-grid--two,
   .story-grid--three,
