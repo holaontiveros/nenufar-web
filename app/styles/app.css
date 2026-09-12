@@ -1689,7 +1689,7 @@ main:has(.nenufar-hero) + .brand-footer {
 }
 .nenufar-product-page .nenufar-product-assurances {
   margin: 1.25rem 0 0;
-  padding: 1rem 0 0;
+  padding: 1rem 0 1.25rem;
   border-top: 1px solid #e7e5e4;
   color: #78716c;
   font-size: 0.8rem;
