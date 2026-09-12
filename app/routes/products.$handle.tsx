@@ -183,7 +183,8 @@ export default function Product() {
 
   return (
     <>
-      <div className="product nenufar-product-page">
+    <div className="nenufar-shell">
+      <section className="product nenufar-product-page">
         <div className="nenufar-product-gallery ">
           <div className={`nenufar-product-gallery-inner${product.images.nodes.length > 1 ? ' has-gallery' : ''}`}>
             {product.badge?.value && (
@@ -249,7 +250,7 @@ export default function Product() {
             personalizationConfig={personalizationConfig}
           />
         </div>
-      </div>
+      </section>
       <ProductDetailsTabs
         careGuide={careGuide}
         compatibleTechniques={compatibleTechniques}
@@ -324,6 +325,7 @@ export default function Product() {
           ],
         }}
       />
+      </div>
     </>
   );
 }

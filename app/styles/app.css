@@ -397,6 +397,7 @@ body {
   color: #292524;
   font: inherit;
   font-size: 0.76rem;
+  margin: 0;
 }
 .catalogue-filters > div {
   display: flex;
@@ -1535,7 +1536,7 @@ main:has(.nenufar-hero) + .brand-footer {
   grid-template-columns: minmax(0, 1.05fr) minmax(20rem, 0.95fr);
   gap: 3rem;
   width: min(100% - 2rem, 78rem);
-  margin: 3.5rem auto 0;
+  margin: 3.5rem auto 1rem;
 }
 .nenufar-product-page .nenufar-product-gallery {
   position: relative;
