@@ -9,6 +9,11 @@ export async function loader({context}: Route.LoaderArgs) {
 
   for (const collection of collections.nodes) {
     for (const product of collection.products.nodes) {
+      const techniqueReference = product.technique?.reference;
+      const technique =
+        techniqueReference && 'name' in techniqueReference
+          ? (techniqueReference.name?.value ?? undefined)
+          : undefined;
       const existing = productsById.get(product.id);
       if (existing) {
         existing.catalogNames = [...new Set([...(existing.catalogNames ?? []), collection.title])];
@@ -22,7 +27,7 @@ export async function loader({context}: Route.LoaderArgs) {
         priceRange: product.priceRange, description: product.description,
         catalogName: collection.title, catalogHandle: collection.handle,
         catalogNames: [collection.title], catalogHandles: [collection.handle],
-        technique: product.technique?.value, leadTime: product.leadTime?.value,
+        technique, leadTime: product.leadTime?.value,
       });
     }
   }
@@ -38,7 +43,7 @@ const NENUFAR_CATALOG_QUERY = `#graphql
   query NenufarCatalog($country: CountryCode, $language: LanguageCode) @inContext(country: $country, language: $language) {
     collections(first: 100) { nodes { title handle products(first: 100, sortKey: TITLE) { nodes {
       id title handle description featuredImage { id url altText width height } priceRange { minVariantPrice { amount currencyCode } maxVariantPrice { amount currencyCode } }
-      technique: metafield(namespace: "custom", key: "technique") { value }
+      technique: metafield(namespace: "custom", key: "technique") { reference { ... on Metaobject { name: field(key: "name") { value } } } }
       leadTime: metafield(namespace: "custom", key: "lead_time") { value }
     } } } }
   }

@@ -8,7 +8,7 @@ All use the `custom` namespace.
 
 | Key | Type | Product-page use |
 | --- | --- | --- |
-| `technique` | Single-line text | Technique label and details content. |
+| `technique` | Metaobject reference to `nenufar_technique` | Technique label and details content. |
 | `materials` | Multi-line text | Materials card; one line per material. |
 | `lead_time` | Single-line text | Production/delivery promise. |
 | `badge` | Single-line text | Image badge. |

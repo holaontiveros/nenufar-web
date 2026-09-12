@@ -64,7 +64,7 @@ Create the required `custom` Product metafield definitions with public storefron
 
 | Key | Required purpose |
 | --- | --- |
-| `technique` | Catalogue technique filter and product presentation. |
+| `technique` | Single reference to a public `nenufar_technique` entry for catalogue filtering and product presentation. |
 | `materials` | Product material summary. |
 | `lead_time` | Customer-facing production time. |
 | `badge` | Short product-image label. |

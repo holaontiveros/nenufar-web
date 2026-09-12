@@ -6,7 +6,7 @@ Create the following Product definitions in **Settings > Custom data > Products*
 
 | Name | Key | Type | Product-page use |
 | --- | --- | --- | --- |
-| Technique | `technique` | Single-line text | Technique label and catalogue filter. |
+| Technique | `technique` | Metaobject reference to `nenufar_technique` | Technique label and catalogue filter. |
 | Materials | `materials` | Rich text | Materials detail card. |
 | Production time | `lead_time` | Single-line text | Customer-facing lead-time copy. |
 | Badge | `badge` | Single-line text | Short image-overlay label. |
@@ -43,15 +43,16 @@ The production store also now has these reusable public definitions. Their Shopi
 | `nenufar_shipping_detail` | `title` (single line), `body` (rich text), `position` (integer) |
 | `nenufar_packaging_detail` | `title` (single line), `body` (rich text), `position` (integer) |
 | `nenufar_care_guide` | `title` (single line), `body` (rich text), `position` (integer) |
+| `nenufar_technique` | `name` (required single-line text) |
 | `nenufar_compatible_technique` | `name` (required single-line text) |
 
 Create these definitions manually in each new store (or through an approved Admin API app with the required ownership/scopes). The current production app token cannot create merchant-owned MetaObject types, so the Shopify Admin UI is the source of truth for this setup.
 
 ## Demo CSV import
 
-1. Import [nenufar-demo-products.csv](nenufar-demo-products.csv) through **Products > Import**. It is UTF-8 and contains products, variants, external demo images, and the original CSV-compatible scalar metafields: `technique`, `materials`, `lead_time`, `badge`, `is_popular`, `allow_custom_text`, and `custom_text_placeholder`.
+1. Import [nenufar-demo-products.csv](nenufar-demo-products.csv) through **Products > Import**. It is UTF-8 and contains products, variants, external demo images, and the original CSV-compatible scalar metafields: `materials`, `lead_time`, `badge`, `is_popular`, `allow_custom_text`, and `custom_text_placeholder`.
 2. Native Shopify collections—not catalogue metafields—classify seasonal catalogue content. Add imported products to the intended collections after import.
-3. The CSV cannot create `product_personalization` or `product_process_step` entries, nor safely populate their reference metafields. Create these entries and assign `personalization_config` / `making_process` in Shopify Admin after the import.
+3. The CSV cannot create `nenufar_technique`, `product_personalization`, or `product_process_step` entries, nor safely populate their reference metafields. Create these entries and assign `technique` / `personalization_config` / `making_process` in Shopify Admin after the import.
 4. Add the remaining product-page fields from the table above with merchant-verified data, then publish the products to the storefront channel.
 5. Replace demo copy, prices, images, and SKUs directly in Shopify before production. The storefront reads the configured store, so no code change is needed for content updates.
 

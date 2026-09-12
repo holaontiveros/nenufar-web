@@ -111,6 +111,11 @@ export default function Product() {
   });
 
   const { title, descriptionHtml } = product;
+  const techniqueReference = product.technique?.reference;
+  const technique =
+    techniqueReference && 'name' in techniqueReference
+      ? techniqueReference.name?.value
+      : undefined;
   const isPersonalized = product.personalizationEnabled?.value === 'true';
   const personalizationReference = product.personalizationConfig?.reference;
   const personalizationConfig: PersonalizationConfig | null =
@@ -216,8 +221,8 @@ export default function Product() {
                   ? 'Pieza personalizada'
                   : 'Insumo listo para usar')}
             </span>
-            {product.technique?.value && (
-              <small>{product.technique.value}</small>
+            {technique && (
+              <small>{technique}</small>
             )}
           </div>
           <h1>{title}</h1>
@@ -260,7 +265,7 @@ export default function Product() {
         packagingDetails={packagingDetails}
         processSteps={processSteps}
         shippingDetails={shippingDetails}
-        technique={product.technique?.value}
+        technique={technique}
         weight={product.weight?.value}
       />
       {relatedCollection && relatedProducts.length > 0 && (
@@ -442,7 +447,13 @@ const PRODUCT_FRAGMENT = `#graphql
       value
     }
     technique: metafield(namespace: "custom", key: "technique") {
-      value
+      reference {
+        ... on Metaobject {
+          name: field(key: "name") {
+            value
+          }
+        }
+      }
     }
     leadTime: metafield(namespace: "custom", key: "lead_time") {
       value
