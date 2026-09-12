@@ -1493,6 +1493,7 @@ main:has(.nenufar-hero) + .brand-footer {
   color: #57534e;
   font-size: 0.85rem;
   font-weight: 800;
+  text-transform: uppercase;
 }
 .product-quantity > div {
   display: flex;
