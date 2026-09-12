@@ -272,7 +272,7 @@ body {
 }
 .nenufar-catalogue {
   position: relative;
-  padding: 5.75rem 0 6rem;
+  padding: 5.75rem 0 0;
 }
 .section-heading p {
   display: inline-flex;
@@ -804,7 +804,7 @@ main:has(.nenufar-hero) + .brand-footer {
     font-size: 0.65rem;
   }
   .nenufar-catalogue {
-    padding: 4rem 0;
+    padding: 4rem 0 0;
   }
   .catalogue-grid {
     grid-template-columns: 1fr;
