@@ -611,6 +611,9 @@ body {
 .brand-footer__legal a:hover {
   color: #f9a8d4;
 }
+.brand-footer__social {
+  padding: 0;
+}
 .brand-footer__social > div {
   display: flex;
   flex-wrap: wrap;

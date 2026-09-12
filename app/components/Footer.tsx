@@ -53,7 +53,7 @@ function FooterContent({footer}: {footer: FooterQuery | null}) {
       </div>
       <div className="brand-footer__legal"><div>
         {policies.length > 0 && <><a href="/policies">Políticas</a>{policies.map((policy) => <a key={policy.id} href={`/policies/${policy.handle}`}>{policy.title}</a>)}</>}
-      </div><p>© {new Date().getFullYear()} Nenúfar Taller Creativo</p></div>
+      </div><p>© {new Date().getFullYear()} Nenúfar Regalos Personalizados</p></div>
     </>
   );
 }
