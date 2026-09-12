@@ -1,4 +1,4 @@
-import {Link, useNavigate} from 'react-router';
+import {useNavigate} from 'react-router';
 import {useState} from 'react';
 import {Money, type MappedProductOptions} from '@shopify/hydrogen';
 import type {
@@ -7,6 +7,7 @@ import type {
   ProductOptionValueSwatch,
 } from '@shopify/hydrogen/storefront-api-types';
 import {AddToCartButton} from './AddToCartButton';
+import {ActionButton, ActionLink} from './Action';
 import {useAside} from './Aside';
 import {CartIcon} from './CartIcons';
 import {RichTextContent} from './RichTextContent';
@@ -144,7 +145,7 @@ export function ProductForm({
                   // that leads to a different url, we need to render it
                   // as an anchor tag
                   return (
-                    <Link
+                    <ActionLink
                       aria-current={selected ? 'true' : undefined}
                       className={`product-options-item${
                         selected ? ' is-selected' : ''
@@ -154,9 +155,11 @@ export function ProductForm({
                       preventScrollReset
                       replace
                       to={`/products/${handle}?${variantUriQuery}`}
+                      size="small"
+                      variant="choice"
                     >
                       <ProductOptionSwatch swatch={swatch} name={name} />
-                    </Link>
+                    </ActionLink>
                   );
                 } else {
                   // SEO
@@ -165,7 +168,7 @@ export function ProductForm({
                   // the variant so that SEO bots do not index these as
                   // duplicated links
                   return (
-                    <button
+                    <ActionButton
                       type="button"
                       className={`product-options-item${
                         selected ? ' is-selected' : ''
@@ -183,9 +186,11 @@ export function ProductForm({
                           });
                         }
                       }}
+                      size="small"
+                      variant="choice"
                     >
                       <ProductOptionSwatch swatch={swatch} name={name} />
-                    </button>
+                    </ActionButton>
                   );
                 }
               })}
@@ -220,15 +225,17 @@ export function ProductForm({
               <legend>Estilo de tipografía</legend>
               <div>
                 {fontOptions.map((option) => (
-                  <button
+                  <ActionButton
                     aria-pressed={font === option}
                     className={font === option ? 'is-selected' : ''}
                     key={option}
                     onClick={() => setFont(option)}
                     type="button"
+                    size="small"
+                    variant="choice"
                   >
                     {option}
-                  </button>
+                  </ActionButton>
                 ))}
               </div>
             </fieldset>
@@ -238,15 +245,17 @@ export function ProductForm({
               <legend>Detalle o motivo grabado</legend>
               <div>
                 {motifOptions.map((option) => (
-                  <button
+                  <ActionButton
                     aria-pressed={motif === option}
                     className={motif === option ? 'is-selected' : ''}
                     key={option}
                     onClick={() => setMotif(option)}
                     type="button"
+                    size="small"
+                    variant="choice"
                   >
                     {option}
-                  </button>
+                  </ActionButton>
                 ))}
               </div>
             </fieldset>
@@ -269,22 +278,26 @@ export function ProductForm({
         <div className="product-quantity" role="group" aria-label="Cantidad">
           <span>Cantidad</span>
           <div>
-            <button
+            <ActionButton
               aria-label="Reducir cantidad"
               disabled={quantity === 1}
               onClick={() => setQuantity((currentQuantity) => Math.max(1, currentQuantity - 1))}
               type="button"
+              size="icon-sm"
+              variant="stepper"
             >
               −
-            </button>
+            </ActionButton>
             <output aria-live="polite">{quantity}</output>
-            <button
+            <ActionButton
               aria-label="Aumentar cantidad"
               onClick={() => setQuantity((currentQuantity) => currentQuantity + 1)}
               type="button"
+              size="icon-sm"
+              variant="stepper"
             >
               +
-            </button>
+            </ActionButton>
           </div>
         </div>
         <p>

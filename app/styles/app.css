@@ -87,6 +87,36 @@ body {
   color: #fff;
   transform: translateY(-1px);
 }
+.action--choice {
+  border-color: #e7e5e4;
+  background: rgba(255, 255, 255, 0.8);
+  color: #57534e;
+}
+.action--choice:hover:not(:disabled) {
+  border-color: #f9a8d4;
+  background: #fdf2f8;
+  color: #9d174d;
+}
+.action--choice.is-selected,
+.action--choice[aria-current='true'],
+.action--choice[aria-pressed='true'] {
+  border-color: #ec4899;
+  background: #fdf2f8;
+  box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.12);
+  color: #9d174d;
+}
+.action--stepper {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #57534e;
+}
+.action--stepper:hover:not(:disabled) {
+  background: #f5f5f4;
+  box-shadow: none;
+  transform: none;
+}
 .action--icon {
   border-color: #fbcfe8;
   background: #fff;
@@ -1243,21 +1273,8 @@ main:has(.nenufar-hero) + .brand-footer {
   flex-wrap: wrap;
   gap: 0.45rem;
 }
-.product-personalization-options button {
-  padding: 0.55rem 0.75rem;
-  border: 1px solid #e7e5e4;
-  border-radius: 0.65rem;
-  background: #fff;
-  color: #57534e;
-  cursor: pointer;
-  font: inherit;
+.product-personalization-options .action {
   font-size: 0.8rem;
-}
-.product-personalization-options button.is-selected {
-  border-color: #ec4899;
-  background: #fdf2f8;
-  color: #9d174d;
-  font-weight: 800;
 }
 .product-personalization-note {
   margin-top: 1rem;
@@ -1503,7 +1520,7 @@ main:has(.nenufar-hero) + .brand-footer {
   border-radius: 0.75rem;
   background: #fff;
 }
-.product-quantity button,
+.product-quantity .action,
 .product-quantity output {
   display: grid;
   place-items: center;
@@ -1515,11 +1532,7 @@ main:has(.nenufar-hero) + .brand-footer {
   font: inherit;
   font-weight: 800;
 }
-.product-quantity button {
-  cursor: pointer;
-}
-.product-quantity button:disabled {
-  cursor: not-allowed;
+.product-quantity .action:disabled {
   opacity: 0.4;
 }
 .product-quantity output {
@@ -1801,7 +1814,7 @@ img {
 .nenufar-product-page .product-personalization-options > div {
   gap: 0.55rem;
 }
-.nenufar-product-page .product-personalization-options button {
+.nenufar-product-page .product-personalization-options .action {
   min-height: 2.75rem;
   padding: 0.65rem 0.85rem;
   border-radius: 0.8rem;
@@ -1814,16 +1827,8 @@ img {
     color 0.18s,
     box-shadow 0.18s;
 }
-.nenufar-product-page .product-personalization-options button:hover {
-  border-color: #f9a8d4;
-  background: #fdf2f8;
-  color: #9d174d;
-}
-.nenufar-product-page .product-personalization-options button.is-selected {
-  box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.12);
-}
 .nenufar-product-page .product-personalization textarea:focus-visible,
-.nenufar-product-page .product-personalization-options button:focus-visible {
+.nenufar-product-page .product-personalization-options .action:focus-visible {
   outline: 3px solid #f9a8d4;
   outline-offset: 3px;
 }

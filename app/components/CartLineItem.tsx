@@ -6,6 +6,7 @@ import {useVariantUrl} from '~/lib/variants';
 import {getSeasonalCollectionLabel} from '~/lib/seasonal-collections';
 import {Link} from 'react-router';
 import {ProductPrice} from './ProductPrice';
+import {ActionButton} from './Action';
 import {useAside} from './Aside';
 import {PencilIcon, SparklesIcon, TrashIcon} from './CartIcons';
 import type {
@@ -180,27 +181,31 @@ function CartLineQuantity({line}: {line: CartLine}) {
   return (
     <div className="cart-line-quantity">
       <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
-        <button
+        <ActionButton
           aria-label="Reducir cantidad"
           disabled={quantity <= 1 || !!isOptimistic}
           name="decrease-quantity"
           value={prevQuantity}
+          size="icon-sm"
+          variant="stepper"
         >
           <span>&#8722; </span>
-        </button>
+        </ActionButton>
       </CartLineUpdateButton>
       <span aria-live="polite" className="cart-line-quantity__value">
         {quantity}
       </span>
       <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
-        <button
+        <ActionButton
           aria-label="Aumentar cantidad"
           name="increase-quantity"
           value={nextQuantity}
           disabled={!!isOptimistic}
+          size="icon-sm"
+          variant="stepper"
         >
           <span>&#43;</span>
-        </button>
+        </ActionButton>
       </CartLineUpdateButton>
       <CartLineRemoveButton lineIds={[lineId]} disabled={!!isOptimistic} />
     </div>
