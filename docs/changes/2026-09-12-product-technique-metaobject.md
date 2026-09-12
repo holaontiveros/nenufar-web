@@ -13,7 +13,8 @@ Replace scalar product technique reads with a reusable `nenufar_technique` metao
 ## Decisions
 
 - Use the approved `nenufar_technique` type and required `name` field.
-- Do not retain a scalar fallback or migrate the nearly empty existing dataset.
+- Do not retain a scalar fallback or migrate the existing dataset.
+- Create the public Shopify definitions directly in `Nenúfar Web Dev` and remove the 29 retained scalar `custom.technique` values, which would otherwise continue to render as single-line inputs in product Admin.
 
 ## Files modified
 
@@ -31,11 +32,13 @@ Replace scalar product technique reads with a reusable `nenufar_technique` metao
 - `npm run typecheck`
 - `npm run build`
 - `git diff --check`
+- Verified the public `nenufar_technique` definition and its required `name` field through Shopify Admin GraphQL.
+- Verified `custom.technique` is a public `metaobject_reference` constrained to `nenufar_technique`, and that no legacy scalar values remain on products.
 
 ## Remaining risks
 
-- The `nenufar_technique` definition, Storefront access, entries, and product assignments must be created in Shopify Admin before labels and filters can show values.
+- Technique entries and product assignments still need to be created before labels and filters can show values.
 
 ## Rollback
 
-Restore the scalar Shopify definition and revert this commit to return to scalar technique reads.
+Recreate a scalar Shopify definition and restore its values from a separate data export if returning to scalar technique reads is required.
