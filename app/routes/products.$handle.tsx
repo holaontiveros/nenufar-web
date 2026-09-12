@@ -307,7 +307,10 @@ export default function Product() {
                 <h3>{relatedProduct.title}</h3>
                 <p>{relatedProduct.description}</p>
                 <strong>
-                  <Money data={relatedProduct.priceRange.minVariantPrice} />
+                  <Money
+                    as="span"
+                    data={relatedProduct.priceRange.minVariantPrice}
+                  />
                 </strong>
                 <span>Ver pieza →</span>
               </Link>

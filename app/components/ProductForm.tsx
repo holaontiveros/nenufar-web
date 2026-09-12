@@ -288,7 +288,7 @@ export function ProductForm({
           </div>
         </div>
         <p>
-          Subtotal: {subtotal ? <strong><Money data={subtotal} /></strong> : '—'}
+          Subtotal: {subtotal ? <strong><Money as="span" data={subtotal} /></strong> : '—'}
         </p>
       </div>
       <AddToCartButton

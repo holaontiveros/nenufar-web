@@ -35,7 +35,7 @@ export function ProductItem({
       )}
       <h4>{product.title}</h4>
       <small>
-        <Money data={product.priceRange.minVariantPrice} />
+        <Money as="span" data={product.priceRange.minVariantPrice} />
       </small>
     </Link>
   );
