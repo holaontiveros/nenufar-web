@@ -569,6 +569,9 @@ body {
   background: #292524;
   color: #d6d3d1;
 }
+main:has(.nenufar-hero) + .brand-footer {
+  margin-top: 0;
+}
 .brand-footer__inner {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(8rem, 1fr) minmax(8rem, 1fr);
