@@ -17,16 +17,10 @@ interface HeaderProps {
   whatsappUrl: string | null;
 }
 
-const navigation = [
-  ['Productos', '/catalogo'], ['Catálogos', '/#catalogos'],
-  ['Preguntas', '/preguntas'],
-  // TODO: re-enable when ready — ['El Taller', '/#tecnicas'],
-  // TODO: re-enable when ready — ['Trabajos Reales', '/#galeria'],
-  // TODO: re-enable when ready — removed for now,
-] as const;
-
-export function Header({cart}: HeaderProps) {
+export function Header({cart, header}: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigation = header.menu?.items ?? [];
+
   return (
     <header className="brand-header">
       <div className="brand-header__inner">
@@ -34,14 +28,14 @@ export function Header({cart}: HeaderProps) {
           <img alt="Nenúfar" src="/assets/nenufar_logo_horizontal.svg" />
         </Link>
         <nav className="brand-nav" aria-label="Navegación principal">
-          {navigation.map(([label, href]) => <a key={href} href={href}>{label}</a>)}
+          {navigation.map((item) => item.url && <a key={item.id} href={item.url}>{item.title}</a>)}
         </nav>
         <div className="brand-header__actions">
           <CartToggle cart={cart} />
           <button className="brand-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen((open) => !open)}>☰</button>
         </div>
         {mobileMenuOpen && <nav className="brand-mobile-nav" aria-label="Navegación móvil">
-          {navigation.map(([label, href]) => <a key={href} href={href} onClick={() => setMobileMenuOpen(false)}>{label}</a>)}
+          {navigation.map((item) => item.url && <a key={item.id} href={item.url} onClick={() => setMobileMenuOpen(false)}>{item.title}</a>)}
         </nav>}
       </div>
     </header>
