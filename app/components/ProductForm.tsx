@@ -108,9 +108,23 @@ export function ProductForm({
         // If there is only a single value in the option values, don't display the option
         if (option.optionValues.length === 1) return null;
 
+        const selectedValue = option.optionValues.find((value) => value.selected);
+        const selectedSwatchName =
+          selectedValue?.swatch?.color ||
+          selectedValue?.swatch?.image?.previewImage?.url
+            ? selectedValue.name
+            : undefined;
+
         return (
           <div className="product-options" key={option.name}>
-            <h5>{option.name}</h5>
+            <h5>
+              {option.name}
+              {selectedSwatchName && (
+                <span className="product-option-selected-value">
+                  : {selectedSwatchName}
+                </span>
+              )}
+            </h5>
             <div className="product-options-grid">
               {option.optionValues.map((value) => {
                 const {

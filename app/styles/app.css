@@ -1731,6 +1731,12 @@ img {
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+.nenufar-product-page .product-option-selected-value {
+  color: #9d174d;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+}
 .nenufar-product-page .product-options-grid {
   gap: 0.55rem;
 }
