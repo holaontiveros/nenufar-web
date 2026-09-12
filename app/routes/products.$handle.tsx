@@ -187,9 +187,9 @@ export default function Product() {
       <section className="product nenufar-product-page">
         <div className="nenufar-product-gallery ">
           <div className={`nenufar-product-gallery-inner${product.images.nodes.length > 1 ? ' has-gallery' : ''}`}>
-            {product.badge?.value && (
+            {relatedCollection && (
               <span className="nenufar-product-badge">
-                {product.badge.value}
+                {relatedCollection.title}
               </span>
             )}
             <ProductImage
@@ -439,9 +439,6 @@ const PRODUCT_FRAGMENT = `#graphql
       title
     }
     materialLabel: metafield(namespace: "custom", key: "material_label") {
-      value
-    }
-    badge: metafield(namespace: "custom", key: "badge") {
       value
     }
     technique: metafield(namespace: "custom", key: "technique") {
