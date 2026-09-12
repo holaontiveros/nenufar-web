@@ -25,6 +25,8 @@ export default async function handleRequest(
       'https://*.googletagmanager.com',
     ],
     imgSrc: [
+      'https://cdn.shopify.com',
+      'https://*.shopifycdn.com',
       'https://www.google-analytics.com',
       'https://*.google-analytics.com',
       'https://www.googletagmanager.com',
