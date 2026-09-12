@@ -173,6 +173,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  max-width: calc(100% - 1.5rem);
   padding: 0.52rem 0.9rem;
   border: 1px solid rgba(255, 255, 255, 0.95);
   border-radius: 999px;
@@ -195,22 +196,25 @@ body {
   color: #d6d3d1;
 }
 .hero-pill .hero-pill__message {
+  display: inline-grid;
+  min-width: 0;
   color: #78716c;
-  animation: hero-pill-message-in 420ms ease-out both;
 }
-@keyframes hero-pill-message-in {
-  from {
-    opacity: 0;
-    transform: translateY(0.35rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.hero-pill__message > span {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(0.2rem);
+  transition:
+    opacity 360ms ease-out,
+    transform 360ms ease-out;
+}
+.hero-pill__message > span.is-active {
+  opacity: 1;
+  transform: translateY(0);
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-pill__message {
-    animation: none;
+  .hero-pill__message > span {
+    transition: none;
   }
 }
 .nenufar-hero h1 {

@@ -120,8 +120,16 @@ function HeroPill() {
       <i />
       <strong>nenúfar</strong>
       <span>•</span>
-      <span className="hero-pill__message" key={messageIndex}>
-        {HERO_PILL_MESSAGES[messageIndex]}
+      <span className="hero-pill__message" aria-live="polite">
+        {HERO_PILL_MESSAGES.map((message, index) => (
+          <span
+            className={index === messageIndex ? 'is-active' : undefined}
+            aria-hidden={index !== messageIndex}
+            key={message}
+          >
+            {message}
+          </span>
+        ))}
       </span>
     </p>
   );
