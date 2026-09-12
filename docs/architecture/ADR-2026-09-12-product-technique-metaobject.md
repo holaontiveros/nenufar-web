@@ -9,7 +9,7 @@
 
 ## Decision
 
-Use `custom.technique` as a single reference to the merchant-managed, public `nenufar_technique` metaobject type. The type has one required `name` field. The storefront reads that field for all current technique labels and filters.
+Use `custom.technique` as a single reference to the merchant-managed, public `nenufar_technique` metaobject type. The type has one single-line `name` field. The storefront reads that field for all current technique labels and filters.
 
 ## Alternatives considered
 

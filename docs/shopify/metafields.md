@@ -43,7 +43,7 @@ The production store also now has these reusable public definitions. Their Shopi
 | `nenufar_shipping_detail` | `title` (single line), `body` (rich text), `position` (integer) |
 | `nenufar_packaging_detail` | `title` (single line), `body` (rich text), `position` (integer) |
 | `nenufar_care_guide` | `title` (single line), `body` (rich text), `position` (integer) |
-| `nenufar_technique` | `name` (required single-line text) |
+| `nenufar_technique` | `name` (single-line text) |
 | `nenufar_compatible_technique` | `name` (required single-line text) |
 
 Create these definitions manually in each new store (or through an approved Admin API app with the required ownership/scopes). The current production app token cannot create merchant-owned MetaObject types, so the Shopify Admin UI is the source of truth for this setup.
