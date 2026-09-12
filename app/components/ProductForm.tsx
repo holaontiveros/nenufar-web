@@ -176,7 +176,6 @@ export function ProductForm({
                 }
               })}
             </div>
-            <br />
           </div>
         );
       })}
