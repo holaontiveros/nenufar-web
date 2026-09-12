@@ -1507,6 +1507,10 @@ body {
 }
 .nenufar-product-page .nenufar-product-availability {
   text-align: right;
+  height: 53px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .nenufar-product-page .nenufar-product-availability b {
   display: block;
