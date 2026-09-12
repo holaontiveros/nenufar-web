@@ -1,6 +1,7 @@
 import type { Route } from './+types/_index';
 import { NenufarStory } from '~/components/NenufarStory';
 import { WhatsAppIcon } from '~/components/WhatsAppIcon';
+import { useEffect, useState } from 'react';
 import { useLoaderData, useRouteLoaderData } from 'react-router';
 import type { RootLoader } from '~/root';
 import type { HomepageCollectionsQuery } from 'storefrontapi.generated';
@@ -8,6 +9,19 @@ import type { HomepageCollectionsQuery } from 'storefrontapi.generated';
 export const meta: Route.MetaFunction = () => [
   { title: 'Regalos personalizados | Nenúfar' },
 ];
+
+const HERO_PILL_MESSAGES = [
+  'Ideas bonitas que se vuelven recuerdos',
+  'Pequeños detalles, grandes abrazos',
+  'Regalos pensados despacito y con cariño',
+  'Creatividad hecha para celebrar',
+  'Una idea bonita merece existir',
+  'Personalizamos momentos que importan',
+  'Para regalar algo que se siente',
+  'Tu historia, convertida en detalle',
+  'Manos, materiales y mucho corazón',
+  'Hay magia en los regalos bien pensados',
+] as const;
 
 export async function loader({ context }: Route.LoaderArgs) {
   const { storefront } = context;
@@ -50,10 +64,7 @@ export default function Homepage() {
         <div className="nenufar-hero__orb nenufar-hero__orb--pink" />
         <div className="nenufar-hero__orb nenufar-hero__orb--purple" />
         <div className="nenufar-shell nenufar-hero__content">
-          <p className="hero-pill">
-            <i /> <strong>nenúfar taller activo</strong> <span>•</span>{' '}
-            Catálogos y regalos personalizados ✦
-          </p>
+          <HeroPill />
           <h1>
             Regalos con alma y piezas de marca <em>hechas a tu medida</em>
           </h1>
@@ -90,6 +101,29 @@ export default function Homepage() {
       </section>
       <NenufarStory collections={collections} whatsappUrl={whatsappUrl} />
     </>
+  );
+}
+
+function HeroPill() {
+  const [messageIndex, setMessageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setMessageIndex((current) => (current + 1) % HERO_PILL_MESSAGES.length);
+    }, 4500);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
+  return (
+    <p className="hero-pill">
+      <i />
+      <strong>nenúfar</strong>
+      <span>•</span>
+      <span className="hero-pill__message" key={messageIndex}>
+        {HERO_PILL_MESSAGES[messageIndex]}
+      </span>
+    </p>
   );
 }
 

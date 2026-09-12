@@ -194,6 +194,25 @@ body {
 .hero-pill span {
   color: #d6d3d1;
 }
+.hero-pill .hero-pill__message {
+  color: #78716c;
+  animation: hero-pill-message-in 420ms ease-out both;
+}
+@keyframes hero-pill-message-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.35rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-pill__message {
+    animation: none;
+  }
+}
 .nenufar-hero h1 {
   max-width: 55rem;
   margin: 1.8rem auto 1.25rem;
