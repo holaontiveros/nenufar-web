@@ -1,5 +1,5 @@
-import {Link, redirect, useLoaderData} from 'react-router';
-import type {Route} from './+types/products.$handle';
+import { Link, redirect, useLoaderData } from 'react-router';
+import type { Route } from './+types/products.$handle';
 import {
   getSelectedProductOptions,
   Analytics,
@@ -10,16 +10,20 @@ import {
   getAdjacentAndFirstAvailableVariants,
   useSelectedOptionInUrlParam,
 } from '@shopify/hydrogen';
-import {ProductPrice} from '~/components/ProductPrice';
-import {ProductImage} from '~/components/ProductImage';
-import {ProductForm} from '~/components/ProductForm';
-import type {PersonalizationConfig} from '~/components/ProductForm';
-import {ProductDetailsTabs, type ProductDetailReference, type ProductProcessStep} from '~/components/ProductDetailsTabs';
-import {redirectIfHandleIsLocalized} from '~/lib/redirect';
+import { ProductPrice } from '~/components/ProductPrice';
+import { ProductImage } from '~/components/ProductImage';
+import { ProductForm } from '~/components/ProductForm';
+import type { PersonalizationConfig } from '~/components/ProductForm';
+import {
+  ProductDetailsTabs,
+  type ProductDetailReference,
+  type ProductProcessStep,
+} from '~/components/ProductDetailsTabs';
+import { redirectIfHandleIsLocalized } from '~/lib/redirect';
 
-export const meta: Route.MetaFunction = ({data}) => {
+export const meta: Route.MetaFunction = ({ data }) => {
   return [
-    {title: `${data?.product.title ?? 'Producto'} | Nenúfar`},
+    { title: `${data?.product.title ?? 'Producto'} | Nenúfar` },
     {
       rel: 'canonical',
       href: `/products/${data?.product.handle}`,
@@ -34,34 +38,41 @@ export async function loader(args: Route.LoaderArgs) {
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
-  return {...deferredData, ...criticalData};
+  return { ...deferredData, ...criticalData };
 }
 
 /**
  * Load data necessary for rendering content above the fold. This is the critical data
  * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
  */
-async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
-  const {handle} = params;
-  const {storefront} = context;
+async function loadCriticalData({
+  context,
+  params,
+  request,
+}: Route.LoaderArgs) {
+  const { handle } = params;
+  const { storefront } = context;
 
   if (!handle) {
     throw new Error('Expected product handle to be defined');
   }
 
-  const [{product}] = await Promise.all([
+  const [{ product }] = await Promise.all([
     storefront.query(PRODUCT_QUERY, {
-      variables: {handle, selectedOptions: getSelectedProductOptions(request)},
+      variables: {
+        handle,
+        selectedOptions: getSelectedProductOptions(request),
+      },
     }),
     // Add other queries here, so that they are loaded in parallel
   ]);
 
   if (!product?.id) {
-    throw new Response(null, {status: 404});
+    throw new Response(null, { status: 404 });
   }
 
   // The API handle might be localized, so redirect to the localized handle
-  redirectIfHandleIsLocalized(request, {handle, data: product});
+  redirectIfHandleIsLocalized(request, { handle, data: product });
 
   return {
     product,
@@ -73,7 +84,7 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
  * fetched after the initial page load. If it's unavailable, the page should still 200.
  * Make sure to not throw any errors here, as it will cause the page to 500.
  */
-function loadDeferredData({context, params}: Route.LoaderArgs) {
+function loadDeferredData({ context, params }: Route.LoaderArgs) {
   // Put any API calls that is not critical to be available on first page render
   // For example: product reviews, product recommendations, social feeds.
 
@@ -81,7 +92,7 @@ function loadDeferredData({context, params}: Route.LoaderArgs) {
 }
 
 export default function Product() {
-  const {product} = useLoaderData<typeof loader>();
+  const { product } = useLoaderData<typeof loader>();
 
   // Optimistically selects a variant with given available variant information
   const selectedVariant = useOptimisticVariant(
@@ -99,7 +110,7 @@ export default function Product() {
     selectedOrFirstAvailableVariant: selectedVariant,
   });
 
-  const {title, descriptionHtml} = product;
+  const { title, descriptionHtml } = product;
   const isPersonalized = product.personalizationEnabled?.value === 'true';
   const personalizationReference = product.personalizationConfig?.reference;
   const personalizationConfig: PersonalizationConfig | null =
@@ -119,34 +130,49 @@ export default function Product() {
         }
       : null;
   const processSteps: ProductProcessStep[] =
-    product.makingProcess?.references?.nodes.flatMap((reference) =>
-      reference
-        ? [{
-            body: reference.body?.value ?? '',
-            position: reference.position?.value ?? '',
-            title: reference.title?.value ?? '',
-          }]
-        : [],
-    )
+    product.makingProcess?.references?.nodes
+      .flatMap((reference) =>
+        reference
+          ? [
+              {
+                body: reference.body?.value ?? '',
+                position: reference.position?.value ?? '',
+                title: reference.title?.value ?? '',
+              },
+            ]
+          : [],
+      )
       .filter((step) => step.title && step.body) ?? [];
   const readDetailReferences = (
     references: typeof product.shippingDetails,
-  ): ProductDetailReference[] => references?.references?.nodes.flatMap((reference) => {
-    if (!reference || !('body' in reference)) return [];
+  ): ProductDetailReference[] =>
+    references?.references?.nodes.flatMap((reference) => {
+      if (!reference || !('body' in reference)) return [];
 
-    const body = reference.body?.value;
-    return body ? [{
-      body,
-      position: 'position' in reference ? reference.position?.value ?? undefined : undefined,
-      title: 'title' in reference ? reference.title?.value ?? undefined : undefined,
-    }] : [];
-  }) ?? [];
+      const body = reference.body?.value;
+      return body
+        ? [
+            {
+              body,
+              position:
+                'position' in reference
+                  ? (reference.position?.value ?? undefined)
+                  : undefined,
+              title:
+                'title' in reference
+                  ? (reference.title?.value ?? undefined)
+                  : undefined,
+            },
+          ]
+        : [];
+    }) ?? [];
   const shippingDetails = readDetailReferences(product.shippingDetails);
   const packagingDetails = readDetailReferences(product.packagingDetails);
   const careGuide = readDetailReferences(product.careGuide);
-  const compatibleTechniques = product.compatibleTechniques?.references?.nodes
-    .flatMap((reference) => {
-      const name = reference && 'name' in reference ? reference.name?.value : null;
+  const compatibleTechniques =
+    product.compatibleTechniques?.references?.nodes.flatMap((reference) => {
+      const name =
+        reference && 'name' in reference ? reference.name?.value : null;
       return name ? [name] : [];
     }) ?? [];
   const relatedCollection = product.collections.nodes[0];
@@ -158,23 +184,70 @@ export default function Product() {
   return (
     <>
       <div className="product nenufar-product-page">
-        <div className={"nenufar-product-gallery " + (product.images.nodes.length > 1 ? " has-gallery" : "")}>
-          {product.badge?.value && <span className="nenufar-product-badge">{product.badge.value}</span>}
-          <ProductImage image={selectedVariant?.image} images={product.images.nodes} />
-          <p className="nenufar-product-gallery-note">{selectedVariant?.availableForSale ? '✓ Disponible para confección' : 'Consulta disponibilidad'}</p>
+        <div className="nenufar-product-gallery ">
+          <div className={`nenufar-product-gallery-inner${product.images.nodes.length > 1 ? ' has-gallery' : ''}`}>
+            {product.badge?.value && (
+              <span className="nenufar-product-badge">
+                {product.badge.value}
+              </span>
+            )}
+            <ProductImage
+              image={selectedVariant?.image}
+              images={product.images.nodes}
+            />
+            <p className="nenufar-product-gallery-note">
+              {selectedVariant?.availableForSale
+                ? '✓ Disponible para elaboración'
+                : 'Consulta disponibilidad'}
+            </p>
+          </div>
+
+          <ul className="nenufar-product-assurances">
+            <li>Pago protegido mediante Shopify.</li>
+            <li>Atención del taller para cada pedido.</li>
+          </ul>
         </div>
         <div className="product-main nenufar-product-main">
-          <div className="nenufar-product-meta"><span>{product.materialLabel?.value || (isPersonalized ? 'Pieza personalizada' : 'Insumo listo para usar')}</span>{product.technique?.value && <small>{product.technique.value}</small>}</div>
+          <div className="nenufar-product-meta">
+            <span>
+              {product.materialLabel?.value ||
+                (isPersonalized
+                  ? 'Pieza personalizada'
+                  : 'Insumo listo para usar')}
+            </span>
+            {product.technique?.value && (
+              <small>{product.technique.value}</small>
+            )}
+          </div>
           <h1>{title}</h1>
-          <div className="nenufar-product-price-panel"><div><ProductPrice price={selectedVariant?.price} compareAtPrice={selectedVariant?.compareAtPrice} /><small>Precios de taller artesanal · IVA incluido</small></div><div className="nenufar-product-availability"><b>{selectedVariant?.availableForSale ? '● Disponible' : '● Agotado'}</b>{product.leadTime?.value && <span>◷ {product.leadTime.value}</span>}</div></div>
-          <div className="nenufar-product-description"><div dangerouslySetInnerHTML={{__html: descriptionHtml}} /></div>
+          <div className="nenufar-product-price-panel">
+            <div>
+              <ProductPrice
+                price={selectedVariant?.price}
+                compareAtPrice={selectedVariant?.compareAtPrice}
+              />
+              <small>Precios final · IVA incluido</small>
+            </div>
+            <div className="nenufar-product-availability">
+              <b>
+                {selectedVariant?.availableForSale
+                  ? '● Disponible'
+                  : '● Agotado'}
+              </b>
+              {product.leadTime?.value && (
+                <span>◷ Tiempo de elaboración: {product.leadTime.value}</span>
+              )}
+            </div>
+          </div>
+          <div className="nenufar-product-description">
+            <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
+          </div>
           <ProductForm
             productOptions={productOptions}
             selectedVariant={selectedVariant}
             allowCustomText={isPersonalized}
             personalizationConfig={personalizationConfig}
           />
-          <ul className="nenufar-product-assurances"><li>Pago protegido mediante Shopify.</li><li>Atención del taller para cada pedido.</li></ul>
         </div>
       </div>
       <ProductDetailsTabs
@@ -190,11 +263,16 @@ export default function Product() {
         weight={product.weight?.value}
       />
       {relatedCollection && relatedProducts.length > 0 && (
-        <section className="related-products" aria-labelledby="related-products-heading">
+        <section
+          className="related-products"
+          aria-labelledby="related-products-heading"
+        >
           <div className="related-products-heading">
             <div>
               <span>Colección completa</span>
-              <h2 id="related-products-heading">Otras piezas de {relatedCollection.title}</h2>
+              <h2 id="related-products-heading">
+                Otras piezas de {relatedCollection.title}
+              </h2>
             </div>
             <Link to={`/catalogo?collection=${relatedCollection.handle}`}>
               Ver catálogo completo →
@@ -210,7 +288,10 @@ export default function Product() {
               >
                 {relatedProduct.featuredImage && (
                   <Image
-                    alt={relatedProduct.featuredImage.altText || relatedProduct.title}
+                    alt={
+                      relatedProduct.featuredImage.altText ||
+                      relatedProduct.title
+                    }
                     aspectRatio="1/1"
                     data={relatedProduct.featuredImage}
                     loading="lazy"
@@ -219,7 +300,9 @@ export default function Product() {
                 )}
                 <h3>{relatedProduct.title}</h3>
                 <p>{relatedProduct.description}</p>
-                <strong><Money data={relatedProduct.priceRange.minVariantPrice} /></strong>
+                <strong>
+                  <Money data={relatedProduct.priceRange.minVariantPrice} />
+                </strong>
                 <span>Ver pieza →</span>
               </Link>
             ))}

@@ -1441,6 +1441,9 @@ body {
   color: #166534;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
 }
+.nenufar-product-page .nenufar-product-gallery-inner {
+  position: relative;
+}
 .nenufar-product-page .has-gallery .nenufar-product-gallery-note {
   bottom: 7rem;
 }
