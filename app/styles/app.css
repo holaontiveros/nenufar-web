@@ -192,9 +192,6 @@ body {
 .hero-pill strong {
   color: #9d174d;
 }
-.hero-pill span {
-  color: #d6d3d1;
-}
 .hero-pill .hero-pill__message {
   display: inline-grid;
   min-width: 0;
