@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useLoaderData, useRouteLoaderData } from 'react-router';
 import type { RootLoader } from '~/root';
 import type { HomepageCollectionsQuery } from 'storefrontapi.generated';
+import {ActionLink} from '~/components/Action';
 
 export const meta: Route.MetaFunction = () => [
   { title: 'Regalos personalizados | Nenúfar' },
@@ -75,9 +76,9 @@ export default function Homepage() {
             comprar.
           </p>
           <div className="hero-actions">
-            <a className="hero-actions__primary" href="/catalogo">
+            <ActionLink className="hero-actions__primary" to="/catalogo" variant="primary">
               ⌑ Ver productos de catálogo <span>→</span>
-            </a>
+            </ActionLink>
             <a className="hero-actions__secondary" href="#catalogos">
               Explorar colecciones de temporada
             </a>

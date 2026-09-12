@@ -4,6 +4,7 @@ import {CartForm, Money, type OptimisticCart} from '@shopify/hydrogen';
 import {useEffect, useId, useRef, useState} from 'react';
 import {useFetcher} from 'react-router';
 import {CartIcon, ShieldCheckIcon} from './CartIcons';
+import {ActionAnchor} from './Action';
 
 type CartSummaryProps = {
   cart: OptimisticCart<CartApiQueryFragment | null>;
@@ -57,9 +58,9 @@ function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
   return (
     <div className="cart-checkout-actions">
       <p className="cart-secure-message"><ShieldCheckIcon /> Checkout cifrado directo en Shopify.</p>
-      <a href={checkoutUrl} target="_self">
+      <ActionAnchor href={checkoutUrl} target="_self" fullWidth size="large" variant="primary">
         <CartIcon /> Proceder al Pago en Shopify <b aria-hidden="true">→</b>
-      </a>
+      </ActionAnchor>
     </div>
   );
 }

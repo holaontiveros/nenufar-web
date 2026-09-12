@@ -17,6 +17,67 @@ body {
   color: #292524;
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
 }
+.action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  border-radius: 0.9rem;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 0.18s,
+    box-shadow 0.18s,
+    background 0.18s;
+}
+.action--small {
+  min-height: 2.5rem;
+  padding: 0.6rem 0.85rem;
+}
+.action--medium {
+  min-height: 3rem;
+  padding: 0.75rem 1.15rem;
+}
+.action--large {
+  min-height: 3.25rem;
+  padding: 0.9rem 1.1rem;
+}
+.action--full-width {
+  width: 100%;
+}
+.action--primary {
+  border: 0;
+  background: linear-gradient(90deg, #db2777, #f43f5e, #6d28d9);
+  box-shadow: 0 10px 18px rgba(136, 19, 55, 0.2);
+  color: #fff;
+}
+.action--primary:hover:not(:disabled) {
+  box-shadow: 0 14px 24px rgba(136, 19, 55, 0.28);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.action:focus-visible {
+  outline: 3px solid #f9a8d4;
+  outline-offset: 3px;
+}
+.action:disabled,
+.action[aria-disabled='true'] {
+  cursor: not-allowed;
+  filter: grayscale(0.45);
+  opacity: 0.55;
+}
+.action svg {
+  flex: none;
+  width: 1.15rem;
+  height: 1.15rem;
+}
 .nenufar-shell {
   width: min(100% - 2rem, 72rem);
   margin-inline: auto;
@@ -265,11 +326,6 @@ body {
   font-size: 0.85rem;
   font-weight: 700;
   text-decoration: none;
-}
-.hero-actions__primary {
-  background: linear-gradient(90deg, #db2777, #f43f5e, #6d28d9);
-  box-shadow: 0 12px 25px rgba(136, 19, 55, 0.22);
-  color: #fff;
 }
 .hero-actions__secondary {
   border: 1px solid #fbcfe8;
@@ -1021,22 +1077,9 @@ main:has(.nenufar-hero) + .brand-footer {
   margin-bottom: 0;
 }
 .faq-preview__cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   gap: 0.7rem;
-  min-height: 3rem;
-  padding: 0.75rem 1.15rem;
   border-radius: 999px;
-  background: linear-gradient(100deg, #ec007a, #8e14d7);
-  color: #fff;
-  font-weight: 800;
-  text-decoration: none;
   white-space: nowrap;
-}
-.faq-preview__cta:hover {
-  color: #fff;
-  transform: translateY(-1px);
 }
 .faq-page {
   min-height: 60vh;
@@ -1878,40 +1921,10 @@ img {
   height: 100%;
   object-fit: cover;
 }
-.nenufar-product-page .product-add-to-cart {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.55rem;
-  width: 100%;
-  min-height: 3.25rem;
-  padding: 0.9rem 1.1rem;
-  border: 0;
-  border-radius: 0.9rem;
-  background: linear-gradient(90deg, #db2777, #f43f5e, #6d28d9);
-  box-shadow: 0 10px 18px rgba(136, 19, 55, 0.2);
-  color: #fff;
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.92rem;
-  font-weight: 800;
-  transition:
-    transform 0.18s,
-    box-shadow 0.18s;
-}
-.nenufar-product-page .product-add-to-cart:hover:not(:disabled) {
-  box-shadow: 0 14px 24px rgba(136, 19, 55, 0.28);
-  transform: translateY(-1px);
-}
 .nenufar-product-page .product-add-to-cart:focus-visible,
 .nenufar-product-page .product-options-item:focus-visible {
   outline: 3px solid #f9a8d4;
   outline-offset: 3px;
-}
-.nenufar-product-page .product-add-to-cart:disabled {
-  cursor: not-allowed;
-  filter: grayscale(0.45);
-  opacity: 0.55;
 }
 .nenufar-product-page .product-add-to-cart svg {
   width: 1.15rem;
@@ -2539,23 +2552,7 @@ button.reset:hover:not(:has(> *)) {
   height: 1rem;
   color: #059669;
 }
-.cart-checkout-actions > a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.55rem;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0.9rem 1rem;
-  border-radius: 0.8rem;
-  background: linear-gradient(90deg, #db2777, #f43f5e, #6d28d9);
-  box-shadow: 0 10px 18px rgba(136, 19, 55, 0.2);
-  color: #fff;
-  font-size: 0.76rem;
-  font-weight: 800;
-  text-decoration: none;
-}
-.cart-checkout-actions > a svg {
+.cart-checkout-actions .action svg {
   width: 1rem;
   height: 1rem;
   color: #fce7f3;

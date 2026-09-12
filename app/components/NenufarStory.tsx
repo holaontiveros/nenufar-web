@@ -1,5 +1,6 @@
 import { WhatsAppIcon } from '~/components/WhatsAppIcon';
 import { RichTextContent } from '~/components/RichTextContent';
+import {ActionLink} from '~/components/Action';
 
 type CollectionCard = {
   id: string;
@@ -146,9 +147,9 @@ export function NenufarStory({
             title="Preguntas frecuentes"
             copy="Resolvemos las dudas más comunes sobre materiales, personalización, tiempos y envíos."
           />
-          <a className="faq-preview__cta" href="/preguntas">
+          <ActionLink className="faq-preview__cta" to="/preguntas" variant="primary">
             Ver todas las preguntas frecuentes <span>→</span>
-          </a>
+          </ActionLink>
         </div>
       </section>
       <section className="story-final">
