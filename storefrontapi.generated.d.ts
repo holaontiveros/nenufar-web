@@ -625,6 +625,10 @@ export type NenufarCatalogQuery = {
                   StorefrontAPI.MoneyV2,
                   'amount' | 'currencyCode'
                 >;
+                maxVariantPrice: Pick<
+                  StorefrontAPI.MoneyV2,
+                  'amount' | 'currencyCode'
+                >;
               };
               technique?: StorefrontAPI.Maybe<
                 Pick<StorefrontAPI.Metafield, 'value'>
@@ -1710,7 +1714,7 @@ interface GeneratedQueryTypes {
     return: BlogsQuery;
     variables: BlogsQueryVariables;
   };
-  '#graphql\n  query NenufarCatalog($country: CountryCode, $language: LanguageCode) @inContext(country: $country, language: $language) {\n    collections(first: 100) { nodes { title handle products(first: 100, sortKey: TITLE) { nodes {\n      id title handle description featuredImage { id url altText width height } priceRange { minVariantPrice { amount currencyCode } }\n      technique: metafield(namespace: "custom", key: "technique") { value }\n      leadTime: metafield(namespace: "custom", key: "lead_time") { value }\n    } } } }\n  }\n': {
+  '#graphql\n  query NenufarCatalog($country: CountryCode, $language: LanguageCode) @inContext(country: $country, language: $language) {\n    collections(first: 100) { nodes { title handle products(first: 100, sortKey: TITLE) { nodes {\n      id title handle description featuredImage { id url altText width height } priceRange { minVariantPrice { amount currencyCode } maxVariantPrice { amount currencyCode } }\n      technique: metafield(namespace: "custom", key: "technique") { value }\n      leadTime: metafield(namespace: "custom", key: "lead_time") { value }\n    } } } }\n  }\n': {
     return: NenufarCatalogQuery;
     variables: NenufarCatalogQueryVariables;
   };

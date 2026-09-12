@@ -19,7 +19,7 @@ export async function loader({context}: Route.LoaderArgs) {
       productsById.set(product.id, {
         id: product.id, title: product.title, handle: product.handle,
         image: product.featuredImage ? {url: product.featuredImage.url, altText: product.featuredImage.altText} : undefined,
-        price: product.priceRange.minVariantPrice, description: product.description,
+        priceRange: product.priceRange, description: product.description,
         catalogName: collection.title, catalogHandle: collection.handle,
         catalogNames: [collection.title], catalogHandles: [collection.handle],
         technique: product.technique?.value, leadTime: product.leadTime?.value,
@@ -37,7 +37,7 @@ export default function CataloguePage({loaderData}: Route.ComponentProps) {
 const NENUFAR_CATALOG_QUERY = `#graphql
   query NenufarCatalog($country: CountryCode, $language: LanguageCode) @inContext(country: $country, language: $language) {
     collections(first: 100) { nodes { title handle products(first: 100, sortKey: TITLE) { nodes {
-      id title handle description featuredImage { id url altText width height } priceRange { minVariantPrice { amount currencyCode } }
+      id title handle description featuredImage { id url altText width height } priceRange { minVariantPrice { amount currencyCode } maxVariantPrice { amount currencyCode } }
       technique: metafield(namespace: "custom", key: "technique") { value }
       leadTime: metafield(namespace: "custom", key: "lead_time") { value }
     } } } }
