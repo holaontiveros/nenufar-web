@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useLoaderData, useRouteLoaderData } from 'react-router';
 import type { RootLoader } from '~/root';
 import type { HomepageCollectionsQuery } from 'storefrontapi.generated';
-import {ActionLink} from '~/components/Action';
+import {ActionAnchor, ActionLink} from '~/components/Action';
 
 export const meta: Route.MetaFunction = () => [
   { title: 'Regalos personalizados | Nenúfar' },
@@ -83,14 +83,15 @@ export default function Homepage() {
               Explorar colecciones de temporada
             </a>
             {whatsappUrl && (
-              <a
+              <ActionAnchor
                 className="hero-actions__chat"
                 href={whatsappUrl}
                 target="_blank"
                 rel="noreferrer"
+                variant="whatsapp"
               >
                 <WhatsAppIcon /> Escríbenos por chat
-              </a>
+              </ActionAnchor>
             )}
           </div>
           <div className="hero-trust">

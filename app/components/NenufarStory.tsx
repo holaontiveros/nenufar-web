@@ -1,6 +1,6 @@
 import { WhatsAppIcon } from '~/components/WhatsAppIcon';
 import { RichTextContent } from '~/components/RichTextContent';
-import {ActionLink} from '~/components/Action';
+import {ActionAnchor, ActionLink} from '~/components/Action';
 
 type CollectionCard = {
   id: string;
@@ -131,9 +131,9 @@ export function NenufarStory({
             </p>
           </div>
           {whatsappUrl && (
-            <a href={whatsappUrl} target="_blank" rel="noreferrer">
+            <ActionAnchor href={whatsappUrl} target="_blank" rel="noreferrer" size="small" variant="whatsapp">
               <WhatsAppIcon /> Enviar mi idea
-            </a>
+            </ActionAnchor>
           )}
         </div>
       </section>
@@ -163,9 +163,9 @@ export function NenufarStory({
             historia.
           </p>
           {whatsappUrl && (
-            <a href={whatsappUrl} target="_blank" rel="noreferrer">
+            <ActionAnchor href={whatsappUrl} target="_blank" rel="noreferrer" size="small" variant="whatsapp">
               <WhatsAppIcon /> Iniciar conversación
-            </a>
+            </ActionAnchor>
           )}
         </div>
       </section>

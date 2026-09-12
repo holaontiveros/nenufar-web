@@ -7,6 +7,7 @@ import {
 } from '@shopify/hydrogen';
 import type {CartApiQueryFragment, HeaderQuery} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
+import {ActionAnchor, ActionButton} from '~/components/Action';
 import {CartIcon} from '~/components/CartIcons';
 
 interface HeaderProps {
@@ -32,7 +33,7 @@ export function Header({cart, header}: HeaderProps) {
         </nav>
         <div className="brand-header__actions">
           <CartToggle cart={cart} />
-          <button className="brand-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen((open) => !open)}>☰</button>
+          <ActionButton className="brand-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen((open) => !open)} size="icon-sm" variant="icon">☰</ActionButton>
         </div>
         {mobileMenuOpen && <nav className="brand-mobile-nav" aria-label="Navegación móvil">
           {navigation.map((item) => item.url && <a key={item.id} href={item.url} onClick={() => setMobileMenuOpen(false)}>{item.title}</a>)}
@@ -55,9 +56,9 @@ function CartBanner() {
 function CartBadge({count}: {count: number}) {
   const {open} = useAside();
   const {publish, shop, cart, prevCart} = useAnalytics();
-  return <a className="brand-cart" href="/cart" onClick={(event) => {
+  return <ActionAnchor className="brand-cart" href="/cart" onClick={(event) => {
     event.preventDefault();
     open('cart');
     publish('cart_viewed', {cart, prevCart, shop, url: window.location.href || ''} as CartViewPayload);
-  }} aria-label={`Abrir carrito (${count} productos)`}><CartIcon />{count > 0 && <b>{count}</b>}</a>;
+  }} aria-label={`Abrir carrito (${count} productos)`} size="icon-sm" variant="icon"><CartIcon />{count > 0 && <b>{count}</b>}</ActionAnchor>;
 }

@@ -6,6 +6,7 @@ import type {
   HeaderQuery,
 } from 'storefrontapi.generated';
 import {Aside} from '~/components/Aside';
+import {ActionAnchor} from '~/components/Action';
 import {Footer} from '~/components/Footer';
 import {Header} from '~/components/Header';
 import {CartMain} from '~/components/CartMain';
@@ -55,15 +56,17 @@ export function PageLayout({
         publicStoreDomain={publicStoreDomain}
       />
       {whatsappUrl && (
-        <a
+        <ActionAnchor
           className="floating-chat"
           href={whatsappUrl}
           target="_blank"
           rel="noreferrer"
           aria-label="Abrir WhatsApp"
+          size="icon-md"
+          variant="whatsapp"
         >
           <WhatsAppIcon />
-        </a>
+        </ActionAnchor>
       )}
     </Aside.Provider>
   );

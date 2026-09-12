@@ -22,7 +22,7 @@ Use option 3. `app/components/Action.tsx` exports `ActionButton`, `ActionAnchor`
 - `ActionAnchor` for external destinations, including Shopify checkout.
 - `ActionLink` for internal React Router navigation.
 
-The initial supported vocabulary is `primary`, `secondary`, `whatsapp`, `ghost`, `icon`, `choice`, and `stepper`, with `small`, `medium`, `large`, `icon-sm`, and `icon-md` sizes. Only `primary` is styled and migrated in this first implementation chunk; the remaining variants are intentionally deferred.
+The initial supported vocabulary is `primary`, `secondary`, `whatsapp`, `ghost`, `icon`, `choice`, and `stepper`, with `small`, `medium`, `large`, `icon-sm`, and `icon-md` sizes. `primary`, `whatsapp`, and `icon` are styled and migrated; the remaining variants are intentionally deferred.
 
 ## Consequences
 
