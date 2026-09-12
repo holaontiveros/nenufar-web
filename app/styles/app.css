@@ -868,6 +868,7 @@ main:has(.nenufar-hero) + .brand-footer {
   color: #78716c;
   font-size: 0.9rem;
   line-height: 1.65;
+  margin-bottom: 1rem;
 }
 .story-grid {
   display: grid;
