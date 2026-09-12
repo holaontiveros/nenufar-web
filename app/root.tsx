@@ -19,6 +19,7 @@ import tailwindCss from './styles/tailwind.css?url';
 import {PageLayout} from './components/PageLayout';
 import {createWhatsAppUrl} from './lib/contact';
 import {GoogleTagManager} from '~/components/GoogleTagManager';
+import {StorefrontAnalytics} from '~/components/StorefrontAnalytics';
 
 export type RootLoader = typeof loader;
 
@@ -190,6 +191,7 @@ export default function App() {
         <Outlet />
       </PageLayout>
       <GoogleTagManager containerId={data.gtmContainerId} />
+      <StorefrontAnalytics />
     </Analytics.Provider>
   );
 }
