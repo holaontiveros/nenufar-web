@@ -15,6 +15,21 @@ export default async function handleRequest(
   context: HydrogenRouterContextProvider,
 ) {
   const {nonce, header, NonceProvider} = createContentSecurityPolicy({
+    scriptSrc: ['https://www.googletagmanager.com', 'https://*.googletagmanager.com'],
+    connectSrc: [
+      'https://www.google-analytics.com',
+      'https://*.google-analytics.com',
+      'https://analytics.google.com',
+      'https://*.analytics.google.com',
+      'https://www.googletagmanager.com',
+      'https://*.googletagmanager.com',
+    ],
+    imgSrc: [
+      'https://www.google-analytics.com',
+      'https://*.google-analytics.com',
+      'https://www.googletagmanager.com',
+      'https://*.googletagmanager.com',
+    ],
     shop: {
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
       storeDomain: context.env.PUBLIC_STORE_DOMAIN,
