@@ -37,6 +37,9 @@ body {
     box-shadow 0.18s,
     background 0.18s;
 }
+.action:hover:not(:disabled) {
+  text-decoration: none;
+}
 .action--small {
   min-height: 2.5rem;
   padding: 0.6rem 0.85rem;
@@ -372,9 +375,6 @@ body {
   border: 1px solid #fbcfe8;
   background: rgba(255, 255, 255, 0.75);
   color: #44403c;
-}
-.hero-actions__chat {
-  color: #57534e;
 }
 .hero-trust {
   display: flex;
@@ -1160,11 +1160,8 @@ main:has(.nenufar-hero) + .brand-footer {
   place-items: center;
   width: 3rem;
   height: 3rem;
-  border: 2px solid #fff;
   border-radius: 50%;
-  background: #292524;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  color: #f9a8d4;
   font-size: 1.35rem;
   text-decoration: none;
   z-index: 18;
