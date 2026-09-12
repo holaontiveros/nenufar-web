@@ -9,6 +9,7 @@ import {Aside} from '~/components/Aside';
 import {Footer} from '~/components/Footer';
 import {Header} from '~/components/Header';
 import {CartMain} from '~/components/CartMain';
+import {WhatsAppIcon} from '~/components/WhatsAppIcon';
 import {
   SEARCH_ENDPOINT,
   SearchFormPredictive,
@@ -53,6 +54,17 @@ export function PageLayout({
         header={header}
         publicStoreDomain={publicStoreDomain}
       />
+      {whatsappUrl && (
+        <a
+          className="floating-chat"
+          href={whatsappUrl}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Abrir WhatsApp"
+        >
+          <WhatsAppIcon />
+        </a>
+      )}
     </Aside.Provider>
   );
 }

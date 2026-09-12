@@ -168,17 +168,6 @@ export function NenufarStory({
           )}
         </div>
       </section>
-      {whatsappUrl && (
-        <a
-          className="floating-chat"
-          href={whatsappUrl}
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Abrir WhatsApp"
-        >
-          <WhatsAppIcon />
-        </a>
-      )}
     </>
   );
 }
