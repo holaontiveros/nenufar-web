@@ -14,6 +14,7 @@ type CartSummaryProps = {
 type CartDiscountAllocation = {
   __typename?: string;
   discountedAmount: CartApiQueryFragment['cost']['subtotalAmount'];
+  code?: string;
   title?: string;
 };
 
@@ -25,6 +26,13 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
   const discountCodeInputId = useId();
   const giftCardHeadingId = useId();
   const giftCardInputId = useId();
+  const lineDiscountAllocations = (cart?.lines?.nodes ?? []).flatMap((line) =>
+    hasDiscountAllocations(line) ? line.discountAllocations : [],
+  );
+  const discountAllocations = [
+    ...(cart?.discountAllocations ?? []),
+    ...lineDiscountAllocations,
+  ];
 
   return (
     <div aria-labelledby={summaryId} className={className}>
@@ -41,7 +49,7 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
       </dl>
       {layout === 'aside' ? (
         <CartDiscounts
-          discountAllocations={cart?.discountAllocations}
+          discountAllocations={discountAllocations}
           discountCodes={cart?.discountCodes}
           discountsHeadingId={discountsHeadingId}
           discountCodeInputId={discountCodeInputId}
@@ -58,6 +66,17 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
       ) : null}
       <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
     </div>
+  );
+}
+
+function hasDiscountAllocations(
+  line: unknown,
+): line is {discountAllocations: ReadonlyArray<CartDiscountAllocation>} {
+  return (
+    typeof line === 'object' &&
+    line !== null &&
+    'discountAllocations' in line &&
+    Array.isArray(line.discountAllocations)
   );
 }
 
@@ -88,20 +107,8 @@ function CartDiscounts({
   const discountCodeInput = useRef<HTMLInputElement>(null);
   const discountCodeFetcher = useFetcher({key: 'discount-code-update'});
   const codes = discountCodes ?? [];
-  const appliedCodes = codes.filter((discount) => discount.applicable);
   const unavailableCodes = codes.filter((discount) => !discount.applicable);
-  const automaticDiscounts = (discountAllocations ?? []).flatMap(
-    (allocation) =>
-      allocation.__typename === 'CartAutomaticDiscountAllocation' ||
-      allocation.__typename === 'CartCustomDiscountAllocation'
-        ? [allocation]
-        : [],
-  );
-  const totalDiscount = discountAllocations?.reduce(
-    (total, allocation) => total + Number(allocation.discountedAmount.amount),
-    0,
-  );
-  const discountAmount = discountAllocations?.[0]?.discountedAmount;
+  const appliedDiscounts = discountAllocations ?? [];
 
   useEffect(() => {
     if (discountCodeFetcher.data && discountCodeInput.current) {
@@ -140,37 +147,26 @@ function CartDiscounts({
         </div>
       </UpdateDiscountForm>
 
-      {appliedCodes.length || automaticDiscounts.length ? (
+      {appliedDiscounts.length ? (
         <div className="cart-applied-discounts" role="status">
           <div>
-            <span>Descuento aplicado</span>
-            {discountAmount && totalDiscount ? (
-              <strong>
-                −
-                <Money
-                  data={{
-                    ...discountAmount,
-                    amount: totalDiscount.toFixed(2),
-                  }}
-                />
-              </strong>
-            ) : null}
+            <span>Ahorros aplicados</span>
           </div>
           <ul>
-            {automaticDiscounts.map((discount) => (
+            {appliedDiscounts.map((discount, index) => (
               <li
-                key={`${discount.__typename}-${discount.title ?? 'automatic'}`}
+                key={`${discount.__typename}-${discount.code ?? discount.title ?? index}`}
               >
-                <code>{discount.title ?? 'Descuento automático'}</code>
-              </li>
-            ))}
-            {appliedCodes.map(({ code }) => (
-              <li key={code}>
-                <code>{code}</code>
-                <RemoveDiscountForm
-                  code={code}
-                  discountCodes={codes.map(({ code }) => code)}
-                />
+                <code>{discount.code ?? discount.title ?? 'Descuento aplicado'}</code>
+                <strong>
+                  −<Money data={discount.discountedAmount} />
+                </strong>
+                {discount.code && codes.some(({code}) => code === discount.code) ? (
+                  <RemoveDiscountForm
+                    code={discount.code}
+                    discountCodes={codes.map(({code}) => code)}
+                  />
+                ) : null}
               </li>
             ))}
           </ul>

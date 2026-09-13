@@ -1,6 +1,6 @@
 import type {CartLineUpdateInput} from '@shopify/hydrogen/storefront-api-types';
 import type {CartLayout, LineItemChildrenMap} from '~/components/CartMain';
-import {CartForm, Image, type OptimisticCartLine} from '@shopify/hydrogen';
+import {CartForm, Image} from '@shopify/hydrogen';
 import {useState} from 'react';
 import {useVariantUrl} from '~/lib/variants';
 import {getSeasonalCollectionLabel} from '~/lib/seasonal-collections';
@@ -10,11 +10,15 @@ import {ActionButton} from './Action';
 import {useAside} from './Aside';
 import {PencilIcon, SparklesIcon, TrashIcon} from './CartIcons';
 import type {
-  CartApiQueryFragment,
   CartLineFragment,
 } from 'storefrontapi.generated';
 
-export type CartLine = OptimisticCartLine<CartApiQueryFragment>;
+export type CartLine = Omit<CartLineFragment, 'discountAllocations'> & {
+  discountAllocations?: unknown;
+  isOptimistic?: boolean;
+  lineComponents?: CartLine[];
+  parentRelationship?: {parent: {id: string}} | null;
+};
 
 /**
  * A single line item in the cart. It displays the product image, title, price.

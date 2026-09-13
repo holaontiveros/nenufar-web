@@ -20,6 +20,35 @@ export type CartLineFragment = Pick<
       Pick<StorefrontAPI.MoneyV2, 'currencyCode' | 'amount'>
     >;
   };
+  discountAllocations: Array<
+    | ({__typename: 'CartAutomaticDiscountAllocation'} & Pick<
+        StorefrontAPI.CartAutomaticDiscountAllocation,
+        'title'
+      > & {
+          discountedAmount: Pick<
+            StorefrontAPI.MoneyV2,
+            'currencyCode' | 'amount'
+          >;
+        })
+    | ({__typename: 'CartCodeDiscountAllocation'} & Pick<
+        StorefrontAPI.CartCodeDiscountAllocation,
+        'code'
+      > & {
+          discountedAmount: Pick<
+            StorefrontAPI.MoneyV2,
+            'currencyCode' | 'amount'
+          >;
+        })
+    | ({__typename: 'CartCustomDiscountAllocation'} & Pick<
+        StorefrontAPI.CartCustomDiscountAllocation,
+        'title'
+      > & {
+          discountedAmount: Pick<
+            StorefrontAPI.MoneyV2,
+            'currencyCode' | 'amount'
+          >;
+        })
+  >;
   merchandise: Pick<
     StorefrontAPI.ProductVariant,
     'id' | 'availableForSale' | 'requiresShipping' | 'title'
@@ -96,6 +125,35 @@ export type CartLineComponentFragment = Pick<
           Pick<StorefrontAPI.MoneyV2, 'currencyCode' | 'amount'>
         >;
       };
+      discountAllocations: Array<
+        | ({__typename: 'CartAutomaticDiscountAllocation'} & Pick<
+            StorefrontAPI.CartAutomaticDiscountAllocation,
+            'title'
+          > & {
+              discountedAmount: Pick<
+                StorefrontAPI.MoneyV2,
+                'currencyCode' | 'amount'
+              >;
+            })
+        | ({__typename: 'CartCodeDiscountAllocation'} & Pick<
+            StorefrontAPI.CartCodeDiscountAllocation,
+            'code'
+          > & {
+              discountedAmount: Pick<
+                StorefrontAPI.MoneyV2,
+                'currencyCode' | 'amount'
+              >;
+            })
+        | ({__typename: 'CartCustomDiscountAllocation'} & Pick<
+            StorefrontAPI.CartCustomDiscountAllocation,
+            'title'
+          > & {
+              discountedAmount: Pick<
+                StorefrontAPI.MoneyV2,
+                'currencyCode' | 'amount'
+              >;
+            })
+      >;
       merchandise: Pick<
         StorefrontAPI.ProductVariant,
         'id' | 'availableForSale' | 'requiresShipping' | 'title'
@@ -192,6 +250,35 @@ export type CartApiQueryFragment = Pick<
               Pick<StorefrontAPI.MoneyV2, 'currencyCode' | 'amount'>
             >;
           };
+          discountAllocations: Array<
+            | ({__typename: 'CartAutomaticDiscountAllocation'} & Pick<
+                StorefrontAPI.CartAutomaticDiscountAllocation,
+                'title'
+              > & {
+                  discountedAmount: Pick<
+                    StorefrontAPI.MoneyV2,
+                    'currencyCode' | 'amount'
+                  >;
+                })
+            | ({__typename: 'CartCodeDiscountAllocation'} & Pick<
+                StorefrontAPI.CartCodeDiscountAllocation,
+                'code'
+              > & {
+                  discountedAmount: Pick<
+                    StorefrontAPI.MoneyV2,
+                    'currencyCode' | 'amount'
+                  >;
+                })
+            | ({__typename: 'CartCustomDiscountAllocation'} & Pick<
+                StorefrontAPI.CartCustomDiscountAllocation,
+                'title'
+              > & {
+                  discountedAmount: Pick<
+                    StorefrontAPI.MoneyV2,
+                    'currencyCode' | 'amount'
+                  >;
+                })
+          >;
           merchandise: Pick<
             StorefrontAPI.ProductVariant,
             'id' | 'availableForSale' | 'requiresShipping' | 'title'
@@ -276,6 +363,35 @@ export type CartApiQueryFragment = Pick<
                   Pick<StorefrontAPI.MoneyV2, 'currencyCode' | 'amount'>
                 >;
               };
+              discountAllocations: Array<
+                | ({__typename: 'CartAutomaticDiscountAllocation'} & Pick<
+                    StorefrontAPI.CartAutomaticDiscountAllocation,
+                    'title'
+                  > & {
+                      discountedAmount: Pick<
+                        StorefrontAPI.MoneyV2,
+                        'currencyCode' | 'amount'
+                      >;
+                    })
+                | ({__typename: 'CartCodeDiscountAllocation'} & Pick<
+                    StorefrontAPI.CartCodeDiscountAllocation,
+                    'code'
+                  > & {
+                      discountedAmount: Pick<
+                        StorefrontAPI.MoneyV2,
+                        'currencyCode' | 'amount'
+                      >;
+                    })
+                | ({__typename: 'CartCustomDiscountAllocation'} & Pick<
+                    StorefrontAPI.CartCustomDiscountAllocation,
+                    'title'
+                  > & {
+                      discountedAmount: Pick<
+                        StorefrontAPI.MoneyV2,
+                        'currencyCode' | 'amount'
+                      >;
+                    })
+              >;
               merchandise: Pick<
                 StorefrontAPI.ProductVariant,
                 'id' | 'availableForSale' | 'requiresShipping' | 'title'
