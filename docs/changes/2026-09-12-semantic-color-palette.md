@@ -6,7 +6,7 @@ Standardize the storefront's repeated colors without changing its established vi
 
 ## Scope
 
-- Define semantic color tokens for shared surfaces, typography, borders, brand states, accent states, and WhatsApp actions.
+- Define semantic color tokens for shared surfaces, typography, borders, brand states, accent states, WhatsApp actions, and status states.
 - Replace repeated shared color literals throughout the stylesheet with those tokens.
 - Preserve one-off illustration and status colors that do not yet have a stable shared meaning.
 

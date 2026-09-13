@@ -22,6 +22,8 @@
   --color-brand-deep: #9D174D;
   --color-brand-soft: #FDF2F8;
   --color-brand-border: #FBCFE8;
+  --color-brand-wash: #FCE7F3;
+  --color-brand-ink: #831843;
   --color-brand-focus: #F9A8D4;
   --color-brand-selected: #EC4899;
   --color-accent: #6D28D9;
@@ -29,6 +31,19 @@
   --color-accent-deep: #581C87;
   --color-whatsapp: #25D366;
   --color-whatsapp-hover: #1EBE5D;
+  --color-success: #059669;
+  --color-success-strong: #047857;
+  --color-success-dark: #166534;
+  --color-success-surface: #F0FDF4;
+  --color-success-border: #86EFAC;
+  --color-success-ring: #D1FAE5;
+  --color-success-highlight: #10B981;
+  --color-warning: #D97706;
+  --color-danger: #E11D48;
+  --color-danger-surface: #FFF1F2;
+  --color-border-subtle: #F0ECE9;
+  --color-border-neutral: #E5E5E5;
+  --color-border-input: #D1D5DB;
 }
 
 /* Nenúfar visual language -------------------------------------------------- */
@@ -545,8 +560,8 @@ body {
   width: 0.45rem;
   height: 0.45rem;
   border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 0 3px #d1fae5;
+  background: var(--color-success-highlight);
+  box-shadow: 0 0 0 3px var(--color-success-ring);
 }
 .hero-pill strong {
   color: var(--color-brand-deep);
@@ -637,7 +652,7 @@ body {
   gap: 1.1rem 2rem;
   margin-top: 2rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #fce7f3;
+  border-top: 1px solid var(--color-brand-wash);
   color: var(--color-text-subtle);
   font-size: 0.72rem;
 }
@@ -761,8 +776,8 @@ body {
 }
 .catalogue-filters button.active {
   border-color: var(--color-brand-focus);
-  background: #fce7f3;
-  color: #831843;
+  background: var(--color-brand-wash);
+  color: var(--color-brand-ink);
 }
 .catalogue-grid {
   display: grid;
@@ -912,7 +927,7 @@ body {
   width: 2.75rem;
   height: 2.75rem;
   border-radius: 0.9rem;
-  background: #fce7f3;
+  background: var(--color-brand-wash);
   color: var(--color-brand-strong);
 }
 .catalogue-custom-order h3 {
@@ -1331,7 +1346,7 @@ main:has(.nenufar-hero) + .brand-footer {
   padding: 1.5rem;
 }
 .review-card b {
-  color: #d97706;
+  color: var(--color-warning);
   letter-spacing: 0.1em;
 }
 .review-card p {
@@ -1395,7 +1410,7 @@ main:has(.nenufar-hero) + .brand-footer {
 }
 .story-final {
   padding: 5.5rem 1rem;
-  background: linear-gradient(135deg, #fce7f3, #ede9fe);
+  background: linear-gradient(135deg, var(--color-brand-wash), #ede9fe);
   text-align: center;
 }
 .story-final > div {
@@ -1578,7 +1593,7 @@ main:has(.nenufar-hero) + .brand-footer {
 .product-process li,
 .product-care-guide {
   padding: 1.35rem;
-  border: 1px solid #f0ece9;
+  border: 1px solid var(--color-border-subtle);
   border-radius: 1.25rem;
 }
 .product-details h2 {
@@ -1883,7 +1898,7 @@ main:has(.nenufar-hero) + .brand-footer {
   margin: 0;
   padding: 0.45rem 0.7rem;
   background: var(--color-surface);
-  color: #166534;
+  color: var(--color-success-dark);
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
 }
 .nenufar-product-page .nenufar-product-gallery-inner {
@@ -1957,7 +1972,7 @@ main:has(.nenufar-hero) + .brand-footer {
 }
 .nenufar-product-page .nenufar-product-availability b {
   display: block;
-  color: #047857;
+  color: var(--color-success-strong);
   font-size: 0.78rem;
 }
 .nenufar-product-page .nenufar-product-availability span {
@@ -1979,10 +1994,10 @@ main:has(.nenufar-hero) + .brand-footer {
   gap: 0.45rem;
   margin-top: 0.8rem;
   padding: 0.85rem;
-  border: 1px solid #86efac;
+  border: 1px solid var(--color-success-border);
   border-radius: 0.9rem;
-  background: #f0fdf4;
-  color: #166534;
+  background: var(--color-success-surface);
+  color: var(--color-success-dark);
   font-weight: 800;
   text-decoration: none;
 }
@@ -2001,7 +2016,7 @@ main:has(.nenufar-hero) + .brand-footer {
   list-style: "✓  ";
 }
 .nenufar-product-page .nenufar-product-assurances li::marker {
-  color: #059669;
+  color: var(--color-success);
 }
 @media (max-width: 45rem) {
   .nenufar-product-page {
@@ -2489,7 +2504,7 @@ button.reset:hover:not(:has(> *)) {
   height: auto;
   min-height: 4.6rem;
   padding: 0 1.25rem;
-  border-bottom: 1px solid #fce7f3;
+  border-bottom: 1px solid var(--color-brand-wash);
   background: rgba(255, 255, 255, 0.84);
   backdrop-filter: blur(14px);
 }
@@ -2560,7 +2575,7 @@ button.reset:hover:not(:has(> *)) {
   position: relative;
   margin: 0.85rem 0;
   padding: 0;
-  border: 1px solid #fce7f3;
+  border: 1px solid var(--color-brand-wash);
   border-radius: 1rem;
   background: var(--color-surface);
   box-shadow: 0 4px 12px rgba(84, 49, 25, 0.05);
@@ -2685,8 +2700,8 @@ button.reset:hover:not(:has(> *)) {
   height: 1rem;
 }
 .cart-line-remove:hover:not(:disabled) {
-  background: #fff1f2 !important;
-  color: #e11d48 !important;
+  background: var(--color-danger-surface) !important;
+  color: var(--color-danger) !important;
 }
 .cart-line-personalization {
   display: flex;
@@ -2758,7 +2773,7 @@ button.reset:hover:not(:has(> *)) {
 .cart-summary-aside {
   margin-top: auto;
   padding: 1rem 1.25rem 1.25rem;
-  border-top: 1px solid #fce7f3;
+  border-top: 1px solid var(--color-brand-wash);
   background: rgba(255, 255, 255, 0.92);
   box-shadow: 0 -8px 25px rgba(84, 49, 25, 0.05);
 }
@@ -2803,12 +2818,12 @@ button.reset:hover:not(:has(> *)) {
   flex: none;
   width: 1rem;
   height: 1rem;
-  color: #059669;
+  color: var(--color-success);
 }
 .cart-checkout-actions .action svg {
   width: 1rem;
   height: 1rem;
-  color: #fce7f3;
+  color: var(--color-brand-wash);
 }
 .cart-checkout-actions > a b {
   font-size: 1rem;
@@ -3169,7 +3184,7 @@ button.reset:hover:not(:has(> *)) {
 }
 
 .order-search-fieldset {
-  border: 1px solid #e5e5e5;
+  border: 1px solid var(--color-border-neutral);
   border-radius: 4px;
   padding: 1rem;
 }
@@ -3201,7 +3216,7 @@ button.reset:hover:not(:has(> *)) {
 .order-search-input {
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--color-border-input);
   border-radius: 4px;
   font-size: 1rem;
 }
