@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from 'react-router';
+import {isRouteErrorResponse, Link, useLoaderData, useRouteError} from 'react-router';
 import type { Route } from './+types/products.$handle';
 import {
   getSelectedProductOptions,
@@ -13,6 +13,7 @@ import {
 import { ProductPrice } from '~/components/ProductPrice';
 import { ProductImage } from '~/components/ProductImage';
 import { ProductForm } from '~/components/ProductForm';
+import {NotFoundPage} from '~/components/NotFoundPage';
 import type { PersonalizationConfig } from '~/components/ProductForm';
 import {
   ProductDetailsTabs,
@@ -387,6 +388,16 @@ export default function Product() {
       </div>
     </>
   );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (isRouteErrorResponse(error) && error.status === 404) {
+    return <NotFoundPage />;
+  }
+
+  throw error;
 }
 
 const PRODUCT_VARIANT_FRAGMENT = `#graphql
