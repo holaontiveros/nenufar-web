@@ -1,10 +1,16 @@
-import {redirect, useLoaderData} from 'react-router';
+import {
+  isRouteErrorResponse,
+  redirect,
+  useLoaderData,
+  useRouteError,
+} from 'react-router';
 import type {Route} from './+types/collections.$handle';
 import {Analytics} from '@shopify/hydrogen';
 import {
   NenufarCatalogue,
   type NenufarCatalogueItem,
 } from '~/components/NenufarCatalogue';
+import {NotFoundPage} from '~/components/NotFoundPage';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
 export const meta: Route.MetaFunction = ({data}) => [
@@ -89,6 +95,16 @@ export default function Collection() {
       />
     </>
   );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (isRouteErrorResponse(error) && error.status === 404) {
+    return <NotFoundPage />;
+  }
+
+  throw error;
 }
 
 const COLLECTION_QUERY = `#graphql
