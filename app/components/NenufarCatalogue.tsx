@@ -39,8 +39,10 @@ function formatPriceRange(priceRange: NenufarCatalogueItem['priceRange']) {
 }
 
 export function NenufarCatalogue({
+  collection,
   products,
 }: {
+  collection?: {title: string; description?: string | null};
   products: NenufarCatalogueItem[];
 }) {
   const [searchParams] = useSearchParams();
@@ -48,7 +50,9 @@ export function NenufarCatalogue({
   const requestedCatalog = products.find((product) =>
     product.catalogHandles?.includes(requestedCollection ?? ''),
   )?.catalogName;
-  const [catalog, setCatalog] = useState(requestedCatalog ?? 'todos');
+  const [catalog, setCatalog] = useState(
+    collection?.title ?? requestedCatalog ?? 'todos',
+  );
   const [technique, setTechnique] = useState('todas');
   const [query, setQuery] = useState('');
   const catalogues = [
@@ -69,7 +73,11 @@ export function NenufarCatalogue({
       new Set(products.map((product) => product.technique).filter(Boolean)),
     ),
   ];
-  const activeCatalog = catalogues.includes(catalog) ? catalog : 'todos';
+  const activeCatalog = collection?.title
+    ? collection.title
+    : catalogues.includes(catalog)
+      ? catalog
+      : 'todos';
   const visibleProducts = useMemo(
     () =>
       products.filter((product) => {
@@ -89,38 +97,48 @@ export function NenufarCatalogue({
     <section id="productos" className="nenufar-catalogue">
       <div className="nenufar-shell">
         <div className="section-heading">
-          <p>⌑ Colección & tienda Nenúfar</p>
+          <p>{collection ? '⌑ Colección Nenúfar' : '⌑ Colección & tienda Nenúfar'}</p>
           <h2>
-            Piezas por catálogo <em>listas para elaboración</em>
+            {collection ? (
+              <>
+                Piezas de <em>{collection.title}</em>
+              </>
+            ) : (
+              <>
+                Piezas por catálogo <em>listas para elaboración</em>
+              </>
+            )}
           </h2>
           <span>
-            Explora y personaliza cada regalo de nuestras colecciones
-            estacionales. Compra en línea o consulta los detalles con el taller.
+            {collection?.description ||
+              'Explora y personaliza cada regalo de nuestras colecciones estacionales. Compra en línea o consulta los detalles con el taller.'}
           </span>
         </div>
-        <div
-          id="catalogos"
-          className="catalogue-tabs"
-          aria-label="Filtrar por catálogo"
-        >
-          {catalogues.map((item) => (
-            <button
-              key={item}
-              type="button"
-              className={activeCatalog === item ? 'active' : ''}
-              onClick={() => setCatalog(item)}
-            >
-              {item === 'todos' ? 'Todos los catálogos' : item}
-              <b>
-                {item === 'todos'
-                  ? products.length
-                  : products.filter((product) =>
-                      product.catalogNames?.includes(item),
-                    ).length}
-              </b>
-            </button>
-          ))}
-        </div>
+        {!collection && (
+          <div
+            id="catalogos"
+            className="catalogue-tabs"
+            aria-label="Filtrar por catálogo"
+          >
+            {catalogues.map((item) => (
+              <button
+                key={item}
+                type="button"
+                className={activeCatalog === item ? 'active' : ''}
+                onClick={() => setCatalog(item)}
+              >
+                {item === 'todos' ? 'Todos los catálogos' : item}
+                <b>
+                  {item === 'todos'
+                    ? products.length
+                    : products.filter((product) =>
+                        product.catalogNames?.includes(item),
+                      ).length}
+                </b>
+              </button>
+            ))}
+          </div>
+        )}
         <div className="catalogue-filters">
           <label>
             <span aria-hidden="true">⌕</span>
@@ -198,7 +216,7 @@ export function NenufarCatalogue({
             <button
               type="button"
               onClick={() => {
-                setCatalog('todos');
+                if (!collection) setCatalog('todos');
                 setTechnique('todas');
                 setQuery('');
               }}
