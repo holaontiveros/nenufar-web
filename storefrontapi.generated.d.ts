@@ -1490,7 +1490,7 @@ export type ComplementaryProductsQueryVariables = StorefrontAPI.Exact<{
 export type ComplementaryProductsQuery = {
   productRecommendations?: StorefrontAPI.Maybe<
     Array<
-      Pick<StorefrontAPI.Product, 'id' | 'handle' | 'title'> & {
+      Pick<StorefrontAPI.Product, 'id' | 'handle' | 'title' | 'description'> & {
         featuredImage?: StorefrontAPI.Maybe<
           Pick<
             StorefrontAPI.Image,
@@ -1791,7 +1791,7 @@ interface GeneratedQueryTypes {
     return: ProductQuery;
     variables: ProductQueryVariables;
   };
-  '#graphql\n  query ComplementaryProducts(\n    $country: CountryCode\n    $handle: String!\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    productRecommendations(\n      intent: COMPLEMENTARY\n      productHandle: $handle\n    ) {\n      id\n      handle\n      title\n      featuredImage {\n        altText\n        height\n        id\n        url\n        width\n      }\n      priceRange {\n        minVariantPrice {\n          amount\n          currencyCode\n        }\n      }\n    }\n  }\n': {
+  '#graphql\n  query ComplementaryProducts(\n    $country: CountryCode\n    $handle: String!\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    productRecommendations(\n      intent: COMPLEMENTARY\n      productHandle: $handle\n    ) {\n      id\n      handle\n      title\n      description\n      featuredImage {\n        altText\n        height\n        id\n        url\n        width\n      }\n      priceRange {\n        minVariantPrice {\n          amount\n          currencyCode\n        }\n      }\n    }\n  }\n': {
     return: ComplementaryProductsQuery;
     variables: ComplementaryProductsQueryVariables;
   };

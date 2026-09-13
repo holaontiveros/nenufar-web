@@ -288,7 +288,7 @@ export default function Product() {
           <div className="complementary-products-grid">
             {complementaryProducts.map((complementaryProduct) => (
               <Link
-                className="complementary-product-card"
+                className="related-product-card"
                 key={complementaryProduct.id}
                 prefetch="intent"
                 to={`/products/${complementaryProduct.handle}`}
@@ -302,19 +302,18 @@ export default function Product() {
                     aspectRatio="1/1"
                     data={complementaryProduct.featuredImage}
                     loading="lazy"
-                    sizes="(min-width: 45em) 25vw, 50vw"
+                    sizes="(min-width: 45em) 33vw, 100vw"
                   />
                 )}
-                <div>
-                  <h3>{complementaryProduct.title}</h3>
-                  <strong>
-                    <Money
-                      as="span"
-                      data={complementaryProduct.priceRange.minVariantPrice}
-                    />
-                  </strong>
-                  <span>Ver pieza →</span>
-                </div>
+                <h3>{complementaryProduct.title}</h3>
+                <p>{complementaryProduct.description}</p>
+                <strong>
+                  <Money
+                    as="span"
+                    data={complementaryProduct.priceRange.minVariantPrice}
+                  />
+                </strong>
+                <span>Ver pieza →</span>
               </Link>
             ))}
           </div>
@@ -653,6 +652,7 @@ const COMPLEMENTARY_PRODUCTS_QUERY = `#graphql
       id
       handle
       title
+      description
       featuredImage {
         altText
         height
