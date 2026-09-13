@@ -2,7 +2,11 @@
 
 ## Status
 
-Approved.
+Superseded by [ADR-2026-09-12-main-repository-production-linkage.md](ADR-2026-09-12-main-repository-production-linkage.md).
+
+This was the correct interim boundary while this checkout remained development-only.
+The repository's `main` branch is now the production deployment path, so the
+local main checkout must be linked to the production storefront instead.
 
 ## Context
 
