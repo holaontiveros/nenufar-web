@@ -1638,49 +1638,41 @@ main:has(.nenufar-hero) + .brand-footer {
 }
 .complementary-products {
   width: min(100% - 2rem, 78rem);
-  margin: 0 auto 3rem;
-  padding: 2.2rem;
-  border: 1px solid #fce7f3;
-  border-radius: 2rem;
-  background:
-    radial-gradient(circle at 100% 0, rgba(233, 213, 255, 0.52), transparent 27%),
-    radial-gradient(circle at 0 100%, rgba(251, 207, 232, 0.48), transparent 31%),
-    rgba(255, 255, 255, 0.72);
-  box-shadow: 0 15px 35px rgba(84, 49, 25, 0.05);
+  margin: 0 auto 5rem;
 }
 .complementary-products-heading {
   max-width: 34rem;
-  margin-bottom: 1.45rem;
+  margin-bottom: 1.5rem;
 }
 .complementary-products-heading > span {
   color: #be185d;
-  font-size: 0.72rem;
-  font-weight: 900;
-  letter-spacing: 0.1em;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 .complementary-products-heading h2 {
-  margin: 0.38rem 0 0;
+  margin: 0.45rem 0 0;
   font-family: Georgia, serif;
   font-size: clamp(1.8rem, 3vw, 2.8rem);
 }
 .complementary-products-heading p {
-  margin: 0.6rem 0 0;
+  margin: 0.65rem 0 0;
   color: #78716c;
   line-height: 1.55;
 }
 .complementary-products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
 }
 .complementary-product-card {
   display: grid;
   gap: 0.75rem;
-  padding: 0.7rem;
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  border-radius: 1.25rem;
-  background: rgba(255, 255, 255, 0.86);
+  padding: 1rem;
+  border-radius: 1.6rem;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(84, 49, 25, 0.06);
   color: #292524;
   text-decoration: none;
   transition:
@@ -1699,19 +1691,18 @@ main:has(.nenufar-hero) + .brand-footer {
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 0.9rem;
+  border-radius: 1rem;
 }
 .complementary-product-card h3 {
   margin: 0;
   font-family: Georgia, serif;
-  font-size: 1.05rem;
-  line-height: 1.2;
+  font-size: 1.25rem;
 }
 .complementary-product-card strong {
   display: block;
   margin-top: 0.45rem;
   color: #be185d;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
 }
 .complementary-product-card span {
   display: block;
@@ -1719,6 +1710,7 @@ main:has(.nenufar-hero) + .brand-footer {
   color: #9d174d;
   font-size: 0.78rem;
   font-weight: 800;
+  text-align: right;
 }
 .related-products-heading {
   display: flex;
@@ -1793,8 +1785,10 @@ main:has(.nenufar-hero) + .brand-footer {
     margin-bottom: 3rem;
   }
   .complementary-products {
-    margin-bottom: 2rem;
-    padding: 1.25rem;
+    margin-bottom: 3rem;
+  }
+  .complementary-products-grid {
+    grid-template-columns: 1fr;
   }
   .related-products-heading {
     align-items: start;
