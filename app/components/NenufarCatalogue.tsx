@@ -91,7 +91,7 @@ export function NenufarCatalogue({
         <div className="section-heading">
           <p>⌑ Colección & tienda Nenúfar</p>
           <h2>
-            Piezas por catálogo <em>listas para comprar</em>
+            Piezas por catálogo <em>listas para elaboración</em>
           </h2>
           <span>
             Explora y personaliza cada regalo de nuestras colecciones
