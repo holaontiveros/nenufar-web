@@ -1,4 +1,4 @@
-import { Link, redirect, useLoaderData } from 'react-router';
+import { Link, useLoaderData } from 'react-router';
 import type { Route } from './+types/products.$handle';
 import {
   getSelectedProductOptions,
@@ -57,12 +57,16 @@ async function loadCriticalData({
     throw new Error('Expected product handle to be defined');
   }
 
-  const [{ product }] = await Promise.all([
+  const [{product}, {productRecommendations}] = await Promise.all([
     storefront.query(PRODUCT_QUERY, {
       variables: {
         handle,
         selectedOptions: getSelectedProductOptions(request),
       },
+    }),
+    storefront.query(COMPLEMENTARY_PRODUCTS_QUERY, {
+      cache: storefront.CacheShort(),
+      variables: {handle},
     }),
     // Add other queries here, so that they are loaded in parallel
   ]);
@@ -75,6 +79,7 @@ async function loadCriticalData({
   redirectIfHandleIsLocalized(request, { handle, data: product });
 
   return {
+    complementaryProducts: productRecommendations ?? [],
     product,
   };
 }
@@ -92,7 +97,7 @@ function loadDeferredData({ context, params }: Route.LoaderArgs) {
 }
 
 export default function Product() {
-  const { product } = useLoaderData<typeof loader>();
+  const {complementaryProducts, product} = useLoaderData<typeof loader>();
 
   // Optimistically selects a variant with given available variant information
   const selectedVariant = useOptimisticVariant(
@@ -268,6 +273,53 @@ export default function Product() {
         technique={technique}
         weight={product.weight?.value}
       />
+      {complementaryProducts.length > 0 && (
+        <section
+          className="complementary-products"
+          aria-labelledby="complementary-products-heading"
+        >
+          <div className="complementary-products-heading">
+            <span>Para acompañar tu pieza</span>
+            <h2 id="complementary-products-heading">Completa tu regalo</h2>
+            <p>
+              Detalles que combinan especialmente bien con esta pieza.
+            </p>
+          </div>
+          <div className="complementary-products-grid">
+            {complementaryProducts.map((complementaryProduct) => (
+              <Link
+                className="complementary-product-card"
+                key={complementaryProduct.id}
+                prefetch="intent"
+                to={`/products/${complementaryProduct.handle}`}
+              >
+                {complementaryProduct.featuredImage && (
+                  <Image
+                    alt={
+                      complementaryProduct.featuredImage.altText ||
+                      complementaryProduct.title
+                    }
+                    aspectRatio="1/1"
+                    data={complementaryProduct.featuredImage}
+                    loading="lazy"
+                    sizes="(min-width: 45em) 25vw, 50vw"
+                  />
+                )}
+                <div>
+                  <h3>{complementaryProduct.title}</h3>
+                  <strong>
+                    <Money
+                      as="span"
+                      data={complementaryProduct.priceRange.minVariantPrice}
+                    />
+                  </strong>
+                  <span>Ver pieza →</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
       {relatedCollection && relatedProducts.length > 0 && (
         <section
           className="related-products"
@@ -586,4 +638,34 @@ const PRODUCT_QUERY = `#graphql
     }
   }
   ${PRODUCT_FRAGMENT}
+` as const;
+
+const COMPLEMENTARY_PRODUCTS_QUERY = `#graphql
+  query ComplementaryProducts(
+    $country: CountryCode
+    $handle: String!
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
+    productRecommendations(
+      intent: COMPLEMENTARY
+      productHandle: $handle
+    ) {
+      id
+      handle
+      title
+      featuredImage {
+        altText
+        height
+        id
+        url
+        width
+      }
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+    }
+  }
 ` as const;

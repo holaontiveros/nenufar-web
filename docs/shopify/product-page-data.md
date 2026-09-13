@@ -98,6 +98,12 @@ These attributes use Shopify's existing cart and checkout path; no Admin token, 
 
 Related cards use the first collection returned by the current product's native Shopify collection membership. That collection provides the other products and the `/catalogo?collection=<handle>` link. No product metafield is required for this feature. See `docs/architecture/ADR-2026-09-10-related-products-first-collection.md`.
 
+## Complementary products
+
+The product page renders a separate **Completa tu regalo** section above the collection-based related-products section when Shopify Search & Discovery has complementary products configured for the current product. The storefront reads Storefront API `productRecommendations` with `intent: COMPLEMENTARY`; it does not use a metafield or infer recommendations from collections.
+
+In Shopify Admin, configure them in **Search & Discovery → Product recommendations → Complementary products** for the source product. Only published recommendations are returned to the storefront. An empty configuration intentionally renders no section. See `docs/architecture/ADR-2026-09-12-search-discovery-complementary-products.md`.
+
 ## Migration checklist
 
 1. Create the two metaobject definitions with public storefront read access.
@@ -106,4 +112,5 @@ Related cards use the first collection returned by the current product's native 
 4. Populate the new values for each product.
 5. Link personalized products to a `product_personalization` entry.
 6. Verify product collection membership and choose the related-products selection rule.
-7. Validate data through Storefront API before enabling each UI chunk.
+7. Configure complementary products in Search & Discovery when the product has intentional pairings.
+8. Validate data through Storefront API before enabling each UI chunk.
