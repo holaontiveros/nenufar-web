@@ -4,11 +4,17 @@ import {CartForm, Money, type OptimisticCart} from '@shopify/hydrogen';
 import {useEffect, useId, useRef, useState} from 'react';
 import {useFetcher} from 'react-router';
 import {CartIcon, ShieldCheckIcon} from './CartIcons';
-import {ActionAnchor} from './Action';
+import {ActionAnchor, ActionButton} from './Action';
 
 type CartSummaryProps = {
   cart: OptimisticCart<CartApiQueryFragment | null>;
   layout: CartLayout;
+};
+
+type CartDiscountAllocation = {
+  __typename?: string;
+  discountedAmount: CartApiQueryFragment['cost']['subtotalAmount'];
+  title?: string;
 };
 
 export function CartSummary({cart, layout}: CartSummaryProps) {
@@ -33,13 +39,16 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
           )}
         </dd>
       </dl>
+      {layout === 'aside' ? (
+        <CartDiscounts
+          discountAllocations={cart?.discountAllocations}
+          discountCodes={cart?.discountCodes}
+          discountsHeadingId={discountsHeadingId}
+          discountCodeInputId={discountCodeInputId}
+        />
+      ) : null}
       {layout === 'page' ? (
         <>
-          <CartDiscounts
-            discountCodes={cart?.discountCodes}
-            discountsHeadingId={discountsHeadingId}
-            discountCodeInputId={discountCodeInputId}
-          />
           <CartGiftCard
             giftCardCodes={cart?.appliedGiftCards}
             giftCardHeadingId={giftCardHeadingId}
@@ -66,72 +75,157 @@ function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
 }
 
 function CartDiscounts({
+  discountAllocations,
   discountCodes,
   discountsHeadingId,
   discountCodeInputId,
 }: {
+  discountAllocations?: ReadonlyArray<CartDiscountAllocation>;
   discountCodes?: CartApiQueryFragment['discountCodes'];
   discountsHeadingId: string;
   discountCodeInputId: string;
 }) {
-  const codes: string[] =
-    discountCodes
-      ?.filter((discount) => discount.applicable)
-      ?.map(({code}) => code) || [];
+  const discountCodeInput = useRef<HTMLInputElement>(null);
+  const discountCodeFetcher = useFetcher({key: 'discount-code-update'});
+  const codes = discountCodes ?? [];
+  const appliedCodes = codes.filter((discount) => discount.applicable);
+  const unavailableCodes = codes.filter((discount) => !discount.applicable);
+  const automaticDiscounts = (discountAllocations ?? []).flatMap(
+    (allocation) =>
+      allocation.__typename === 'CartAutomaticDiscountAllocation' ||
+      allocation.__typename === 'CartCustomDiscountAllocation'
+        ? [allocation]
+        : [],
+  );
+  const totalDiscount = discountAllocations?.reduce(
+    (total, allocation) => total + Number(allocation.discountedAmount.amount),
+    0,
+  );
+  const discountAmount = discountAllocations?.[0]?.discountedAmount;
+
+  useEffect(() => {
+    if (discountCodeFetcher.data && discountCodeInput.current) {
+      discountCodeInput.current.value = '';
+    }
+  }, [discountCodeFetcher.data]);
 
   return (
-    <section aria-label="Discounts">
-      {/* Have existing discount, display it with a remove option */}
-      <dl hidden={!codes.length}>
-        <div>
-          <dt id={discountsHeadingId}>Discounts</dt>
-          <UpdateDiscountForm>
-            <div
-              className="cart-discount"
-              role="group"
-              aria-labelledby={discountsHeadingId}
-            >
-              <code>{codes?.join(', ')}</code>
-              &nbsp;
-              <button type="submit" aria-label="Remove discount">
-                Remove
-              </button>
-            </div>
-          </UpdateDiscountForm>
-        </div>
-      </dl>
-
-      {/* Show an input to apply a discount */}
-      <UpdateDiscountForm discountCodes={codes}>
-        <div>
+    <section aria-labelledby={discountsHeadingId} className="cart-discounts">
+      <h5 id={discountsHeadingId}>¿Tienes un código de descuento?</h5>
+      <UpdateDiscountForm
+        discountCodes={codes.map(({ code }) => code)}
+        fetcherKey="discount-code-update"
+      >
+        <div className="cart-discount-form">
           <label htmlFor={discountCodeInputId} className="sr-only">
-            Discount code
+            Código de descuento
           </label>
           <input
             id={discountCodeInputId}
             type="text"
             name="discountCode"
-            placeholder="Discount code"
+            placeholder="Código de descuento"
+            autoComplete="off"
+            required
+            ref={discountCodeInput}
           />
-          &nbsp;
-          <button type="submit" aria-label="Apply discount code">
-            Apply
-          </button>
+          <ActionButton
+            disabled={discountCodeFetcher.state !== 'idle'}
+            size="small"
+            type="submit"
+            variant="secondary"
+          >
+            Aplicar
+          </ActionButton>
         </div>
       </UpdateDiscountForm>
+
+      {appliedCodes.length || automaticDiscounts.length ? (
+        <div className="cart-applied-discounts" role="status">
+          <div>
+            <span>Descuento aplicado</span>
+            {discountAmount && totalDiscount ? (
+              <strong>
+                −
+                <Money
+                  data={{
+                    ...discountAmount,
+                    amount: totalDiscount.toFixed(2),
+                  }}
+                />
+              </strong>
+            ) : null}
+          </div>
+          <ul>
+            {automaticDiscounts.map((discount) => (
+              <li
+                key={`${discount.__typename}-${discount.title ?? 'automatic'}`}
+              >
+                <code>{discount.title ?? 'Descuento automático'}</code>
+              </li>
+            ))}
+            {appliedCodes.map(({ code }) => (
+              <li key={code}>
+                <code>{code}</code>
+                <RemoveDiscountForm
+                  code={code}
+                  discountCodes={codes.map(({ code }) => code)}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
+      {unavailableCodes.map(({ code }) => (
+        <div className="cart-discount-error" key={code} role="alert">
+          <span>
+            El código <code>{code}</code> no está disponible para este pedido.
+          </span>
+          <RemoveDiscountForm
+            code={code}
+            discountCodes={codes.map(({ code }) => code)}
+          />
+        </div>
+      ))}
     </section>
+  );
+}
+
+function RemoveDiscountForm({
+  code,
+  discountCodes,
+}: {
+  code: string;
+  discountCodes: string[];
+}) {
+  return (
+    <UpdateDiscountForm
+      discountCodes={discountCodes.filter((item) => item !== code)}
+    >
+      <button
+        type="submit"
+        className="cart-discount-remove"
+        aria-label={`Quitar código ${code}`}
+      >
+        Quitar
+      </button>
+    </UpdateDiscountForm>
   );
 }
 
 function UpdateDiscountForm({
   discountCodes,
+  fetcherKey,
   children,
 }: {
   discountCodes?: string[];
+  fetcherKey?: string;
   children: React.ReactNode;
 }) {
   return (
     <CartForm
+      fetcherKey={fetcherKey}
       route="/cart"
       action={CartForm.ACTIONS.DiscountCodesUpdate}
       inputs={{

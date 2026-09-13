@@ -2788,6 +2788,104 @@ button.reset:hover:not(:has(> *)) {
 .cart-summary-aside > section {
   margin-top: 0.7rem;
 }
+.cart-discounts {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border-subtle);
+}
+.cart-discounts h5 {
+  margin: 0 0 0.45rem;
+  color: var(--color-text-muted);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.cart-discount-form {
+  display: flex;
+  gap: 0.45rem;
+}
+.cart-discount-form input {
+  min-width: 0;
+  flex: 1;
+  padding: 0.48rem 0.55rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 0.55rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.72rem;
+}
+.cart-discount-form input::placeholder {
+  color: var(--color-text-disabled);
+}
+.cart-discount-form input:focus-visible {
+  outline: 2px solid var(--color-brand-focus);
+  outline-offset: 1px;
+}
+.cart-discount-form .action {
+  padding-inline: 0.65rem;
+  font-size: 0.68rem;
+}
+.cart-applied-discounts,
+.cart-discount-error {
+  margin-top: 0.55rem;
+  padding: 0.55rem 0.6rem;
+  border-radius: 0.6rem;
+  font-size: 0.66rem;
+}
+.cart-applied-discounts {
+  border: 1px solid var(--color-brand-border);
+  background: var(--color-brand-soft);
+}
+.cart-applied-discounts > div,
+.cart-applied-discounts li,
+.cart-discount-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.cart-applied-discounts > div {
+  color: var(--color-brand-ink);
+  font-weight: 800;
+}
+.cart-applied-discounts strong {
+  color: var(--color-brand-strong);
+}
+.cart-applied-discounts ul {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0.35rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.cart-applied-discounts code,
+.cart-discount-error code {
+  color: var(--color-brand-deep);
+  font-family: inherit;
+  font-weight: 800;
+}
+.cart-discount-remove {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-brand-strong);
+  font: inherit;
+  font-size: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.cart-discount-remove:hover {
+  color: var(--color-brand-deep);
+  text-decoration: underline;
+}
+.cart-discount-error {
+  border: 1px solid var(--color-danger);
+  background: var(--color-danger-surface);
+  color: var(--color-text-muted);
+}
+.cart-discount-error .cart-discount-remove {
+  color: var(--color-danger);
+}
 .cart-subtotal {
   align-items: center;
   display: flex;

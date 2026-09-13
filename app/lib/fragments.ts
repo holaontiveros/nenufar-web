@@ -133,6 +133,21 @@ export const CART_QUERY_FRAGMENT = `#graphql
     }
     checkoutUrl
     totalQuantity
+    discountAllocations {
+      __typename
+      discountedAmount {
+        ...Money
+      }
+      ... on CartAutomaticDiscountAllocation {
+        title
+      }
+      ... on CartCustomDiscountAllocation {
+        title
+      }
+      ... on CartCodeDiscountAllocation {
+        code
+      }
+    }
     buyerIdentity {
       countryCode
       customer {

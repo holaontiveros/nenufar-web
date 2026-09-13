@@ -138,6 +138,35 @@ export type CartApiQueryFragment = Pick<
       amountUsed: Pick<StorefrontAPI.MoneyV2, 'currencyCode' | 'amount'>;
     }
   >;
+  discountAllocations: Array<
+    | ({__typename: 'CartAutomaticDiscountAllocation'} & Pick<
+        StorefrontAPI.CartAutomaticDiscountAllocation,
+        'title'
+      > & {
+          discountedAmount: Pick<
+            StorefrontAPI.MoneyV2,
+            'currencyCode' | 'amount'
+          >;
+        })
+    | ({__typename: 'CartCodeDiscountAllocation'} & Pick<
+        StorefrontAPI.CartCodeDiscountAllocation,
+        'code'
+      > & {
+          discountedAmount: Pick<
+            StorefrontAPI.MoneyV2,
+            'currencyCode' | 'amount'
+          >;
+        })
+    | ({__typename: 'CartCustomDiscountAllocation'} & Pick<
+        StorefrontAPI.CartCustomDiscountAllocation,
+        'title'
+      > & {
+          discountedAmount: Pick<
+            StorefrontAPI.MoneyV2,
+            'currencyCode' | 'amount'
+          >;
+        })
+  >;
   buyerIdentity: Pick<
     StorefrontAPI.CartBuyerIdentity,
     'countryCode' | 'email' | 'phone'

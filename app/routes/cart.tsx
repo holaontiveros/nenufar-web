@@ -35,17 +35,22 @@ export async function action({request, context}: Route.ActionArgs) {
       result = await cart.removeLines(inputs.lineIds);
       break;
     case CartForm.ACTIONS.DiscountCodesUpdate: {
-      const formDiscountCode = inputs.discountCode;
+      const formDiscountCode =
+        typeof inputs.discountCode === 'string'
+          ? inputs.discountCode.trim()
+          : '';
+      const existingDiscountCodes = Array.isArray(inputs.discountCodes)
+        ? inputs.discountCodes.filter(
+            (discountCode): discountCode is string =>
+              typeof discountCode === 'string',
+          )
+        : [];
+      const discountCodes = [
+        ...existingDiscountCodes,
+        ...(formDiscountCode ? [formDiscountCode] : []),
+      ];
 
-      // User inputted discount code
-      const discountCodes = (
-        formDiscountCode ? [formDiscountCode] : []
-      ) as string[];
-
-      // Combine discount codes already applied on cart
-      discountCodes.push(...inputs.discountCodes);
-
-      result = await cart.updateDiscountCodes(discountCodes);
+      result = await cart.updateDiscountCodes([...new Set(discountCodes)]);
       break;
     }
     case CartForm.ACTIONS.GiftCardCodesAdd: {
