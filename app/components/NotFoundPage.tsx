@@ -33,7 +33,7 @@ export function NotFoundPage() {
           </ActionLink>
           <ActionLink
             className="not-found__catalog-link"
-            to="/catalogo"
+            to="/collections/all"
             variant="ghost"
           >
             Explorar el catálogo

@@ -599,55 +599,6 @@ export type BlogsQuery = {
   };
 };
 
-export type NenufarCatalogQueryVariables = StorefrontAPI.Exact<{
-  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
-  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
-}>;
-
-export type NenufarCatalogQuery = {
-  collections: {
-    nodes: Array<
-      Pick<StorefrontAPI.Collection, 'title' | 'handle'> & {
-        products: {
-          nodes: Array<
-            Pick<
-              StorefrontAPI.Product,
-              'id' | 'title' | 'handle' | 'description'
-            > & {
-              featuredImage?: StorefrontAPI.Maybe<
-                Pick<
-                  StorefrontAPI.Image,
-                  'id' | 'url' | 'altText' | 'width' | 'height'
-                >
-              >;
-              priceRange: {
-                minVariantPrice: Pick<
-                  StorefrontAPI.MoneyV2,
-                  'amount' | 'currencyCode'
-                >;
-                maxVariantPrice: Pick<
-                  StorefrontAPI.MoneyV2,
-                  'amount' | 'currencyCode'
-                >;
-              };
-              technique?: StorefrontAPI.Maybe<{
-                reference?: StorefrontAPI.Maybe<{
-                  name?: StorefrontAPI.Maybe<
-                    Pick<StorefrontAPI.MetaobjectField, 'value'>
-                  >;
-                }>;
-              }>;
-              leadTime?: StorefrontAPI.Maybe<
-                Pick<StorefrontAPI.Metafield, 'value'>
-              >;
-            }
-          >;
-        };
-      }
-    >;
-  };
-};
-
 export type NenufarCollectionCatalogQueryVariables = StorefrontAPI.Exact<{
   country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
   handle: StorefrontAPI.Scalars['String']['input'];
@@ -1726,10 +1677,6 @@ interface GeneratedQueryTypes {
   '#graphql\n  query Blogs(\n    $country: CountryCode\n    $endCursor: String\n    $first: Int\n    $language: LanguageCode\n    $last: Int\n    $startCursor: String\n  ) @inContext(country: $country, language: $language) {\n    blogs(\n      first: $first,\n      last: $last,\n      before: $startCursor,\n      after: $endCursor\n    ) {\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n      nodes {\n        title\n        handle\n        seo {\n          title\n          description\n        }\n      }\n    }\n  }\n': {
     return: BlogsQuery;
     variables: BlogsQueryVariables;
-  };
-  '#graphql\n  query NenufarCatalog($country: CountryCode, $language: LanguageCode) @inContext(country: $country, language: $language) {\n    collections(first: 100) { nodes { title handle products(first: 100, sortKey: TITLE) { nodes {\n      id title handle description featuredImage { id url altText width height } priceRange { minVariantPrice { amount currencyCode } maxVariantPrice { amount currencyCode } }\n      technique: metafield(namespace: "custom", key: "technique") { reference { ... on Metaobject { name: field(key: "name") { value } } } }\n      leadTime: metafield(namespace: "custom", key: "lead_time") { value }\n    } } } }\n  }\n': {
-    return: NenufarCatalogQuery;
-    variables: NenufarCatalogQueryVariables;
   };
   '#graphql\n  query NenufarCollectionCatalog(\n    $country: CountryCode\n    $handle: String!\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    collection(handle: $handle) {\n      id\n      handle\n      title\n      description\n      products(first: 100, sortKey: TITLE) {\n        nodes {\n          id\n          title\n          handle\n          description\n          featuredImage {\n            id\n            altText\n            url\n            width\n            height\n          }\n          priceRange {\n            minVariantPrice {\n              amount\n              currencyCode\n            }\n            maxVariantPrice {\n              amount\n              currencyCode\n            }\n          }\n          technique: metafield(namespace: "custom", key: "technique") {\n            reference {\n              ... on Metaobject {\n                name: field(key: "name") {\n                  value\n                }\n              }\n            }\n          }\n          leadTime: metafield(namespace: "custom", key: "lead_time") {\n            value\n          }\n        }\n      }\n    }\n  }\n': {
     return: NenufarCollectionCatalogQuery;

@@ -76,7 +76,7 @@ export default function Homepage() {
             comprar.
           </p>
           <div className="hero-actions">
-            <ActionLink className="hero-actions__primary" to="/catalogo" variant="primary">
+            <ActionLink className="hero-actions__primary" to="/collections/all" variant="primary">
               ⌑ Ver productos de catálogo <span>→</span>
             </ActionLink>
             <a className="hero-actions__secondary" href="#catalogos">

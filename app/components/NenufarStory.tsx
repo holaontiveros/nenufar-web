@@ -94,7 +94,7 @@ export function NenufarStory({
                 <a
                   aria-label={`Ver productos de ${collection.title}`}
                   className="story-card__image-link"
-                  href={`/catalogo?collection=${collection.handle}`}
+                  href={`/collections/all?collection=${collection.handle}`}
                 >
                   <img
                     src={collection.image?.url ?? ''}
@@ -105,7 +105,7 @@ export function NenufarStory({
                   <span>Colección destacada</span>
                   <h3>{collection.title}</h3>
                   {collection.description && <p>«{collection.description}»</p>}
-                  <a href={`/catalogo?collection=${collection.handle}`}>
+                  <a href={`/collections/all?collection=${collection.handle}`}>
                     Ver productos de esta colección →
                   </a>
                 </div>

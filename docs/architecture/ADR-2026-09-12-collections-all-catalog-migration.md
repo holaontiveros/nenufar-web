@@ -2,7 +2,7 @@
 
 ## Status
 
-Approved on 2026-09-12. First implementation chunk in progress.
+Approved and implemented on 2026-09-12.
 
 ## Context
 
@@ -22,9 +22,9 @@ The migration is split into three independent chunks:
 
 - `/collections/all` does not retain the starter's eight-item cursor pagination, because that pagination cannot preserve the current complete client-side filters without a separate server-driven filtering design.
 - The existing catalog data query caps its first pass at 100 collections and 100 products per collection. This remains acceptable for the current modest catalog but needs a future, separately approved server-filtered pagination strategy as the assortment grows.
-- `/catalogo` remains live during the migration, then becomes a redirect to preserve existing incoming links.
+- `/catalogo` now permanently redirects to `/collections/all` while preserving query parameters from existing incoming links.
 - Individual collection pages retain canonical collection URLs and gain a tailored catalog presentation in their later chunk.
 
 ## Rollback
 
-Revert individual migration commits. `/catalogo` remains available until the final redirect chunk, so the first chunk can be rolled back independently.
+Revert individual migration commits. Reverting the final chunk restores `/catalogo` as a directly rendered catalog route.

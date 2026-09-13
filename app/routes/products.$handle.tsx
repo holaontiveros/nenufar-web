@@ -332,7 +332,7 @@ export default function Product() {
                 Otras piezas de {relatedCollection.title}
               </h2>
             </div>
-            <Link to={`/catalogo?collection=${relatedCollection.handle}`}>
+            <Link to={`/collections/all?collection=${relatedCollection.handle}`}>
               Ver catálogo completo →
             </Link>
           </div>

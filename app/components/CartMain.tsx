@@ -104,7 +104,7 @@ function CartEmpty({
       <span aria-hidden="true"><CartIcon /></span>
       <h4>Tu carrito está vacío</h4>
       <p>Explora el catálogo y personaliza un detalle inolvidable.</p>
-      <Link to="/catalogo" onClick={close} prefetch="viewport">
+      <Link to="/collections/all" onClick={close} prefetch="viewport">
         Explorar productos
       </Link>
     </div>
