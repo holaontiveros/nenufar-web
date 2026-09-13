@@ -73,7 +73,15 @@ export function CartLineItem({
           </span>
           <div className="cart-line-purchase-row">
             <CartLineQuantity line={line} />
-            <ProductPrice price={line?.cost?.totalAmount} />
+            <div className="cart-line-price">
+              <ProductPrice
+                compareAtPrice={line.cost.compareAtAmountPerQuantity}
+                price={line.cost.amountPerQuantity}
+              />
+              {line.quantity > 1 ? (
+                <span className="cart-line-price-unit">por pieza</span>
+              ) : null}
+            </div>
           </div>
           <ul className="cart-line-details">
             {selectedOptions.map((option) => (

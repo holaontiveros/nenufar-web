@@ -2642,6 +2642,29 @@ button.reset:hover:not(:has(> *)) {
   font-weight: 800;
   white-space: nowrap;
 }
+.cart-line-price {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.35rem;
+}
+.cart-line .product-price-on-sale {
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.35rem;
+}
+.cart-line .product-price-on-sale s {
+  color: var(--color-text-muted);
+  font-size: 0.78em;
+  font-weight: 600;
+  opacity: 1;
+}
+.cart-line-price-unit {
+  color: var(--color-text-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
 .cart-line-details {
   display: none;
 }
