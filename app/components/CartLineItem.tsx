@@ -75,8 +75,8 @@ export function CartLineItem({
             <CartLineQuantity line={line} />
             <div className="cart-line-price">
               <ProductPrice
-                compareAtPrice={line.cost.compareAtAmountPerQuantity}
-                price={line.cost.amountPerQuantity}
+                compareAtPrice={line.cost?.compareAtAmountPerQuantity}
+                price={line.cost?.amountPerQuantity}
               />
               {line.quantity > 1 ? (
                 <span className="cart-line-price-unit">por pieza</span>
