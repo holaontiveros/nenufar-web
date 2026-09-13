@@ -102,12 +102,13 @@ export function ProductDetailsTabs({
         label: 'Cómo lo fabricamos',
         content: (
           <section className="product-process">
-            <h2>El paso a paso de tu pieza en el taller nenúfar</h2>
+            <h2 className="product-process__heading">
+              El paso a paso de tu pieza en el taller nenúfar
+            </h2>
             <ol>
               {processSteps.map((step) => (
                 <li key={`${step.position}-${step.title}`}>
                   <span>{step.position}</span>
-                  <h3>{step.title}</h3>
                   <RichTextContent className="product-process__body" value={step.body} />
                 </li>
               ))}

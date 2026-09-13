@@ -1596,11 +1596,6 @@ main:has(.nenufar-hero) + .brand-footer {
   border: 1px solid var(--color-border-subtle);
   border-radius: 1.25rem;
 }
-.product-details h2 {
-  margin: 0 0 1.5rem;
-  font-family: Georgia, serif;
-  font-size: 1.7rem;
-}
 .product-details h3 {
   margin: 0 0 0.7rem;
   color: var(--color-brand-deep);
@@ -1649,10 +1644,24 @@ main:has(.nenufar-hero) + .brand-footer {
   color: var(--color-surface);
   font-weight: 800;
 }
-.product-process h3 {
-  color: var(--color-text);
-  letter-spacing: 0;
-  text-transform: none;
+.product-process__heading {
+  margin: 0 0 1.5rem;
+  color: var(--color-brand-deep);
+  font-family: inherit;
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.product-process__body {
+  color: var(--color-text-muted);
+  font-size: inherit;
+  line-height: 1.55;
+}
+.product-process__body p:first-child {
+  margin-top: 0;
+}
+.product-process__body p:last-child {
+  margin-bottom: 0;
 }
 @media (max-width: 45rem) {
   .product-details {
