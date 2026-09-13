@@ -2572,6 +2572,7 @@ button.reset:hover:not(:has(> *)) {
   line-height: 1.2;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  padding-right: 1rem;
 }
 .cart-line-inner a {
   color: inherit;
